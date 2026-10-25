@@ -1,0 +1,52 @@
+{
+  "name": "哥伦比娅",
+  "brandName": "Columbina",
+  "themeName": "银月之庭",
+  "subtitle": "空月归乡",
+  "loadingStates": [
+    "月光正在靠近。",
+    "银月之庭，渐次亮起。",
+    "正在准备工作空间。",
+    "新月终临。"
+  ],
+  "palette": {
+    "background": "#0d1020",
+    "panel": "#171c32",
+    "panelAlt": "#212943",
+    "accent": "#a8c8ff",
+    "accentAlt": "#dce8ff",
+    "secondary": "#c1b5e8",
+    "highlight": "#b963a8",
+    "text": "#eef2ff",
+    "muted": "#a5adc7",
+    "line": "#52678e"
+  },
+  "assets": {
+    "background": "background.png",
+    "avatar": "avatar.png",
+    "portrait": "portrait.png",
+    "element": "element.png",
+    "skill": "skill.png",
+    "burst": "burst.png"
+  },
+  "provenance": "Existing completed Columbina art-only variant; see original assets/PROVENANCE.json",
+  "id": "columbina",
+  "motif": "moon",
+  "signature": {
+    "kind": "Segoe Script font outline",
+    "official": false
+  },
+  "baseSkeleton": "Sandrone Codex 0.6.1",
+  "codeChanges": "displayed prose and literal colors only",
+  "releaseVersion": "1.4.0",
+  "production": {
+    "dailyComposition": "assets/ui/composition.json",
+    "workspaceFrame": "assets/ui/workspace-frame.json",
+    "workspaceBackground": "assets/ui/workspace-background.json",
+    "opening": "assets/motion/derived.json",
+    "lettering": "assets/branding/opening-lettering.json",
+    "material": "assets/ui/personality.json",
+    "layoutChanged": false
+  },
+  "limitations": []
+}

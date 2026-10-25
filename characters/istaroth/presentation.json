@@ -1,0 +1,84 @@
+{
+  "id": "istaroth",
+  "name": "伊斯塔露",
+  "brandName": "Istaroth",
+  "themeName": "时砂回环",
+  "subtitle": "时之执政",
+  "loadingStates": [
+    "正在拨动时序…",
+    "正在汇聚流沙…",
+    "正在点亮圆环…",
+    "时光已就位，准备完成。"
+  ],
+  "copyNote": "themeName 与 loadingStates 为本次原创 UI 文案，非官方台词；subtitle 采用官网公开称谓。",
+  "palette": {
+    "background": "#10172B",
+    "panel": "#18223A",
+    "panelAlt": "#24314C",
+    "accent": "#CFB47B",
+    "accentAlt": "#A98B55",
+    "secondary": "#EEE6D1",
+    "highlight": "#EBD5A3",
+    "text": "#F4EFE3",
+    "muted": "#AAAFC1",
+    "line": "#495169"
+  },
+  "paletteNote": "本次主题设计配色，非官方色卡。",
+  "assets": {
+    "background": "background.png",
+    "avatar": "avatar.png",
+    "portrait": "portrait.png"
+  },
+  "generation": {
+    "tool": "built-in image_gen",
+    "width": 1672,
+    "height": 941,
+    "aspectRatio": "approximately 16:9",
+    "promptPath": "prompt.txt",
+    "references": [
+      "../../character-research/istaroth/official-introduction-2025-07-09.jpg"
+    ],
+    "originalGeneratedPath": "C:/Users/admin/.codex/generated_images/01a171c8-bf98-7bb0-9585-2195c761bbf5/exec-67d7642e-8054-4f48-ba3e-6fe5833e4847.png",
+    "outputTreatment": "生成 PNG 原样复制到 background.png；portrait.png 是同一衍生图的原样副本。",
+    "composition": "右侧上半身近景，深夜蓝、象牙金、时砂与环；左侧深色低对比留白，无文字、无签名、无 UI。"
+  },
+  "promptPath": "prompt.txt",
+  "provenance": {
+    "sourceManifest": "sources.json",
+    "sourceManifestTreatment": "由 character-research/istaroth/sources.json 原样复制。",
+    "sourcePage": "https://genshin.hoyoverse.com/zh-tw/news/detail/157548",
+    "researchReadme": "../../character-research/istaroth/README.zh-CN.md",
+    "avatar": {
+      "source": "../../character-research/istaroth/hoyowiki-ugc-icon.png",
+      "classification": "HoYoWiki 社区上传镜像中的 PV 脸部特写，非已独立核验官方头像原件。",
+      "sourceFormat": "PNG",
+      "outputFormat": "PNG",
+      "transformation": "原始 PNG 字节原样复制，无裁切、重绘、调色或格式转换。"
+    },
+    "backgroundReference": "../../character-research/istaroth/official-introduction-2025-07-09.jpg"
+  },
+  "limitations": [
+    "background.png 和 portrait.png 是同一张参考官方介绍图生成的衍生近景插画，不是官方原画或透明立绘。",
+    "角色形象参照已见的浅金长发、金眼、象牙与深蓝衣装、金色时间环；新增时砂与背景氛围为主题创作。",
+    "avatar.png 是社区上传的无文字 PV 脸部特写镜像，保留原始不透明 PNG，未将其称为已核验官方独立头像。",
+    "逐项来源与再分发限制见 sources.json；可访问或下载本身不等于授权。",
+    "未制作签名，未修改主题实现代码。"
+  ],
+  "motif": "hourglass",
+  "signature": {
+    "kind": "Segoe Script font outline",
+    "official": false
+  },
+  "baseSkeleton": "Sandrone Codex 0.6.1",
+  "codeChanges": "displayed prose and literal colors only",
+  "releaseVersion": "1.4.0",
+  "production": {
+    "dailyComposition": "assets/ui/composition.json",
+    "workspaceFrame": "assets/ui/workspace-frame.json",
+    "workspaceBackground": "assets/ui/workspace-background.json",
+    "opening": "assets/motion/derived.json",
+    "lettering": "assets/branding/opening-lettering.json",
+    "material": "assets/ui/personality.json",
+    "layoutChanged": false
+  }
+}

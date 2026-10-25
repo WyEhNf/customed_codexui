@@ -1,0 +1,12 @@
+{
+  "schemaVersion": 1,
+  "id": "furina",
+  "mode": "layered",
+  "canvasColor": "#090e1c",
+  "focusX": 0.76,
+  "focusY": 0.46,
+  "foreground": "workspace-foreground.png",
+  "frame": "workspace-frame.svg",
+  "width": 1920,
+  "height": 1080
+}

@@ -1,0 +1,40 @@
+{
+  "version": 3,
+  "id": "ayaka",
+  "approvedDesignVersion": 7,
+  "refinementVersion": "1.4.0",
+  "framePlacement": "native-main-only",
+  "source": "characters/ayaka-daily.png",
+  "sourceFile": "workspace-source.png",
+  "sourceSha256": "4b3156891ac87812f9bd5adf38d5da320c27ded970fb8e9b777ff7ad212062d4",
+  "openingSource": "references/ayaka-current.png",
+  "openingSourceSha256": "f683fad46a89c02622c0ee7ff5ce0d0b7aada9ccfca9314ae45381bb5933fe6d",
+  "workspaceFrame": {
+    "schemaVersion": 1,
+    "id": "ayaka",
+    "width": 1920,
+    "height": 1080,
+    "kind": "complete-low-contrast-character-background-frame",
+    "placement": "native-main-only",
+    "bounds": {
+      "left": 46,
+      "top": 90,
+      "right": 1876,
+      "bottom": 990
+    },
+    "completeFourEdges": true,
+    "motif": "five-petal-frost",
+    "maximumDeclaredOpacity": 0.18,
+    "hasOpaqueSurface": false,
+    "sourcePersonRedrawn": false,
+    "preserveOriginal": false
+  },
+  "workspaceBackground": "assets/ui/workspace-background.json",
+  "foregroundSha256": "f3523bb3eda1a6857970722803a71b602c0d3f19bae7c9c318a4351cd34e71f8",
+  "scale": 0.73,
+  "brightness": 0.8,
+  "canvasColor": "#0f111b",
+  "originalPeople": false,
+  "method": "Approved source person retained with its original quiet masks in an independent foreground; faint frame follows native main bounds excluding sidebar; original Sandrone composition is contained in native main",
+  "outputSha256": "5127e764bf88d269f86cd3b1b72ef64fe4afde5a6237cc68283d0f667112aac1"
+}

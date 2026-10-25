@@ -1,0 +1,51 @@
+{
+  "packageVersion": 1,
+  "themeId": "nahida-codex-ui",
+  "version": "1.4.0",
+  "skinApiVersion": 1,
+  "minClientVersion": "1.5.21",
+  "platforms": [
+    "windows"
+  ],
+  "capabilities": [
+    "background",
+    "tokens",
+    "safe-css"
+  ],
+  "publisher": {
+    "id": "codexui-local",
+    "displayName": "Codex UI Characters"
+  },
+  "license": "LicenseRef-Character-Artwork",
+  "files": [
+    {
+      "path": "theme.json",
+      "bytes": 742,
+      "sha256": "e8838c4a58e25e2980736a976708f9fee0debfcbf1120ae05c75c46c2f87ed7f",
+      "mediaType": "application/json"
+    },
+    {
+      "path": "theme.css",
+      "bytes": 968,
+      "sha256": "382ee8864f9c26085f8a6b761428c354cc6b352aaafb0d81c813e3547232c9ad",
+      "mediaType": "text/css"
+    },
+    {
+      "path": "background.png",
+      "bytes": 1978842,
+      "sha256": "7fc0679de1dda45e7e6f18ca44f68f3ee56de80159870dda3937a8301a202a31",
+      "mediaType": "image/png"
+    },
+    {
+      "path": "LICENSE.txt",
+      "bytes": 236,
+      "sha256": "d541c9f4bbf3f8ee8c2e1bd0733a0400946550b6654ee7985a0392d8cfb0731a",
+      "mediaType": "text/plain"
+    }
+  ],
+  "provenance": {
+    "aiGenerated": true,
+    "summary": "Retained daily character artwork with complete subtle frame; independent animated opening; original native layout retained."
+  },
+  "createdAt": "2026-10-25T00:00:00+08:00"
+}

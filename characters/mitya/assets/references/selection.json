@@ -1,0 +1,11 @@
+{
+  "candidate": "M1",
+  "approved": true,
+  "referenceFile": "selected-original.jpg",
+  "sourceUrl": "https://www.4gamer.net/games/486/G048621/20261023056/SS/011.jpg",
+  "sourcePage": "https://www.4gamer.net/games/486/G048621/20261023056/index_2.html",
+  "sourceClassification": "HoYoverse官方7.2厂商供稿，由4Gamer媒体图库托管；不是官方站直链，也不是同人图。",
+  "sourceSha256": "6609099cf5cb6ff3068c601b9647bbf62098dc7bf9712b8f12b09ef13096d7bb",
+  "selectedAt": "2026-10-25",
+  "adaptation": "Built-in image_gen edit of the selected image: preserve main character, adapt widescreen framing and readable dark space; derived avatar cutout"
+}

@@ -1,0 +1,40 @@
+{
+  "version": 3,
+  "id": "nahida",
+  "approvedDesignVersion": 7,
+  "refinementVersion": "1.4.0",
+  "framePlacement": "native-main-only",
+  "source": "characters/nahida-daily.png",
+  "sourceFile": "workspace-source.png",
+  "sourceSha256": "3e9f79c8edde76d6128011fd4ec68f1a4d0c6c74db41d9488b458f16ebdd0ce6",
+  "openingSource": "references/nahida-current.png",
+  "openingSourceSha256": "161f54626a927198fab570c769e23aa0f43e31d8f2de6cb239e48972a7699246",
+  "workspaceFrame": {
+    "schemaVersion": 1,
+    "id": "nahida",
+    "width": 1920,
+    "height": 1080,
+    "kind": "complete-low-contrast-character-background-frame",
+    "placement": "native-main-only",
+    "bounds": {
+      "left": 46,
+      "top": 90,
+      "right": 1876,
+      "bottom": 990
+    },
+    "completeFourEdges": true,
+    "motif": "leaf-and-growth-vein",
+    "maximumDeclaredOpacity": 0.18,
+    "hasOpaqueSurface": false,
+    "sourcePersonRedrawn": false,
+    "preserveOriginal": false
+  },
+  "workspaceBackground": "assets/ui/workspace-background.json",
+  "foregroundSha256": "daec6b3b5a411c71751a6874e44222402543c944c89079a11b89aa9243dd3c63",
+  "scale": 0.94,
+  "brightness": 0.78,
+  "canvasColor": "#111611",
+  "originalPeople": false,
+  "method": "Approved source person retained with its original quiet masks in an independent foreground; faint frame follows native main bounds excluding sidebar; original Sandrone composition is contained in native main",
+  "outputSha256": "7fc0679de1dda45e7e6f18ca44f68f3ee56de80159870dda3937a8301a202a31"
+}

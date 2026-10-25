@@ -1,0 +1,61 @@
+{
+  "character": "胡桃",
+  "selected": {
+    "candidate": "H4",
+    "approved": true,
+    "referenceFile": "selected-original.png",
+    "sourceUrl": "https://act-upload.hoyoverse.com/event-ugc-hoyowiki/2026/08/14/35428890/f145aee8b9681f4ba82f654b8a921088_6400347511883244451.png",
+    "sourcePage": "https://www.hoyolab.com/article/45854222",
+    "sourceClassification": "社区镜像（HoYoWiki关联到官方生日发布帖的贺图）",
+    "sourceSha256": "936383bc814ed7f10b9073e72419954e797a6eebd773c1299204c8a476da4b61",
+    "selectedAt": "2026-10-25",
+    "adaptation": "Built-in image_gen edit of the selected image: preserve main character, adapt widescreen framing and readable dark space; derived avatar cutout"
+  },
+  "originalCandidate": {
+    "id": "H4",
+    "title": "2026生日贺图：红灯笼与夜色",
+    "image_url": "https://act-upload.hoyoverse.com/event-ugc-hoyowiki/2026/08/14/35428890/f145aee8b9681f4ba82f654b8a921088_6400347511883244451.png",
+    "preview_url": "https://act-upload.hoyoverse.com/event-ugc-hoyowiki/2026/08/14/35428890/f145aee8b9681f4ba82f654b8a921088_6400347511883244451.png",
+    "source_page_url": "https://www.hoyolab.com/article/45854222",
+    "mirror_page_url": "https://wiki.hoyolab.com/pc/genshin/entry/34?lang=en-us",
+    "published_date": "2026-07-15",
+    "width": 1000,
+    "height": 1000,
+    "format": "PNG",
+    "bytes": 1444407,
+    "sha256": "936383bc814ed7f10b9073e72419954e797a6eebd773c1299204c8a476da4b61",
+    "transparent": false,
+    "http_fetch_verified": true,
+    "decode_verified": true,
+    "visually_reviewed": true,
+    "classification": "社区镜像（HoYoWiki关联到官方生日发布帖的贺图）",
+    "recommended_use": "红灯笼、暖光与深蓝夜色呼应璃月夜游，面部接近中心，适合头像和暖夜主题。",
+    "composition_notes": "方图上方脸部、下方灯笼均是视觉重点；用作横屏背景会损失部分场景。",
+    "modified": false,
+    "verification": "已通过英文HoYoWiki的Media组件核对该图片URL与生日原帖链接同处一行，并实际抓取解码、目视核对图片；HoYoLAB原帖本次仅返回Loading，公开帖子API返回403，未独立取回发布者字段。分类保留为官方贺图的社区镜像。",
+    "evidence_api": "https://sg-wiki-api.hoyolab.com/hoyowiki/wapi/entry_page?entry_page_id=34",
+    "evidence_request_header": {
+      "x-rpc-language": "en-us"
+    }
+  },
+  "derivative": {
+    "tool": "built-in image_gen",
+    "mode": "edit-selected-reference",
+    "selectedCandidate": "H4",
+    "reference": "selected-original.png",
+    "promptPath": "prompt.txt",
+    "avatarPromptPath": "avatar-prompt.txt",
+    "width": 1672,
+    "height": 940,
+    "backgroundSha256": "dd2c164bcccb6e5aa6a781dbef55f0b32a2d307f17522b47a52a14053e58b433",
+    "avatarMasterSha256": "512c9bd3b8b86036a9b426f9d0c0600af696ada201bac11b0c55214365be56e7",
+    "avatarAlpha": true,
+    "outputCopiedWithoutPixelEditing": true,
+    "avatarExport": "Technical 256px resize retaining generated alpha",
+    "officialOriginal": false
+  },
+  "prompts": [
+    "prompt.txt",
+    "avatar-prompt.txt"
+  ]
+}

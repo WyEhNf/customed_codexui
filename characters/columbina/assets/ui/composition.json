@@ -1,0 +1,40 @@
+{
+  "version": 3,
+  "id": "columbina",
+  "approvedDesignVersion": 7,
+  "refinementVersion": "1.4.0",
+  "framePlacement": "native-main-only",
+  "source": "characters/columbina-daily.png",
+  "sourceFile": "workspace-source.png",
+  "sourceSha256": "602e7fc4e321d33e5d6c4c608eab20b357aa0b279cd38e7c5536bd1fa69e25df",
+  "openingSource": "characters/columbina-opening-veil-v3.png",
+  "openingSourceSha256": "1855ac47611655aac6572098bd838e4e1c65bce45aa7f4c2d2c6aed3876422c7",
+  "workspaceFrame": {
+    "schemaVersion": 1,
+    "id": "columbina",
+    "width": 1920,
+    "height": 1080,
+    "kind": "complete-low-contrast-character-background-frame",
+    "placement": "native-main-only",
+    "bounds": {
+      "left": 46,
+      "top": 90,
+      "right": 1876,
+      "bottom": 990
+    },
+    "completeFourEdges": true,
+    "motif": "crescent-and-lunar-arc",
+    "maximumDeclaredOpacity": 0.18,
+    "hasOpaqueSurface": false,
+    "sourcePersonRedrawn": false,
+    "preserveOriginal": false
+  },
+  "workspaceBackground": "assets/ui/workspace-background.json",
+  "foregroundSha256": "7378bc7c53134094569fb71b01dc6ba3f2962dc16a50376ae3d968abadad1350",
+  "scale": 0.9,
+  "brightness": 0.9,
+  "canvasColor": "#0a0b1a",
+  "originalPeople": false,
+  "method": "Approved source person retained with its original quiet masks in an independent foreground; faint frame follows native main bounds excluding sidebar; original Sandrone composition is contained in native main",
+  "outputSha256": "b55ddfaffa6b61c7cbc5dd584c479b1aaf0ad77050a677123e3951fe2dbf815d"
+}

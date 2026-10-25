@@ -1,0 +1,15 @@
+{
+  "id": "columbina",
+  "rawFaceMAD": 0.0,
+  "rawProtectedMapMaxPx": 2.0564755232044263e-06,
+  "localWarpPixelMAD": 9.198367134749247,
+  "localWarpChangedPixels": 342596,
+  "maximumMeshDisplacementPx": 6.687289714813232,
+  "globalCameraMotion": false,
+  "frameCount": 270,
+  "width": 1920,
+  "height": 1080,
+  "fps": 30,
+  "seconds": 9,
+  "method": "Parametric local mesh animation of the approved illustration, face/hand/joint protected, plus separately animated environment FX. Not generated video."
+}

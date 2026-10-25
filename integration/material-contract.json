@@ -1,0 +1,14 @@
+{
+  "schemaVersion": 1,
+  "revision": "material-ui-20261025-1",
+  "evidence": ["vendor/dream-skin/windows/assets/renderer-inject.js", "evidence/ui-structure.json", "engine/renderer.mjs", "integration/embedded-ui.mjs"],
+  "menuBar": "[class~=\"group/application-menu-top-bar\"],[class*=\"ApplicationMenuTopBar_\"]",
+  "projectSelector": "[class~=\"group/project-selector\"]",
+  "webMenu": "[role=\"menu\"]",
+  "openingHost": "sandrone-opening",
+  "switcherHost": "codex-character-switcher",
+  "nativeAvatar": null,
+  "nativeAvatarReason": "No stable native account-avatar selector was present in the sanitized live UI evidence; no synthetic avatar is created.",
+  "nativeOsMenus": "Outside Chromium DOM and intentionally not imitated.",
+  "guards": "No content, composer, code, dangerous-action, status or navigation disclosure paint. Native React children, event handlers, accessible names and hit rectangles are retained."
+}

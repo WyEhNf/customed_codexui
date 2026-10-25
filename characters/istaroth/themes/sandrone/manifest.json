@@ -1,0 +1,51 @@
+{
+  "packageVersion": 1,
+  "themeId": "istaroth-codex-ui",
+  "version": "1.4.0",
+  "skinApiVersion": 1,
+  "minClientVersion": "1.5.21",
+  "platforms": [
+    "windows"
+  ],
+  "capabilities": [
+    "background",
+    "tokens",
+    "safe-css"
+  ],
+  "publisher": {
+    "id": "codexui-local",
+    "displayName": "Codex UI Characters"
+  },
+  "license": "LicenseRef-Character-Artwork",
+  "files": [
+    {
+      "path": "theme.json",
+      "bytes": 751,
+      "sha256": "28655f14e74ed6d554e2a282fe3761366de84cc554fef147204c48e1c8e8b125",
+      "mediaType": "application/json"
+    },
+    {
+      "path": "theme.css",
+      "bytes": 968,
+      "sha256": "93bcf476bc17fc2165a87e9ad27474b9c85f79e9d5e301a2c0e637001aae241c",
+      "mediaType": "text/css"
+    },
+    {
+      "path": "background.png",
+      "bytes": 1536435,
+      "sha256": "82eff3a1e58bd95cf876b7fbe28b66d197703fefc70ebc7bb632d4fe7e53c9fb",
+      "mediaType": "image/png"
+    },
+    {
+      "path": "LICENSE.txt",
+      "bytes": 236,
+      "sha256": "d541c9f4bbf3f8ee8c2e1bd0733a0400946550b6654ee7985a0392d8cfb0731a",
+      "mediaType": "text/plain"
+    }
+  ],
+  "provenance": {
+    "aiGenerated": true,
+    "summary": "Retained daily character artwork with complete subtle frame; independent animated opening; original native layout retained."
+  },
+  "createdAt": "2026-10-25T00:00:00+08:00"
+}

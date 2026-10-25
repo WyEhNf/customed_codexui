@@ -1,0 +1,40 @@
+{
+  "version": 3,
+  "id": "mitya",
+  "approvedDesignVersion": 7,
+  "refinementVersion": "1.4.0",
+  "framePlacement": "native-main-only",
+  "source": "originals/mitya-M1.jpg",
+  "sourceFile": "workspace-source.jpg",
+  "sourceSha256": "6609099cf5cb6ff3068c601b9647bbf62098dc7bf9712b8f12b09ef13096d7bb",
+  "openingSource": "integration/art-revisions/v14/mitya-opening-quiet.png",
+  "openingSourceSha256": "d5bdfab17c5aa99e94a9ec2813c9c47466eed5d5210d71c0f22508709c1d6bab",
+  "workspaceFrame": {
+    "schemaVersion": 1,
+    "id": "mitya",
+    "width": 1920,
+    "height": 1080,
+    "kind": "complete-low-contrast-character-background-frame",
+    "placement": "native-main-only",
+    "bounds": {
+      "left": 46,
+      "top": 90,
+      "right": 1876,
+      "bottom": 990
+    },
+    "completeFourEdges": true,
+    "motif": "restrained-orbit-and-four-point",
+    "maximumDeclaredOpacity": 0.18,
+    "hasOpaqueSurface": false,
+    "sourcePersonRedrawn": false,
+    "preserveOriginal": false
+  },
+  "workspaceBackground": "assets/ui/workspace-background.json",
+  "foregroundSha256": "3a636ea8afb584e801461a2b4f0909ba85b092604b93c98cbf8cbbef8483bf69",
+  "scale": 0.82,
+  "brightness": 0.9,
+  "canvasColor": "#090d21",
+  "originalPeople": true,
+  "method": "Approved source person retained with its original quiet masks in an independent foreground; faint frame follows native main bounds excluding sidebar; original Sandrone composition is contained in native main",
+  "outputSha256": "d186bd56bdf6d3c13949f47dca3ecfe6c3694ae0824c8979c942cb8087f35b19"
+}

@@ -1,0 +1,12 @@
+{
+  "schemaVersion": 1,
+  "id": "hutao",
+  "mode": "layered",
+  "canvasColor": "#130908",
+  "focusX": 0.76,
+  "focusY": 0.46,
+  "foreground": "workspace-foreground.png",
+  "frame": "workspace-frame.svg",
+  "width": 1920,
+  "height": 1080
+}

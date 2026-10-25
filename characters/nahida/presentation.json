@@ -1,0 +1,143 @@
+{
+  "schemaVersion": 1,
+  "slug": "nahida",
+  "characterNameZh": "纳西妲",
+  "characterNameEn": "Nahida",
+  "brandNameEn": "NAHIDA",
+  "themeNameZh": "森梦新叶",
+  "themeNameEn": "Verdant Dream",
+  "subtitleZh": "白草净华",
+  "splashStatuses": [
+    "正在展开知识的新叶…",
+    "正在唤醒林间微光…",
+    "正在找回梦中的书签…",
+    "新芽已醒，准备就绪。"
+  ],
+  "copyProvenance": "主题名与4条状态为本次原创；角色称号核对自 character-research 对应 README 和 sources.json。",
+  "palette": {
+    "background": "#0B1712",
+    "panel": "#12291D",
+    "panelAlt": "#1C3527",
+    "accent": "#A6D78A",
+    "accentAlt": "#72AB8D",
+    "secondary": "#B5CDA8",
+    "highlight": "#D6D8A1",
+    "text": "#E4EDD8",
+    "muted": "#92AF9B",
+    "line": "#365941"
+  },
+  "paletteProvenance": "为深色原生界面人工设计的建议色板；不是官方品牌手册色值。",
+  "assets": {
+    "background": "background.png",
+    "avatar": "avatar.png",
+    "portrait": "portrait.png",
+    "element": "element.png",
+    "skill": "skill.png",
+    "burst": "burst.png"
+  },
+  "sources": {
+    "avatar": {
+      "localFile": "avatar.png",
+      "originalFile": "G:\\sandrone\\character-research\\nahida\\assets\\avatar-icon.png",
+      "sourceManifest": "G:\\sandrone\\character-research\\nahida\\sources.json",
+      "sourcePage": "https://wiki.hoyolab.com/pc/genshin/entry/2850?lang=zh-cn",
+      "downloadUrl": "https://upload-static.hoyoverse.com/hoyolab-wiki/2022/11/01/47826599/f29490bddc56b4a6773b6c5003bbb853_9178865138637843993.png",
+      "sourceClass": "hoyowiki_community_upload_static_path",
+      "actualFormat": "PNG",
+      "originalSha256": "923a834c8bdf412adf6005bedcd7293dcd3ff0bb1afdd93075e9cb64d096316a",
+      "bytePreservingCopy": true
+    },
+    "portrait": {
+      "localFile": "portrait.png",
+      "originalFile": "G:\\sandrone\\character-research\\nahida\\assets\\wish-art.png",
+      "sourceManifest": "G:\\sandrone\\character-research\\nahida\\sources.json",
+      "sourcePage": "https://wiki.hoyolab.com/pc/genshin/entry/2850?lang=zh-cn",
+      "downloadUrl": "https://upload-static.hoyoverse.com/hoyolab-wiki/2022/11/01/47826599/6e1e5196da96bd65e549abe7fa861915_3411839031089085040.png",
+      "sourceClass": "hoyowiki_community_upload_static_path",
+      "actualFormat": "PNG",
+      "originalSha256": "e93851043fddaa42de1c7a9cbbcbc4a849c3a9be093198b39e6b3a2c4186ff1a",
+      "bytePreservingCopy": true
+    },
+    "skill": {
+      "localFile": "skill.png",
+      "originalFile": "G:\\sandrone\\character-research\\nahida\\assets\\elemental-skill-icon.png",
+      "sourceManifest": "G:\\sandrone\\character-research\\nahida\\sources.json",
+      "sourcePage": "https://wiki.hoyolab.com/pc/genshin/entry/2850?lang=zh-cn",
+      "downloadUrl": "https://upload-static.hoyoverse.com/hoyolab-wiki/2022/11/01/47826599/9ee7deb6582de98819a51f65d4d0a5e4_6036031383941911557.png",
+      "sourceClass": "hoyowiki_community_upload_static_path",
+      "actualFormat": "PNG",
+      "originalSha256": "76799e4882b9dd526074b4e4de4dd8fee6e2477b7d31f382db9ce83e7096dd15",
+      "bytePreservingCopy": true
+    },
+    "burst": {
+      "localFile": "burst.png",
+      "originalFile": "G:\\sandrone\\character-research\\nahida\\assets\\elemental-burst-icon.png",
+      "sourceManifest": "G:\\sandrone\\character-research\\nahida\\sources.json",
+      "sourcePage": "https://wiki.hoyolab.com/pc/genshin/entry/2850?lang=zh-cn",
+      "downloadUrl": "https://upload-static.hoyoverse.com/hoyolab-wiki/2022/11/01/47826599/f1d75a58813affc77a8ed61da0fac236_6375183584395527503.png",
+      "sourceClass": "hoyowiki_community_upload_static_path",
+      "actualFormat": "PNG",
+      "originalSha256": "b29d84e2b0042c212cde08d3d2af2af33818a62c80324421d7bff6bc29eba3fe",
+      "bytePreservingCopy": true
+    },
+    "element": {
+      "localFile": "element.png",
+      "originalFile": "G:\\sandrone\\character-research\\nahida\\assets\\avatar-icon.png",
+      "fallback": true,
+      "description": "原始头像的逐字节副本，用作通用角色图标；不是冰/火/草元素标志。研究素材中没有独立元素图标。",
+      "actualFormat": "PNG",
+      "originalSha256": "923a834c8bdf412adf6005bedcd7293dcd3ff0bb1afdd93075e9cb64d096316a",
+      "bytePreservingCopy": true
+    }
+  },
+  "generation": {
+    "tool": "built-in image_gen",
+    "mode": "reference-guided generation",
+    "reference": "G:\\sandrone\\character-research\\nahida\\assets\\wish-art.png",
+    "promptPath": "prompt.txt",
+    "originalOutput": "C:\\Users\\admin\\.codex\\generated_images\\01a171c8-79f7-71a3-bb73-083adc3714e6\\exec-9bf36827-9343-4ca4-9a40-ccbd5fbbe37b.png",
+    "workspaceOutput": "G:\\sandrone\\theme-art\\nahida\\background.png",
+    "width": 1672,
+    "height": 941,
+    "intendedAspectRatio": "16:9",
+    "backgroundSha256": "a78a351cfa8da1173375d043251a4c199deaabb9e1992871d6d54a042589e8e7",
+    "outputCopiedWithoutPixelEditing": true,
+    "visualQa": "已检查角色识别特征、服饰、右侧人物构图和左侧深色空间。图片没有界面控件、标题、签名或水印。"
+  },
+  "limitations": [
+    "仅交付静态视觉素材、文案和配色；维持桑多涅 0.6.1 原生界面骨架，未修改引擎或实现代码。",
+    "人物主体位于右侧约35–40%；左侧约55%保留低亮度背景。少量发丝、衣摆和环境光可延伸至过渡区，接入时仍需验证原生UI可读性。",
+    "生成背景属于AI参考图生成的衍生视觉，不等同官方原画，也不保证每处服饰细节逐像素一致。",
+    "avatar.png、portrait.png及图标均为研究原文件的逐字节副本。原始技能图标可能实际为WEBP而沿用要求的.png文件名，解码时应按文件内容识别格式；详见sources各项actualFormat。",
+    "element.png是头像副本而非元素符号；不提供签名，主流程统一生成真花体矢量描边。",
+    "原始角色素材的来源与权利说明保留于character-research对应sources.json；下载或官方托管本身不构成再分发授权。"
+  ],
+  "name": "纳西妲",
+  "brandName": "Nahida",
+  "themeName": "森梦新叶",
+  "subtitle": "白草净华",
+  "loadingStates": [
+    "正在展开知识的新叶…",
+    "正在唤醒林间微光…",
+    "正在找回梦中的书签…",
+    "新芽已醒，准备就绪。"
+  ],
+  "id": "nahida",
+  "motif": "leaf",
+  "signature": {
+    "kind": "Segoe Script font outline",
+    "official": false
+  },
+  "baseSkeleton": "Sandrone Codex 0.6.1",
+  "codeChanges": "displayed prose and literal colors only",
+  "releaseVersion": "1.4.0",
+  "production": {
+    "dailyComposition": "assets/ui/composition.json",
+    "workspaceFrame": "assets/ui/workspace-frame.json",
+    "workspaceBackground": "assets/ui/workspace-background.json",
+    "opening": "assets/motion/derived.json",
+    "lettering": "assets/branding/opening-lettering.json",
+    "material": "assets/ui/personality.json",
+    "layoutChanged": false
+  }
+}

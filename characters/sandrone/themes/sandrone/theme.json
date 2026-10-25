@@ -1,0 +1,31 @@
+{
+  "schemaVersion": 1,
+  "id": "sandrone-codex-ui",
+  "name": "桑多涅·人偶工坊",
+  "brandSubtitle": "Sandrone",
+  "tagline": "让灵感在这里继续。",
+  "projectPrefix": "项目 · ",
+  "projectLabel": "选择项目",
+  "statusText": "SANDRONE ONLINE",
+  "quote": "A PERSONAL PLACE FOR THOUGHTS",
+  "image": "background.png",
+  "appearance": "dark",
+  "art": {
+    "focusX": 0.76,
+    "focusY": 0.46,
+    "safeArea": "left",
+    "taskMode": "ambient"
+  },
+  "colors": {
+    "background": "#0c1016",
+    "panel": "#17191f",
+    "panelAlt": "#202027",
+    "accent": "#c7a86e",
+    "accentAlt": "#e3d4b1",
+    "secondary": "#a9cbd5",
+    "highlight": "#993e50",
+    "text": "#ebe3d1",
+    "muted": "#b8afa2",
+    "line": "#766246"
+  }
+}

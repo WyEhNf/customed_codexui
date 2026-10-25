@@ -1,0 +1,51 @@
+{
+  "packageVersion": 1,
+  "themeId": "columbina-codex-ui",
+  "version": "1.4.0",
+  "skinApiVersion": 1,
+  "minClientVersion": "1.5.21",
+  "platforms": [
+    "windows"
+  ],
+  "capabilities": [
+    "background",
+    "tokens",
+    "safe-css"
+  ],
+  "publisher": {
+    "id": "codexui-local",
+    "displayName": "Codex UI Characters"
+  },
+  "license": "LicenseRef-Character-Artwork",
+  "files": [
+    {
+      "path": "theme.json",
+      "bytes": 754,
+      "sha256": "7fcb8cd5c3e6274f1689b9945f3a5a318d5600e24645d45ab5f04d2ec74355d8",
+      "mediaType": "application/json"
+    },
+    {
+      "path": "theme.css",
+      "bytes": 968,
+      "sha256": "26b5818251998ea80f58b6e14fe635d7f1ce149b1ad13209c99e10af39a262eb",
+      "mediaType": "text/css"
+    },
+    {
+      "path": "background.png",
+      "bytes": 1822600,
+      "sha256": "b55ddfaffa6b61c7cbc5dd584c479b1aaf0ad77050a677123e3951fe2dbf815d",
+      "mediaType": "image/png"
+    },
+    {
+      "path": "LICENSE.txt",
+      "bytes": 236,
+      "sha256": "d541c9f4bbf3f8ee8c2e1bd0733a0400946550b6654ee7985a0392d8cfb0731a",
+      "mediaType": "text/plain"
+    }
+  ],
+  "provenance": {
+    "aiGenerated": true,
+    "summary": "Retained daily character artwork with complete subtle frame; independent animated opening; original native layout retained."
+  },
+  "createdAt": "2026-10-25T00:00:00+08:00"
+}

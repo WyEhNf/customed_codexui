@@ -1,0 +1,143 @@
+{
+  "schemaVersion": 1,
+  "slug": "ayaka",
+  "characterNameZh": "神里绫华",
+  "characterNameEn": "Kamisato Ayaka",
+  "brandNameEn": "KAMISATO AYAKA",
+  "themeNameZh": "霜华雅庭",
+  "themeNameEn": "Frosted Court",
+  "subtitleZh": "白鹭霜华",
+  "splashStatuses": [
+    "正在铺展霜华…",
+    "正在整理庭前案卷…",
+    "正在续接上次篇章…",
+    "白鹭归庭，准备就绪。"
+  ],
+  "copyProvenance": "主题名与4条状态为本次原创；角色称号核对自 character-research 对应 README 和 sources.json。",
+  "palette": {
+    "background": "#0B1020",
+    "panel": "#121C32",
+    "panelAlt": "#19253D",
+    "accent": "#A6D9F1",
+    "accentAlt": "#788BCE",
+    "secondary": "#E6B5CE",
+    "highlight": "#D7C39D",
+    "text": "#E6EFF7",
+    "muted": "#97A9C4",
+    "line": "#30435D"
+  },
+  "paletteProvenance": "为深色原生界面人工设计的建议色板；不是官方品牌手册色值。",
+  "assets": {
+    "background": "background.png",
+    "avatar": "avatar.png",
+    "portrait": "portrait.png",
+    "element": "element.png",
+    "skill": "skill.png",
+    "burst": "burst.png"
+  },
+  "sources": {
+    "avatar": {
+      "localFile": "avatar.png",
+      "originalFile": "G:\\sandrone\\character-research\\ayaka\\avatar.png",
+      "sourceManifest": "G:\\sandrone\\character-research\\ayaka\\sources.json",
+      "sourcePage": "https://wiki.hoyolab.com/pc/genshin/entry/32?lang=zh-cn",
+      "downloadUrl": "https://act-upload.hoyoverse.com/event-ugc-hoyowiki/2024/05/22/327628065/da12098329a0b6e3cd09633b05ca49a3_3678956298189127693.png",
+      "sourceClass": "official_hosted_community_editable_wiki_ugc_upload",
+      "actualFormat": "PNG",
+      "originalSha256": "ece06c8652a09b7adb31ae794abf463631d8998263668a8cef26de0afda8127a",
+      "bytePreservingCopy": true
+    },
+    "portrait": {
+      "localFile": "portrait.png",
+      "originalFile": "G:\\sandrone\\character-research\\ayaka\\full-art.png",
+      "sourceManifest": "G:\\sandrone\\character-research\\ayaka\\sources.json",
+      "sourcePage": "https://wiki.hoyolab.com/pc/genshin/entry/32?lang=zh-cn",
+      "downloadUrl": "https://bbs.hoyolab.com/hoyowiki/picture/character/神里绫华/avatar.png",
+      "sourceClass": "official_hosted_hoyowiki_static",
+      "actualFormat": "PNG",
+      "originalSha256": "41dfb58d3ee5d30a33189efab122148fee51d6fb2c52382989266ef0f8e5c787",
+      "bytePreservingCopy": true
+    },
+    "skill": {
+      "localFile": "skill.png",
+      "originalFile": "G:\\sandrone\\character-research\\ayaka\\skill-icon.png",
+      "sourceManifest": "G:\\sandrone\\character-research\\ayaka\\sources.json",
+      "sourcePage": "https://wiki.hoyolab.com/pc/genshin/entry/32?lang=zh-cn",
+      "downloadUrl": "https://bbs.hoyolab.com/hoyowiki/picture/character/神里绫华/battle_talent_1/battle_talent_1.png",
+      "sourceClass": "official_hosted_hoyowiki_static",
+      "actualFormat": "WEBP",
+      "originalSha256": "b712c77c30f384684298c8a8b41a1a0ec6b6e3604ddd82218d9f7073edcfe3ee",
+      "bytePreservingCopy": true
+    },
+    "burst": {
+      "localFile": "burst.png",
+      "originalFile": "G:\\sandrone\\character-research\\ayaka\\burst-icon.png",
+      "sourceManifest": "G:\\sandrone\\character-research\\ayaka\\sources.json",
+      "sourcePage": "https://wiki.hoyolab.com/pc/genshin/entry/32?lang=zh-cn",
+      "downloadUrl": "https://bbs.hoyolab.com/hoyowiki/picture/character/神里绫华/battle_talent_3/battle_talent_3.png",
+      "sourceClass": "official_hosted_hoyowiki_static",
+      "actualFormat": "PNG",
+      "originalSha256": "1f0cc7acb69f356c0ac37e74f4666815ab94b2bb1b330f6cb6a07b475edebde5",
+      "bytePreservingCopy": true
+    },
+    "element": {
+      "localFile": "element.png",
+      "originalFile": "G:\\sandrone\\character-research\\ayaka\\avatar.png",
+      "fallback": true,
+      "description": "原始头像的逐字节副本，用作通用角色图标；不是冰/火/草元素标志。研究素材中没有独立元素图标。",
+      "actualFormat": "PNG",
+      "originalSha256": "ece06c8652a09b7adb31ae794abf463631d8998263668a8cef26de0afda8127a",
+      "bytePreservingCopy": true
+    }
+  },
+  "generation": {
+    "tool": "built-in image_gen",
+    "mode": "reference-guided generation",
+    "reference": "G:\\sandrone\\character-research\\ayaka\\full-art.png",
+    "promptPath": "prompt.txt",
+    "originalOutput": "C:\\Users\\admin\\.codex\\generated_images\\01a171c8-79f7-71a3-bb73-083adc3714e6\\exec-787c620a-f4b9-42cb-9759-4fb5dee1d48b.png",
+    "workspaceOutput": "G:\\sandrone\\theme-art\\ayaka\\background.png",
+    "width": 1672,
+    "height": 941,
+    "intendedAspectRatio": "16:9",
+    "backgroundSha256": "d55e123beb414e37994dafb342b6068a593cc23a161acd574f500ddb3bec7354",
+    "outputCopiedWithoutPixelEditing": true,
+    "visualQa": "已检查角色识别特征、服饰、右侧人物构图和左侧深色空间。图片没有界面控件、标题、签名或水印。"
+  },
+  "limitations": [
+    "仅交付静态视觉素材、文案和配色；维持桑多涅 0.6.1 原生界面骨架，未修改引擎或实现代码。",
+    "人物主体位于右侧约35–40%；左侧约55%保留低亮度背景。少量发丝、衣摆和环境光可延伸至过渡区，接入时仍需验证原生UI可读性。",
+    "生成背景属于AI参考图生成的衍生视觉，不等同官方原画，也不保证每处服饰细节逐像素一致。",
+    "avatar.png、portrait.png及图标均为研究原文件的逐字节副本。原始技能图标可能实际为WEBP而沿用要求的.png文件名，解码时应按文件内容识别格式；详见sources各项actualFormat。",
+    "element.png是头像副本而非元素符号；不提供签名，主流程统一生成真花体矢量描边。",
+    "原始角色素材的来源与权利说明保留于character-research对应sources.json；下载或官方托管本身不构成再分发授权。"
+  ],
+  "name": "神里绫华",
+  "brandName": "Kamisato Ayaka",
+  "themeName": "霜华雅庭",
+  "subtitle": "白鹭霜华",
+  "loadingStates": [
+    "正在铺展霜华…",
+    "正在整理庭前案卷…",
+    "正在续接上次篇章…",
+    "白鹭归庭，准备就绪。"
+  ],
+  "id": "ayaka",
+  "motif": "sakura",
+  "signature": {
+    "kind": "Segoe Script font outline",
+    "official": false
+  },
+  "baseSkeleton": "Sandrone Codex 0.6.1",
+  "codeChanges": "displayed prose and literal colors only",
+  "releaseVersion": "1.4.0",
+  "production": {
+    "dailyComposition": "assets/ui/composition.json",
+    "workspaceFrame": "assets/ui/workspace-frame.json",
+    "workspaceBackground": "assets/ui/workspace-background.json",
+    "opening": "assets/motion/derived.json",
+    "lettering": "assets/branding/opening-lettering.json",
+    "material": "assets/ui/personality.json",
+    "layoutChanged": false
+  }
+}

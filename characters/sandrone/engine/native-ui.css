@@ -1,0 +1,297 @@
+/* Fixed engine accessibility component; imported theme rules remain validated. */
+@layer dreamskin-accessibility {
+/* Avoid continuously re-blurring large surfaces behind scrolling text/video. */
+html[data-dream-skin="active"] :is([class*="_ApplicationMenuTopBar_"],[data-ds-part="composer"],[data-ds-part="message"],[role="dialog"]) {
+ backdrop-filter:none !important;
+}
+html[data-dream-skin="active"] #sandrone-replay-opening:not([hidden]) {
+ position:fixed;z-index:2147482900;height:26px;padding:0 9px;
+ font:12px/24px "Segoe UI","Microsoft YaHei",sans-serif;
+ color:#e3d4b1 !important;background:#19232fcc !important;
+ border:1px solid #8e795355 !important;border-radius:6px;
+ -webkit-app-region:no-drag;cursor:pointer;
+}
+html[data-dream-skin="active"] #sandrone-replay-opening:hover {
+ background:#202027 !important;border-color:#c7a86e !important;
+}
+/* Native Windows caption glyphs may disagree with the renderer theme marker.
+   Midtone bronze supports both light and dark glyphs, inside WCO geometry. */
+html[data-dream-skin="active"] #sandrone-caption-backing:not([hidden]) {
+ position:fixed;right:0;z-index:2147483100;
+ background:var(--sandrone-caption-surface,#7a8090) !important;
+ border-bottom:0;
+ box-sizing:border-box;
+ pointer-events:none !important;
+ -webkit-app-region:no-drag;
+}
+html[data-dream-skin="active"] #sandrone-caption-backing:not([hidden])::before {
+ content:"";position:absolute;right:100%;top:0;bottom:0;width:12px;
+ background:linear-gradient(90deg,transparent,var(--sandrone-caption-surface,#7a8090));
+ pointer-events:none;-webkit-app-region:no-drag;
+}
+html[data-dream-skin="active"] {
+ --color-background-user-message:#202027;
+ --color-background-other-user-message:#202027;
+ --color-token-message-surface:#202027;
+ --color-token-dropdown-background:#17191f;
+ --color-background-panel:#0c1016;
+ --color-background-composer:#17191f;
+ --color-background-composer-action-bar:#17191f;
+ --color-text-user-message:#ebe3d1;
+ --color-text-secondary:#b8afa2;
+ --color-text-tertiary:#b8afa2;
+ --color-text-inverse:#0c1016;
+ --color-text-inverted:#0c1016;
+ --color-token-text-inverted:#0c1016;
+ --color-background-primary-solid:#c7a86e;
+ --color-background-primary-solid-hover:#e3d4b1;
+ --color-background-primary-ghost-hover:#202027;
+}
+html[data-dream-skin="active"] [data-ds-part="message"] {
+ background-color:#0c1016 !important;
+ border-color:rgba(199,168,110,.20) !important;
+ color:#ebe3d1 !important;
+ box-shadow:0 10px 32px rgba(0,0,0,.14);
+}
+html[data-dream-skin="active"] :is([data-ds-part="composer"],[data-ds-part="dialog"],[role="menu"]) {
+ background-color:#17191f !important;
+}
+html[data-dream-skin="active"] :is(button,[role="button"]):not([role="switch"]) {
+ /* Keep native solid, destructive, selected and checkbox states. Their
+    neutral tokens are paired below; stripping every background hid controls. */
+ box-shadow:none;
+ transition:background-color 170ms ease,box-shadow 170ms ease,transform 120ms ease,border-color 170ms ease !important;
+}
+html[data-dream-skin="active"] :is(button,[role="button"]):not(:disabled):not([aria-disabled="true"]):hover {
+ background-color:#202027 !important;
+ box-shadow:none;
+}
+html[data-dream-skin="active"] [data-ds-part="composer"] button {
+ background-color:transparent !important;box-shadow:none;
+}
+html[data-dream-skin="active"] [data-ds-part="composer"] button:not(:disabled):not([aria-disabled="true"]):hover {
+ background-color:#202027 !important;
+}
+html[data-dream-skin="active"] :is([class~="bg-token-foreground"],[class~="bg-primary-solid"],[class~="bg-foreground"]) {
+ --sandrone-action-ink:#0c1016;
+ --color-token-text-primary:#0c1016;--color-text-primary:#0c1016;
+ background-color:#c7a86e !important;color:#0c1016 !important;
+}
+html[data-dream-skin="active"] :is(button,[role="button"]):not(:disabled):not([aria-disabled="true"]):active {
+ transform:translateY(1px);
+ background-color:#202027 !important;
+}
+html[data-dream-skin="active"] :is(button,[role="button"]):focus-visible {
+ outline:2px solid #c7a86e !important;outline-offset:3px;
+}
+html[data-dream-skin="active"] button:is([class~="bg-token-foreground"],[class~="bg-primary-solid"],[class~="bg-foreground"]) {
+ background-color:#c7a86e !important;color:#0c1016 !important;
+ border-color:rgba(199,168,110,.65) !important;
+ --color-token-text-primary:#0c1016;--color-text-primary:#0c1016;--color-token-foreground:#0c1016;
+}
+html[data-dream-skin="active"] button:is([class~="bg-token-foreground"],[class~="bg-primary-solid"],[class~="bg-foreground"]) * {
+ color:inherit !important;
+}
+html[data-dream-skin="active"] button:is([class~="bg-token-foreground"],[class~="bg-primary-solid"],[class~="bg-foreground"]):not(:disabled):not([aria-disabled="true"]):hover {
+ background-color:#e3d4b1 !important;color:#0c1016 !important;
+ box-shadow:0 0 12px rgba(199,168,110,.15);
+}
+html[data-dream-skin="active"] button:is([class~="bg-token-foreground"],[class~="bg-primary-solid"],[class~="bg-foreground"]):not(:disabled):not([aria-disabled="true"]):active {
+ background-color:#cfa25d !important;color:#0c1016 !important;
+}
+html[data-dream-skin="active"] [data-ds-part="message"] :is(pre,[data-markdown-copy="code-block"]) {
+ background-color:#0c1016 !important;border-color:#766246 !important;
+}
+html[data-dream-skin="active"] [data-ds-part="message"] a {color:#a9cbd5 !important;}
+html[data-dream-skin="active"] :is(button,[role="button"]):is(:disabled,[aria-disabled="true"]) {
+ color:#b8afa2 !important;background-color:#202027 !important;box-shadow:none !important;transform:none !important;
+}
+html[data-dream-skin="active"] [data-ds-part="sidebar"] :is(button,[role="button"]) {
+ box-shadow:none !important;
+}
+html[data-dream-skin="active"] [data-ds-part="sidebar"] :is([aria-current="page"],[aria-selected="true"]) {
+ background-color:rgba(199,168,110,.1) !important;
+ box-shadow:inset 2px 0 0 #c7a86e !important;
+}
+/* Current Codex right pane: clear both the outer panel and nested canvas. */
+html[data-dream-skin="active"] [class~="bg-[var(--app-shell-panel-background,var(--color-surface))]"] {
+ --app-shell-panel-background:transparent;
+ background:transparent !important;
+ backdrop-filter:none !important;
+}
+html[data-dream-skin="active"] [class~="bg-[var(--app-shell-panel-background,var(--color-surface))]"] [class~="bg-surface-canvas"],
+html[data-dream-skin="active"] [class~="bg-token-main-surface-primary"][class~="border-l"] {
+ background:transparent !important;
+ backdrop-filter:none !important;
+}
+/* Tool tiles use a separate native alpha surface, outside their buttons. */
+html[data-dream-skin="active"] [class~="bg-primary-soft-alpha"] {
+ background-color:rgba(21,30,42,.78) !important;
+ color:#ebe3d1 !important;
+ box-shadow:inset 0 0 0 1px rgba(199,168,110,.23);
+ transition:background-color 170ms ease,box-shadow 170ms ease,transform 120ms ease;
+}
+html[data-dream-skin="active"] [class~="bg-primary-soft-alpha"]:hover {
+ background-color:rgba(44,57,74,.9) !important;
+ box-shadow:inset 0 0 0 1px rgba(199,168,110,.62),0 0 14px rgba(199,168,110,.12);
+}
+html[data-dream-skin="active"] [class~="bg-primary-soft-alpha"]:has(button:active) {
+ transform:translateY(1px) scale(.99);
+}
+/* Native 26.1016 declares a second palette on nested [data-theme] scopes.
+   Root inheritance alone cannot reach ChatGPT prose, project forms or portals.
+   Rebind neutral foreground AND surface tokens without changing native theme
+   attributes, semantic success/danger colors, content images or syntax spans. */
+html[data-dream-skin="active"],
+html[data-dream-skin="active"] :is([data-theme],[role="dialog"],[role="alertdialog"],[role="menu"],[role="listbox"],[role="tooltip"],[data-ds-part="dialog"],[class*="_surface_"]) {
+ --color-text:#ebe3d1 !important;
+ --color-text-primary:#ebe3d1 !important;
+ --color-text-emphasis:#ebe3d1 !important;
+ --color-text-prose:#ebe3d1 !important;
+ --color-text-secondary:#b8afa2 !important;
+ --color-text-tertiary:#b8afa2 !important;
+ --color-text-disabled:#b8afa2 !important;
+ --color-text-primary-solid:#0c1016 !important;
+ --color-text-primary-soft:#ebe3d1 !important;
+ --color-text-secondary-soft:#b8afa2 !important;
+ --color-text-secondary-solid:#ebe3d1 !important;
+ --color-text-inverse:#0c1016 !important;
+ --color-token-foreground:#ebe3d1 !important;
+ --color-token-text-primary:#ebe3d1 !important;
+ --color-token-text-secondary:#b8afa2 !important;
+ --color-token-text-tertiary:#b8afa2 !important;
+ --color-token-dropdown-foreground:#ebe3d1 !important;
+ --color-token-description-foreground:#b8afa2 !important;
+ --color-codex-description:#b8afa2 !important;
+ --color-codex-git-deleted:#ffaaa5 !important;
+ --color-codex-git-added:#85d9a6 !important;
+ --color-token-text-link-foreground:#a9cbd5 !important;
+ --color-token-input-border:#766246 !important;
+ --color-border:#766246 !important;
+ --color-border-subtle:#766246 !important;
+ --color-border-strong:#766246 !important;
+ --color-border-primary-outline:#766246 !important;
+ --color-border-secondary-outline:#766246 !important;
+ --color-surface-card:#17191f !important;
+ --color-surface-elevated:#17191f !important;
+ --color-surface-elevated-secondary:#202027 !important;
+ --color-token-dropdown-background:#17191f !important;
+ --color-background-control-opaque:#202027 !important;
+ --color-background-composer-surface:#17191f !important;
+ --color-background-primary-soft:#202027 !important;
+ --color-background-primary-soft-hover:#2c3b50 !important;
+ --color-background-primary-soft-active:#202027 !important;
+ --color-background-primary-soft-alpha:#202027 !important;
+ --color-background-primary-soft-alpha-hover:#2c3b50 !important;
+ --color-background-primary-soft-alpha-active:#202027 !important;
+ --color-background-secondary-solid:#202027 !important;
+ --color-background-secondary-solid-hover:#202027 !important;
+ --color-background-secondary-soft:#202027 !important;
+ --color-background-secondary-soft-hover:#2c3b50 !important;
+ --color-background-primary-solid:#c7a86e !important;
+ --color-background-primary-solid-hover:#e3d4b1 !important;
+ --color-background-primary-solid-active:#cfa25d !important;
+ --color-background-viewer-control:#17191f !important;
+ --color-background-tooltip:#17191f !important;
+ --color-background-tooltip-classic:#17191f !important;
+ --color-text-tooltip:#ebe3d1 !important;
+ --color-text-tooltip-classic:#ebe3d1 !important;
+ --color-text-tooltip-secondary:#b8afa2 !important;
+ --color-text-tooltip-tertiary:#b8afa2 !important;
+ --color-text-tooltip-description:#b8afa2 !important;
+ --color-text-tooltip-shortcut:#b8afa2 !important;
+ --color-background-tooltip-shortcut:#202027 !important;
+ --color-codex-editor-inline-code-background:#202027 !important;
+ --color-codex-editor-inline-code-foreground:#ebe3d1 !important;
+ --input-placeholder-text-color:#b8afa2 !important;
+ --text-primary:#ebe3d1 !important;
+ --text-secondary:#b8afa2 !important;
+ --text-tertiary:#b8afa2 !important;
+}
+html[data-dream-skin="active"] :is([data-theme],[role="dialog"],[role="alertdialog"],[role="menu"],[role="listbox"],[role="tooltip"],[data-ds-part="dialog"],[class*="_surface_"]) {
+ --color-surface:#17191f !important;
+ --color-surface-secondary:#17191f !important;
+ --color-surface-tertiary:#202027 !important;
+}
+/* ChatGPT's current DIL renderer and older Markdown renderer live outside
+   the upstream registered Codex message boundary. Keep the background art. */
+html[data-dream-skin="active"] :is([class*="_MarkdownContent_"],[class*="_DilRenderer_"],[data-message-author-role="assistant"]) {
+ --color-text:#ebe3d1 !important;
+ --color-text-prose:#ebe3d1 !important;
+ --color-text-emphasis:#ebe3d1 !important;
+ --tw-prose-body:#ebe3d1;
+ --tw-prose-headings:#ebe3d1;
+ --tw-prose-bold:#ebe3d1;
+ --tw-prose-quotes:#b8afa2;
+ color:#ebe3d1 !important;
+ background-color:#0c1016 !important;
+ border-radius:14px;
+}
+html[data-dream-skin="active"] :is([class*="_MarkdownContent_"],[class*="_DilRenderer_"]) a {color:#a9cbd5 !important;}
+html[data-dream-skin="active"] [class*="_SyntaxHighlighter_"] {
+ --codeblock-background-color:#0c1016;
+ --codeblock-syntax-1:#8cc9ff;
+ --codeblock-syntax-2:#f5a8c7;
+ --codeblock-syntax-3:#a6d5a2;
+ --codeblock-syntax-4:#c7b7ee;
+ --codeblock-syntax-5:#efbc83;
+ color:#ebe3d1 !important;background-color:#0c1016 !important;
+}
+/* The native activity caption multiplies 60% text by a 55% shimmer base.
+   Supply an opaque base while retaining its original moving highlight. */
+html[data-dream-skin="active"] [class*="_cadencedShimmer_"] {
+ --loading-shimmer-base:#b8afa2;
+ --loading-shimmer-highlight:#ebe3d1;
+}
+/* Paint complete fields, not arbitrary nested spans, and leave native
+   radios/checkboxes/range/color inputs and their checked states intact. */
+html[data-dream-skin="active"] :is(input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="color"]):not([type="hidden"]):not([type="file"]),textarea,select) {
+ color:#ebe3d1 !important;
+ caret-color:#ebe3d1 !important;
+ background-color:#202027 !important;
+ border-color:#766246 !important;
+ color-scheme:dark;
+}
+html[data-dream-skin="active"] :is(input,textarea)::placeholder {color:#b8afa2 !important;opacity:1 !important;}
+html[data-dream-skin="active"] :is(input,textarea,select):focus-visible {
+ outline:2px solid #c7a86e !important;outline-offset:2px;
+}
+html[data-dream-skin="active"] :is([role="dialog"],[role="alertdialog"],[data-ds-part="dialog"],[role="menu"],[role="listbox"],[role="tooltip"]) {
+ color:#ebe3d1 !important;background-color:#17191f !important;
+ border-color:#766246 !important;backdrop-filter:none !important;
+}
+/* A modal or image viewer owns its header controls. Never cover its close
+   button with our fixed replay button (including lazy-loaded viewers). */
+html[data-dream-skin="active"]:has(:is([role="dialog"],[role="alertdialog"],[data-testid="image-preview-dismiss-area"],[class*="_ImageViewer_"])) #sandrone-replay-opening {
+ display:none !important;
+}
+html[data-dream-skin="active"] :is([role="dialog"],[role="alertdialog"],[class*="_ImageViewer_"],[data-testid="image-preview-dismiss-area"]) button:is([aria-label="Close"],[aria-label="关闭"],[aria-label="Close image"],[aria-label="关闭图片"],[data-testid="close-button"]) {
+ color:#ebe3d1 !important;background-color:#202027 !important;
+ border:1px solid #766246 !important;border-radius:8px;
+}
+html[data-dream-skin="active"] :is([role="dialog"],[role="alertdialog"],[class*="_ImageViewer_"],[data-testid="image-preview-dismiss-area"]) button:is([aria-label="Close"],[aria-label="关闭"],[aria-label="Close image"],[aria-label="关闭图片"],[data-testid="close-button"]) svg {
+ color:inherit !important;
+}
+@media(prefers-reduced-motion:reduce) {
+ html[data-dream-skin="active"] :is(button,[role="button"]) {transition:none !important;transform:none !important;}
+ html[data-dream-skin="active"] [class~="bg-primary-soft-alpha"] {transition:none !important;transform:none !important;}
+}
+}
+
+/* Approved surface alpha, paint only: no layout or whole-control opacity. */
+@layer dreamskin-accessibility {
+html[data-dream-skin="active"],html[data-dream-skin="active"] [data-theme] {
+ --character-panel-rgb:23,25,31;--character-bg-rgb:12,16,22;
+ --color-background-composer:rgba(23,25,31,.72);--color-background-composer-action-bar:transparent;
+ --color-background-panel:rgba(12,16,22,.64);--color-token-message-surface:rgba(12,16,22,.64);
+ --color-token-dropdown-background:rgba(23,25,31,.94);
+ --color-background-user-message:rgba(32,32,39,.64);--color-background-other-user-message:rgba(32,32,39,.64);
+}
+html[data-dream-skin="active"] [data-ds-part="composer"] {background:rgba(var(--character-panel-rgb),.72)!important;}
+html[data-dream-skin="active"] [data-ds-part="composer"]:focus-within {background:rgba(var(--character-panel-rgb),.80)!important;}
+html[data-dream-skin="active"] [data-ds-part="composer"] :is(input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="color"]):not([type="hidden"]):not([type="file"]),textarea,[contenteditable="true"],[class~="bg-token-composer"],[class~="bg-composer"],[class~="bg-composer-action-bar"]) {background:transparent!important;}
+html[data-dream-skin="active"] [data-ds-part="message"] {background:rgba(var(--character-bg-rgb),.64)!important;}
+html[data-dream-skin="active"] [data-ds-part="message"] :is(pre,code,[data-markdown-copy="code-block"]) {background:rgba(var(--character-bg-rgb),.88)!important;}
+html[data-dream-skin="active"] :is([data-ds-part="dialog"],[role="dialog"],[role="menu"]) {background:rgba(var(--character-panel-rgb),.94)!important;}
+html[data-dream-skin="active"] [data-ds-part="sidebar"] {background:rgba(var(--character-bg-rgb),.88)!important;}
+}

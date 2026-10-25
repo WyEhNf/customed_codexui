@@ -1,0 +1,51 @@
+{
+  "packageVersion": 1,
+  "themeId": "ayaka-codex-ui",
+  "version": "1.4.0",
+  "skinApiVersion": 1,
+  "minClientVersion": "1.5.21",
+  "platforms": [
+    "windows"
+  ],
+  "capabilities": [
+    "background",
+    "tokens",
+    "safe-css"
+  ],
+  "publisher": {
+    "id": "codexui-local",
+    "displayName": "Codex UI Characters"
+  },
+  "license": "LicenseRef-Character-Artwork",
+  "files": [
+    {
+      "path": "theme.json",
+      "bytes": 760,
+      "sha256": "8ceaa872bfc198f4d7b985abd406529fad2c528ec0a9f5cedc41f8a276efe865",
+      "mediaType": "application/json"
+    },
+    {
+      "path": "theme.css",
+      "bytes": 968,
+      "sha256": "ee4a295bc2cb98d1bc22ee2e6122690fb14996b6d8c5c400760b8cdaa576e605",
+      "mediaType": "text/css"
+    },
+    {
+      "path": "background.png",
+      "bytes": 1438272,
+      "sha256": "5127e764bf88d269f86cd3b1b72ef64fe4afde5a6237cc68283d0f667112aac1",
+      "mediaType": "image/png"
+    },
+    {
+      "path": "LICENSE.txt",
+      "bytes": 236,
+      "sha256": "d541c9f4bbf3f8ee8c2e1bd0733a0400946550b6654ee7985a0392d8cfb0731a",
+      "mediaType": "text/plain"
+    }
+  ],
+  "provenance": {
+    "aiGenerated": true,
+    "summary": "Retained daily character artwork with complete subtle frame; independent animated opening; original native layout retained."
+  },
+  "createdAt": "2026-10-25T00:00:00+08:00"
+}

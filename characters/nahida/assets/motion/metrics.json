@@ -1,0 +1,20 @@
+{
+  "id": "nahida",
+  "rawFaceMAD": 0.0,
+  "rawProtectedMapMaxPx": 8.826449629850686e-06,
+  "localWarpPixelMAD": 11.047796943483002,
+  "localWarpChangedPixels": 153389,
+  "maximumMeshDisplacementPx": 5.367167949676514,
+  "globalCameraMotion": false,
+  "frameCount": 270,
+  "width": 1920,
+  "height": 1080,
+  "fps": 30,
+  "seconds": 9,
+  "method": "Parametric local mesh animation of the approved illustration, face/hand/joint protected, plus separately animated environment FX. Not generated video.",
+  "decodedFrameMAD": 2.0391809735082305,
+  "encodedFaceMAD": 1.936717675527933,
+  "loopEndpointMAD": 1.2436549961419754,
+  "bytes": 3461771,
+  "renderSeconds": 53.2
+}

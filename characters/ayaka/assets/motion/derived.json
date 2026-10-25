@@ -1,0 +1,145 @@
+{
+  "file": "sandrone-loop-1080p.mp4",
+  "source": "G:\\sandrone\\design-review\\2026-10-25\\full-scene-v7\\references\\ayaka-current.png",
+  "sourceSha256": "f683fad46a89c02622c0ee7ff5ce0d0b7aada9ccfca9314ae45381bb5933fe6d",
+  "sha256": "e4e5e48924e914b397ba169e95d7a0d8bc2cd7f5edbdbf0ab5c50f1f9409d592",
+  "bytes": 4726714,
+  "seconds": 9,
+  "width": 1920,
+  "height": 1080,
+  "fps": 30,
+  "frames": 270,
+  "posterFile": "sandrone-first-frame.jpg",
+  "posterSha256": "6e7366034fe6ca4c26d5bd1484d480ffc5a39dfc9f24f3695274eadb4f52a294",
+  "animationKind": "illustrated-local-motion",
+  "globalCameraMotion": false,
+  "faceProtected": true,
+  "handJointProtected": true,
+  "motionRegions": [
+    {
+      "name": "breathing",
+      "kind": "breathing",
+      "centerNorm": [
+        0.737,
+        0.535
+      ],
+      "radiusNorm": [
+        0.102,
+        0.145
+      ],
+      "requestedDisplacementPx": 1.5,
+      "cyclesPerClip": 2
+    },
+    {
+      "name": "ponytail-tip",
+      "kind": "hair-sway",
+      "centerNorm": [
+        0.93,
+        0.325
+      ],
+      "radiusNorm": [
+        0.115,
+        0.18
+      ],
+      "requestedDisplacementPx": 4.8,
+      "cyclesPerClip": 1
+    },
+    {
+      "name": "left-sleeve",
+      "kind": "cloth-sway",
+      "centerNorm": [
+        0.597,
+        0.477
+      ],
+      "radiusNorm": [
+        0.09,
+        0.14
+      ],
+      "requestedDisplacementPx": 3,
+      "cyclesPerClip": 1
+    },
+    {
+      "name": "skirt-edge",
+      "kind": "cloth-sway",
+      "centerNorm": [
+        0.835,
+        0.832
+      ],
+      "radiusNorm": [
+        0.13,
+        0.125
+      ],
+      "requestedDisplacementPx": 4.2,
+      "cyclesPerClip": 2
+    }
+  ],
+  "protectionRegions": [
+    {
+      "name": "face",
+      "kind": "face",
+      "centerNorm": [
+        0.731,
+        0.31
+      ],
+      "radiusNorm": [
+        0.077,
+        0.11
+      ]
+    },
+    {
+      "name": "raised-hand",
+      "kind": "hand",
+      "centerNorm": [
+        0.822,
+        0.06
+      ],
+      "radiusNorm": [
+        0.055,
+        0.078
+      ]
+    },
+    {
+      "name": "lower-hand",
+      "kind": "hand",
+      "centerNorm": [
+        0.534,
+        0.605
+      ],
+      "radiusNorm": [
+        0.06,
+        0.055
+      ]
+    },
+    {
+      "name": "neck",
+      "kind": "joint",
+      "centerNorm": [
+        0.73,
+        0.4
+      ],
+      "radiusNorm": [
+        0.05,
+        0.048
+      ]
+    },
+    {
+      "name": "lower-elbow",
+      "kind": "joint",
+      "centerNorm": [
+        0.595,
+        0.535
+      ],
+      "radiusNorm": [
+        0.05,
+        0.055
+      ]
+    }
+  ],
+  "environmentEffects": [
+    "sakura-petals",
+    "frost-motes"
+  ],
+  "metricsFile": "metrics.json",
+  "fullScene": true,
+  "note": "New parameterized illustration animation: local breathing, cloth/hair displacement and environment effects; faces, hands and joints protected. Not a static repeated carrier, camera-only animation or model-generated motion video."
+}

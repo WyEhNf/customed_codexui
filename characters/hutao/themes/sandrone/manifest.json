@@ -1,0 +1,51 @@
+{
+  "packageVersion": 1,
+  "themeId": "hutao-codex-ui",
+  "version": "1.4.0",
+  "skinApiVersion": 1,
+  "minClientVersion": "1.5.21",
+  "platforms": [
+    "windows"
+  ],
+  "capabilities": [
+    "background",
+    "tokens",
+    "safe-css"
+  ],
+  "publisher": {
+    "id": "codexui-local",
+    "displayName": "Codex UI Characters"
+  },
+  "license": "LicenseRef-Character-Artwork",
+  "provenance": {
+    "aiGenerated": true,
+    "summary": "Retained daily character artwork with complete subtle frame; independent animated opening; original native layout retained."
+  },
+  "createdAt": "2026-10-25T00:00:00+08:00",
+  "files": [
+    {
+      "path": "theme.json",
+      "bytes": 738,
+      "sha256": "270bd97164c7f77b51eaf6c4df96ddf4a05d735f452fef535d51dd2fd3236829",
+      "mediaType": "application/json"
+    },
+    {
+      "path": "theme.css",
+      "bytes": 967,
+      "sha256": "bea6eafdaf376fbff939b146321db0fe70b03801233383b2ff584a03235feade",
+      "mediaType": "text/css"
+    },
+    {
+      "path": "background.png",
+      "bytes": 1050564,
+      "sha256": "771066e5e01d1e78a5201713d127124430f886c8b404665247b28a821ac6a00f",
+      "mediaType": "image/png"
+    },
+    {
+      "path": "LICENSE.txt",
+      "bytes": 236,
+      "sha256": "d541c9f4bbf3f8ee8c2e1bd0733a0400946550b6654ee7985a0392d8cfb0731a",
+      "mediaType": "text/plain"
+    }
+  ]
+}

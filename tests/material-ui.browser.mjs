@@ -1,0 +1,67 @@
+import fs from 'node:fs/promises';
+import path from 'node:path';
+import {fileURLToPath} from 'node:url';
+import {createRequire} from 'node:module';
+import assert from 'node:assert/strict';
+import {installMaterialUi,removeMaterialUi,getMaterialUiConfig} from '../integration/material-ui.mjs';
+import {installCharacterIcons,removeCharacterIcons} from '../integration/character-icons.mjs';
+const require=createRequire(import.meta.url);
+const {chromium}=require(process.env.PLAYWRIGHT_MODULE||'C:/Users/admin/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright');
+const sharp=require('C:/Users/admin/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/sharp');
+const root=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'..'),evidence=path.join(root,'evidence/material-ui');
+await fs.mkdir(evidence,{recursive:true});
+const ids=['columbina','sandrone','hutao','ayaka','nahida','furina','citlali','mitya','istaroth'];
+const native=JSON.parse(await fs.readFile(path.join(root,'tests/fixtures/native-ui-icons.json'),'utf8')).icons;
+const contract=JSON.parse(await fs.readFile(path.join(root,'integration/icon-contract.json'),'utf8'));
+const browser=await chromium.launch({headless:true,channel:process.env.PLAYWRIGHT_CHANNEL||'msedge'}),results=[];
+const marker='data-codex-material-role';
+try{
+ const page=await browser.newPage({viewport:{width:1200,height:830}}),errors=[];page.on('pageerror',e=>errors.push(e.message));
+ await page.setContent(`<html data-dream-skin="active"><head><style>body{margin:0;background:linear-gradient(110deg,#17213a,#2b2942);color:#ebeff8;font:14px 'Segoe UI'}._ApplicationMenuTopBar_azz1c_2{height:38px;display:flex;align-items:center;gap:2px;padding-left:28px;border-bottom:1px solid #8a8eab50}button{font:inherit;color:inherit;cursor:pointer}._ApplicationMenuTopBar_azz1c_2 button{height:28px;border:0;background:transparent;padding:3px 12px}.workspace{display:grid;grid-template-columns:230px 1fr;height:640px}aside{padding:30px 18px;background:#1017298a;border-right:1px solid #7484ac40}aside button{padding:8px 15px;background:#53627d30;border:1px solid #9bb3e93a;border-radius:7px}main{padding:36px 32px}h1{margin:0 0 12px;font-weight:450}p{max-width:580px;line-height:1.6}#menu{position:absolute;left:32px;top:44px;border:1px solid #7286b760;border-radius:9px;width:188px;padding:9px;background:#162139f0;box-shadow:0 12px 30px #0004}#menu button{display:flex;width:100%;height:30px;padding:5px 12px;background:transparent;border:0}#roles{display:flex;gap:18px;flex-wrap:wrap;margin:28px 0}#roles button{display:flex;align-items:center;gap:8px;min-width:120px;background:#27365090;border:1px solid #7892c140;border-radius:7px;padding:8px}.guard{display:block;margin-top:18px;border:1px solid #62748e50;padding:10px}#opening{position:relative;margin-top:20px}</style></head><body><div class="_ApplicationMenuTopBar_azz1c_2"><div role="menubar"><button id="file" aria-haspopup="menu">文件</button><button>编辑</button><button>视图</button><button>帮助</button></div></div><div class="workspace"><aside><div class="group/project-selector"><button id="project" aria-label="Project example"><svg width="16" height="16" viewBox="${native[0].viewBox}">${native[0].shape}</svg><span>Personal project</span></button></div><div id="menu" role="menu"><button role="menuitem">新建聊天</button><button role="menuitem">打开文件夹</button><button role="menuitem">设置</button></div></aside><main><h1 id="name">Material integration</h1><p>材质保留完整角色意象，沿着现有菜单、标签与头像外缘停驻。所有功能按钮、文字位置与点击范围保持原样。</p><div id="roles"></div><div data-ds-part="message" class="guard"><button id="message" role="menu">正文中的示例内容与图标保持原样</button></div><div data-ds-part="composer" class="guard"><button id="composer">输入框操作</button></div><button id="danger" data-variant="destructive" role="menu">危险操作原样</button><div id="sandrone-opening"></div><div id="codex-character-switcher"></div></main></div></body></html>`);
+ const avatar=await fs.readFile(path.join(root,'characters/columbina/assets/characters/sandrone/round-icon.png'));const avatarUri='data:image/png;base64,'+avatar.toString('base64');
+ await page.evaluate(({avatarUri,ids})=>{const opening=document.getElementById('sandrone-opening').attachShadow({mode:'open'});opening.innerHTML=`<style>.brand{display:flex;align-items:center;gap:15px;margin:34px 0}.avatar{width:45px;height:45px;object-fit:contain;border-radius:50%}</style><div class="brand"><img class="avatar" src="${avatarUri}" alt=""><span>Existing opening brand avatar</span></div>`;const switcher=document.getElementById('codex-character-switcher').attachShadow({mode:'open'});switcher.innerHTML=`<style>.panel{display:flex;gap:11px;margin-top:20px}.character{border:1px solid #8097b250;border-radius:7px;padding:7px;background:#26344a;color:white}.character img{width:34px;height:42px;object-fit:contain;display:block}</style><div class="panel" role="dialog" aria-label="切换角色">${ids.map(id=>`<button class="character" data-character="${id}" aria-label="${id}"><img src="${avatarUri}" alt=""></button>`).join('')}</div>`;}, {avatarUri,ids});
+ await page.waitForFunction(()=>document.getElementById('sandrone-opening').shadowRoot.querySelector('img').complete);
+ await page.evaluate(()=>{window.openingFixture=document.getElementById('sandrone-opening');window.openingFixture.remove();});
+ // Retain references, not just a string snapshot, to detect React-node replacement.
+ await page.locator('#menu').evaluate(node=>node.style.top='150px');
+ await page.evaluate(()=>{window.clicks=0;document.getElementById('project').onclick=()=>window.clicks++;});
+ for(const id of ids){
+  const config=await getMaterialUiConfig(root,id),icons=JSON.parse(await fs.readFile(path.join(root,`integration/materials/output/${id}/material-icon-set.json`),'utf8'));
+  await page.locator('#roles').evaluate((node,roles)=>node.innerHTML=roles.map(role=>`<button aria-label="${role}"><svg data-character-ui-icon="${role}" width="24" height="24" viewBox="0 0 24 24"><path d="M2 2h20v20H2Z" fill="none" stroke="currentColor"/></svg>${role}</button>`).join(''),['folder','projects','chat','file','terminal','search','settings','artifacts']);
+  await page.evaluate(()=>window.nativeNodes=[...document.querySelectorAll('body *')].map(node=>({node,children:[...node.childNodes],rect:node.getBoundingClientRect().toJSON(),aria:node.getAttribute('aria-label')})));
+  // The fixture roles are deliberately added outside the preserved-native sample.
+  await page.evaluate(({code,config})=>eval('('+code+')')(config),{code:installCharacterIcons.toString(),config:{...icons,contract}});
+  assert.equal(await page.evaluate(({code,config})=>eval('('+code+')')(config),{code:installMaterialUi.toString(),config}),true);
+  await page.waitForFunction(()=>document.querySelector('[data-codex-material-role="menu-button"]'));
+  assert.equal(await page.locator('#project').getAttribute(marker),'tag');assert.equal(await page.locator('#file').getAttribute(marker),'menu-button');
+  for(const guard of ['message','composer','danger'])assert.equal(await page.locator('#'+guard).getAttribute(marker),null,'semantic guard '+guard);
+  const invariant=await page.evaluate(()=>window.nativeNodes.filter(r=>r.node.id!=='roles'&&!r.node.closest('#roles')).every(r=>r.node.isConnected&&r.children.every((n,i)=>r.node.childNodes[i]===n)&&JSON.stringify(r.rect)===JSON.stringify(r.node.getBoundingClientRect().toJSON())&&r.node.getAttribute('aria-label')===r.aria));
+  assert.equal(invariant,true,'all native nodes, child identities, accessible names and exact DOMRects preserved');
+  assert.equal(await page.evaluate(()=>getComputedStyle(document.getElementById('codex-character-materials')).pointerEvents),'none');
+  const overlay=await page.evaluate(()=>{const s=document.getElementById('codex-character-materials').shadowRoot;return {count:s.querySelectorAll('.ornament').length,avatars:s.querySelectorAll('.avatar').length,ids:[...s.querySelectorAll('.ornament:not(.avatar)')].map(e=>e.dataset.character),frames:[...s.querySelectorAll('.avatar img')].every(i=>i.src.startsWith('data:image/svg+xml;'))};});
+  assert.equal(overlay.avatars,9,'only the 9 existing switcher avatars are framed while no opening is present');assert.ok(overlay.ids.every(value=>value===id),'no previous character ornaments remain');assert.equal(overlay.frames,true);
+  await page.locator('#project').click();assert.equal(await page.evaluate(()=>window.clicks),results.length+1,'native click target is usable through the overlay');
+  await page.evaluate(({code,config})=>eval('('+code+')')(config),{code:installMaterialUi.toString(),config});assert.equal(await page.locator('#codex-character-materials').count(),1,'idempotent installation');
+  await page.locator('#project').evaluate(node=>node.setAttribute('aria-expanded','true'));await page.waitForFunction(()=>document.getElementById('codex-character-materials').shadowRoot.querySelector('.tag').classList.contains('is-focused'));
+  const late='Late-mounted project';await page.locator('aside').evaluate((node,late)=>node.insertAdjacentHTML('beforeend',`<div class="group/project-selector"><button id="late-project">${late}</button></div>`),late);await page.waitForFunction(()=>document.getElementById('late-project').hasAttribute('data-codex-material-role'));await page.locator('#late-project').evaluate(node=>node.parentElement.remove());
+  await page.screenshot({path:path.join(evidence,id+'-installed.png')});
+  results.push({id,nativeLayoutPreserved:true,reactChildrenPreserved:true,accessibleNamesPreserved:true,clicksPreserved:true,semanticGuards:true,fullMaterialMotif:true,frameCount:overlay.avatars,lateMount:true,oldCharacterClean:true});
+ }
+ // A full-screen opening occludes the native app even though the app still has nonzero DOMRects.
+ // Only its own brand avatar may paint above the opening; document mutation restores app ornaments on exit.
+ await page.evaluate(()=>document.querySelector('main').append(window.openingFixture));
+ await page.waitForFunction(()=>document.getElementById('file').getAttribute('data-codex-material-role')===null&&document.getElementById('codex-character-materials').shadowRoot.querySelectorAll('.ornament').length===1);
+ assert.equal(await page.locator('#project').getAttribute(marker),null,'opening removes the lower app project clasp');
+ assert.equal(await page.locator('#menu').getAttribute(marker),null,'opening removes the lower app menu-panel decoration');
+ assert.equal(await page.evaluate(()=>[...document.getElementById('codex-character-switcher').shadowRoot.querySelectorAll('img')].some(node=>node.hasAttribute('data-codex-material-role'))),false,'opening removes the lower switcher avatar frames');
+ assert.equal(await page.evaluate(()=>document.getElementById('sandrone-opening').shadowRoot.querySelector('.avatar').getAttribute('data-codex-material-role')),'avatar','opening brand avatar keeps its own frame');
+ await page.screenshot({path:path.join(evidence,'opening-occlusion.png')});
+ await page.evaluate(()=>window.openingFixture.remove());
+ await page.waitForFunction(()=>document.getElementById('file').getAttribute('data-codex-material-role')==='menu-button'&&document.getElementById('codex-character-materials').shadowRoot.querySelectorAll('.avatar').length===9);
+ assert.equal(await page.locator('#project').getAttribute(marker),'tag','existing mutation observer restores app decoration after opening removal');
+ // Transparent center of each SVG frame keeps all face pixels unobscured; only the outer rim and lower outside clasp are painted.
+ for(const id of ids){const frame=await fs.readFile(path.join(root,`integration/materials/output/${id}/avatar-frame.svg`));const {data,info}=await sharp(frame).resize(200,200).ensureAlpha().raw().toBuffer({resolveWithObject:true});let centerAlpha=0,painted=0;for(let y=0;y<200;y++)for(let x=0;x<200;x++){const alpha=data[(y*200+x)*info.channels+3];if(alpha)painted++;if(x>=60&&x<140&&y>=60&&y<140)centerAlpha+=alpha;}assert.equal(centerAlpha,0,id+' rendered face center remains completely transparent');assert.ok(painted>300,id+' rendered frame and material ornament are present');}
+ await page.evaluate(()=>document.documentElement.removeAttribute('data-dream-skin'));await page.waitForFunction(()=>document.getElementById('codex-character-materials').hidden);
+ await page.evaluate(code=>eval('('+code+')')(),removeMaterialUi.toString());await page.evaluate(code=>eval('('+code+')')(),removeCharacterIcons.toString());assert.equal(await page.locator('#codex-character-materials').count(),0);assert.equal(await page.locator('['+marker+']').count(),0);assert.equal(await page.locator('#project svg path').evaluate(p=>getComputedStyle(p).visibility),'visible');
+ assert.deepEqual(errors,[]);const result={pass:true,scope:'offline real-structure DOM fixture, not live-process UI interaction',characters:results,openingOccludesAppDecorations:true,openingBrandFramePreserved:true,appDecorationsRestoreAfterOpening:true,unloadClean:true,nativeAvatar:'No fake account avatar added',nativeOsMenus:'Chromium menu panels only; system-owned menus are outside the DOM',browserErrors:errors};await fs.writeFile(path.join(evidence,'browser-results.json'),JSON.stringify(result,null,2)+'\n');console.log(JSON.stringify({pass:true,characters:ids.length,layout:true,events:true,children:true,transparentAvatarCenters:true,openingOcclusion:true,restore:true,browserErrors:0}));
+}finally{await browser.close();}

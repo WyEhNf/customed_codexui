@@ -1,0 +1,31 @@
+{
+  "schemaVersion": 1,
+  "id": "istaroth-codex-ui",
+  "name": "伊斯塔露·时砂回环",
+  "brandSubtitle": "Istaroth",
+  "tagline": "让灵感在这里继续。",
+  "projectPrefix": "项目 · ",
+  "projectLabel": "选择项目",
+  "statusText": "ISTAROTH ONLINE",
+  "quote": "A PERSONAL PLACE FOR THOUGHTS",
+  "image": "background.png",
+  "appearance": "dark",
+  "art": {
+    "focusX": 0.76,
+    "focusY": 0.46,
+    "safeArea": "left",
+    "taskMode": "ambient"
+  },
+  "colors": {
+    "background": "#10172B",
+    "panel": "#18223A",
+    "panelAlt": "#24314C",
+    "accent": "#CFB47B",
+    "accentAlt": "#A98B55",
+    "secondary": "#EEE6D1",
+    "highlight": "#EBD5A3",
+    "text": "#F4EFE3",
+    "muted": "#AAAFC1",
+    "line": "#495169"
+  }
+}

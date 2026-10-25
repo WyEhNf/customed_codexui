@@ -1,0 +1,40 @@
+{
+  "version": 3,
+  "id": "citlali",
+  "approvedDesignVersion": 7,
+  "refinementVersion": "1.4.0",
+  "framePlacement": "native-main-only",
+  "source": "originals/citlali-daily.png",
+  "sourceFile": "workspace-source.png",
+  "sourceSha256": "2b4ee4dd70e0d05aebcaeed44db66fbfac1e938611e12e5cc476f6308f48fe6e",
+  "openingSource": "openings/citlali-full-scene.png",
+  "openingSourceSha256": "432779cd35583ad3682d6707ef0d9d2cca7b64060fdc41e18b41e4d10135c1e5",
+  "workspaceFrame": {
+    "schemaVersion": 1,
+    "id": "citlali",
+    "width": 1920,
+    "height": 1080,
+    "kind": "complete-low-contrast-character-background-frame",
+    "placement": "native-main-only",
+    "bounds": {
+      "left": 46,
+      "top": 90,
+      "right": 1876,
+      "bottom": 990
+    },
+    "completeFourEdges": true,
+    "motif": "hollow-four-point-and-braid",
+    "maximumDeclaredOpacity": 0.18,
+    "hasOpaqueSurface": false,
+    "sourcePersonRedrawn": false,
+    "preserveOriginal": false
+  },
+  "workspaceBackground": "assets/ui/workspace-background.json",
+  "foregroundSha256": "03f5d461e8972f984c04a61dbcbfddea35197f128d60877228d543768cd84868",
+  "scale": 1.14,
+  "brightness": 0.78,
+  "canvasColor": "#100d22",
+  "originalPeople": true,
+  "method": "Approved source person retained with its original quiet masks in an independent foreground; faint frame follows native main bounds excluding sidebar; original Sandrone composition is contained in native main",
+  "outputSha256": "4662dcf6d3bf60e5d8bb1e59f8cb241a2dc0eb62ce87c5a97aeffe6f334890b1"
+}

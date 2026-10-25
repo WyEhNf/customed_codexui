@@ -1,0 +1,70 @@
+{
+  "schemaVersion": 1,
+  "version": "1.5.0",
+  "defaultId": "columbina",
+  "characters": [
+    {
+      "id": "columbina",
+      "name": "哥伦比娅",
+      "themeName": "银月之庭",
+      "path": "characters/columbina",
+      "manifestSha256": "4439af768dc41346dff538c4d813c1dead1f780c08eed955101992a4e03ead78"
+    },
+    {
+      "id": "ayaka",
+      "name": "神里绫华",
+      "themeName": "霜华雅庭",
+      "path": "characters/ayaka",
+      "manifestSha256": "a74f938ebbf9b5e4905a4e18f8b3c0edaaaf4e6e49cbbb8ee6dbf7a64742942d"
+    },
+    {
+      "id": "hutao",
+      "name": "胡桃",
+      "themeName": "蝶火幽梅",
+      "path": "characters/hutao",
+      "manifestSha256": "7f8768b55a82e61802a50ad9b3bac6b9887d0cc1a5efd639c614383c9e1bcb98"
+    },
+    {
+      "id": "nahida",
+      "name": "纳西妲",
+      "themeName": "森梦新叶",
+      "path": "characters/nahida",
+      "manifestSha256": "5ce9a2c459cbf82f6824aa80f7975d6fe3d788075a07ee45443b6118a408f6bf"
+    },
+    {
+      "id": "furina",
+      "name": "芙宁娜",
+      "themeName": "水光开幕",
+      "path": "characters/furina",
+      "manifestSha256": "baa206a1b6f78419b7814740ce8242bc930e4d3bfb5bffca51c6394d7ed9c5d4"
+    },
+    {
+      "id": "citlali",
+      "name": "茜特菈莉",
+      "themeName": "星眠织梦",
+      "path": "characters/citlali",
+      "manifestSha256": "4bcd16662f64f930859c3ed124626ca77b7b3042b3ccd1dcc14d511b152bf4fa"
+    },
+    {
+      "id": "mitya",
+      "name": "米提亚",
+      "themeName": "雪夜星轨",
+      "path": "characters/mitya",
+      "manifestSha256": "29850d9257d8e18e0604ac624739da0f3fc1e0c7b555c87b27cb4c0d44722d35"
+    },
+    {
+      "id": "istaroth",
+      "name": "伊斯塔露",
+      "themeName": "时砂回环",
+      "path": "characters/istaroth",
+      "manifestSha256": "ea0581daeaa1c3d0a372b4a60e5e9eb7962795782698707dd5bc1cff2c4c9c7f"
+    },
+    {
+      "id": "sandrone",
+      "name": "桑多涅",
+      "themeName": "人偶工坊",
+      "path": "characters/sandrone",
+      "manifestSha256": "68ee8b6f2d19d2f5edb4d662b09f6013c5e88b65393e0927a68f80661ae64d41"
+    }
+  ]
+}

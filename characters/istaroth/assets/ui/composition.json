@@ -1,0 +1,40 @@
+{
+  "version": 3,
+  "id": "istaroth",
+  "approvedDesignVersion": 7,
+  "refinementVersion": "1.4.0",
+  "framePlacement": "native-main-only",
+  "source": "characters/istaroth-daily.png",
+  "sourceFile": "workspace-source.png",
+  "sourceSha256": "a9d9a801b4c05517bead5c595e24372ec2cc3defae73bdceeeacb982b66bb1ab",
+  "openingSource": "references/istaroth-current.png",
+  "openingSourceSha256": "d22a2a16aa0f4b7693515bdd20c12c340d08f8730f484a23b00d1b182542cf25",
+  "workspaceFrame": {
+    "schemaVersion": 1,
+    "id": "istaroth",
+    "width": 1920,
+    "height": 1080,
+    "kind": "complete-low-contrast-character-background-frame",
+    "placement": "native-main-only",
+    "bounds": {
+      "left": 46,
+      "top": 90,
+      "right": 1876,
+      "bottom": 990
+    },
+    "completeFourEdges": true,
+    "motif": "hourglass-and-dial",
+    "maximumDeclaredOpacity": 0.18,
+    "hasOpaqueSurface": false,
+    "sourcePersonRedrawn": false,
+    "preserveOriginal": false
+  },
+  "workspaceBackground": "assets/ui/workspace-background.json",
+  "foregroundSha256": "eaff31e967e82b3a57cc74a2bf49a1a69e9dcbe34328d8965bca6dabee67a83c",
+  "scale": 0.74,
+  "brightness": 0.94,
+  "canvasColor": "#151519",
+  "originalPeople": false,
+  "method": "Approved source person retained with its original quiet masks in an independent foreground; faint frame follows native main bounds excluding sidebar; original Sandrone composition is contained in native main",
+  "outputSha256": "82eff3a1e58bd95cf876b7fbe28b66d197703fefc70ebc7bb632d4fe7e53c9fb"
+}

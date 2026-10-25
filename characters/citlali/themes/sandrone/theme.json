@@ -1,0 +1,31 @@
+{
+  "schemaVersion": 1,
+  "id": "citlali-codex-ui",
+  "name": "茜特菈莉·星眠织梦",
+  "brandSubtitle": "Citlali",
+  "tagline": "让灵感在这里继续。",
+  "projectPrefix": "项目 · ",
+  "projectLabel": "选择项目",
+  "statusText": "CITLALI ONLINE",
+  "quote": "A PERSONAL PLACE FOR THOUGHTS",
+  "image": "background.png",
+  "appearance": "dark",
+  "art": {
+    "focusX": 0.76,
+    "focusY": 0.46,
+    "safeArea": "left",
+    "taskMode": "ambient"
+  },
+  "colors": {
+    "background": "#17132E",
+    "panel": "#211B3C",
+    "panelAlt": "#2C2450",
+    "accent": "#B7A2E7",
+    "accentAlt": "#7863BF",
+    "secondary": "#E8BADF",
+    "highlight": "#A8DEF4",
+    "text": "#F4EEFF",
+    "muted": "#AEA3C9",
+    "line": "#51466F"
+  }
+}

@@ -1,0 +1,121 @@
+{
+  "file": "sandrone-loop-1080p.mp4",
+  "source": "G:\\sandrone\\design-review\\2026-10-25\\full-scene-v7\\references\\hutao-current.png",
+  "sourceSha256": "1950a371f1b847a5abd8167346d9bc19f3f969f150c751ed6ed327db56070688",
+  "sha256": "c1111bcd1919b3c4f7373d334eafc7dfd278d0b53ff8e4d18f951f96b136a23e",
+  "bytes": 3841729,
+  "seconds": 9,
+  "width": 1920,
+  "height": 1080,
+  "fps": 30,
+  "frames": 270,
+  "posterFile": "sandrone-first-frame.jpg",
+  "posterSha256": "26158ea99751c82ac8870d8a4766ebbff285c131187eeb0acefbcea6b880c666",
+  "animationKind": "illustrated-local-motion",
+  "globalCameraMotion": false,
+  "faceProtected": true,
+  "handJointProtected": true,
+  "motionRegions": [
+    {
+      "name": "breathing",
+      "kind": "breathing",
+      "centerNorm": [
+        0.749,
+        0.643
+      ],
+      "radiusNorm": [
+        0.11,
+        0.16
+      ],
+      "requestedDisplacementPx": 1.6,
+      "cyclesPerClip": 2
+    },
+    {
+      "name": "left-hair",
+      "kind": "hair-sway",
+      "centerNorm": [
+        0.434,
+        0.665
+      ],
+      "radiusNorm": [
+        0.17,
+        0.175
+      ],
+      "requestedDisplacementPx": 4.6,
+      "cyclesPerClip": 1
+    },
+    {
+      "name": "right-hair",
+      "kind": "hair-sway",
+      "centerNorm": [
+        0.918,
+        0.613
+      ],
+      "radiusNorm": [
+        0.11,
+        0.215
+      ],
+      "requestedDisplacementPx": 4.8,
+      "cyclesPerClip": 1
+    },
+    {
+      "name": "coat-edge",
+      "kind": "cloth-sway",
+      "centerNorm": [
+        0.684,
+        0.887
+      ],
+      "radiusNorm": [
+        0.155,
+        0.1
+      ],
+      "requestedDisplacementPx": 3,
+      "cyclesPerClip": 2
+    }
+  ],
+  "protectionRegions": [
+    {
+      "name": "face",
+      "kind": "face",
+      "centerNorm": [
+        0.703,
+        0.325
+      ],
+      "radiusNorm": [
+        0.104,
+        0.142
+      ]
+    },
+    {
+      "name": "raised-hand",
+      "kind": "hand",
+      "centerNorm": [
+        0.717,
+        0.454
+      ],
+      "radiusNorm": [
+        0.055,
+        0.09
+      ]
+    },
+    {
+      "name": "neck",
+      "kind": "joint",
+      "centerNorm": [
+        0.737,
+        0.495
+      ],
+      "radiusNorm": [
+        0.048,
+        0.048
+      ]
+    }
+  ],
+  "environmentEffects": [
+    "amber-butterflies",
+    "lantern-embers"
+  ],
+  "metricsFile": "metrics.json",
+  "fullScene": true,
+  "note": "New parameterized illustration animation: local breathing, cloth/hair displacement and environment effects; faces, hands and joints protected. Not a static repeated carrier, camera-only animation or model-generated motion video."
+}

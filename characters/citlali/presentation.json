@@ -1,0 +1,97 @@
+{
+  "id": "citlali",
+  "name": "茜特菈莉",
+  "brandName": "Citlali",
+  "themeName": "星眠织梦",
+  "subtitle": "白星黑曜",
+  "loadingStates": [
+    "正在汇聚星光…",
+    "正在编织界面…",
+    "正在唤醒星纹…",
+    "微光已就位，准备完成。"
+  ],
+  "copyNote": "themeName 与 loadingStates 为本次原创 UI 文案，非官方台词；subtitle 为角色称号。",
+  "palette": {
+    "background": "#17132E",
+    "panel": "#211B3C",
+    "panelAlt": "#2C2450",
+    "accent": "#B7A2E7",
+    "accentAlt": "#7863BF",
+    "secondary": "#E8BADF",
+    "highlight": "#A8DEF4",
+    "text": "#F4EEFF",
+    "muted": "#AEA3C9",
+    "line": "#51466F"
+  },
+  "paletteNote": "本次主题设计配色，非官方色卡。",
+  "assets": {
+    "background": "background.png",
+    "avatar": "avatar.png",
+    "portrait": "portrait.png",
+    "skill": "skill.png",
+    "burst": "burst.png"
+  },
+  "generation": {
+    "tool": "built-in image_gen",
+    "width": 1672,
+    "height": 941,
+    "aspectRatio": "approximately 16:9",
+    "promptPath": "prompt.txt",
+    "references": [
+      "../../character-research/citlali/splash-full.png",
+      "../../character-research/citlali/avatar.png"
+    ],
+    "originalGeneratedPath": "C:/Users/admin/.codex/generated_images/01a171c8-bf98-7bb0-9585-2195c761bbf5/exec-e999c326-ba16-4f1a-969d-591475ffaf7e.png",
+    "outputTreatment": "生成 PNG 原样复制到 background.png，未后处理。",
+    "composition": "约 16:9；右侧坐姿角色与星魔，左侧深紫低对比留白；粉蓝光与织纹主要分布于右侧；无文字、无签名、无 UI 控件。"
+  },
+  "promptPath": "prompt.txt",
+  "provenance": {
+    "sourceManifest": "sources.json",
+    "sourceManifestTreatment": "由 character-research/citlali/sources.json 原样复制。",
+    "researchReadme": "../../character-research/citlali/README.zh-CN.md",
+    "researchCopy": "../../character-research/citlali/COPY.zh-CN.md",
+    "sourcePage": "https://wiki.hoyolab.com/pc/genshin/entry/7300?lang=zh-cn",
+    "unchangedCopies": [
+      {
+        "output": "avatar.png",
+        "source": "../../character-research/citlali/avatar.png"
+      },
+      {
+        "output": "portrait.png",
+        "source": "../../character-research/citlali/splash-full.png"
+      },
+      {
+        "output": "skill.png",
+        "source": "../../character-research/citlali/skill.png"
+      },
+      {
+        "output": "burst.png",
+        "source": "../../character-research/citlali/burst.png"
+      }
+    ]
+  },
+  "limitations": [
+    "background.png 是参考角色原画生成的衍生背景，不应标作官方原画。",
+    "portrait.png 为完整原画原样副本，含星魔、飘带和光效，并非独立角色抠图。",
+    "HoYoWiki 含社区编辑，托管 URL 与下载成功不等于作者身份或再分发许可；逐项素材许可状态见 sources.json。",
+    "未制作签名字样；由主界面统一生成花体矢量描边。"
+  ],
+  "motif": "star",
+  "signature": {
+    "kind": "Segoe Script font outline",
+    "official": false
+  },
+  "baseSkeleton": "Sandrone Codex 0.6.1",
+  "codeChanges": "displayed prose and literal colors only",
+  "releaseVersion": "1.4.0",
+  "production": {
+    "dailyComposition": "assets/ui/composition.json",
+    "workspaceFrame": "assets/ui/workspace-frame.json",
+    "workspaceBackground": "assets/ui/workspace-background.json",
+    "opening": "assets/motion/derived.json",
+    "lettering": "assets/branding/opening-lettering.json",
+    "material": "assets/ui/personality.json",
+    "layoutChanged": false
+  }
+}

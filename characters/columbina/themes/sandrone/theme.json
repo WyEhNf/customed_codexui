@@ -1,0 +1,31 @@
+{
+  "schemaVersion": 1,
+  "id": "columbina-codex-ui",
+  "name": "哥伦比娅·银月之庭",
+  "brandSubtitle": "Columbina",
+  "tagline": "让灵感在这里继续。",
+  "projectPrefix": "项目 · ",
+  "projectLabel": "选择项目",
+  "statusText": "COLUMBINA ONLINE",
+  "quote": "A PERSONAL PLACE FOR THOUGHTS",
+  "image": "background.png",
+  "appearance": "dark",
+  "art": {
+    "focusX": 0.76,
+    "focusY": 0.46,
+    "safeArea": "left",
+    "taskMode": "ambient"
+  },
+  "colors": {
+    "background": "#0d1020",
+    "panel": "#171c32",
+    "panelAlt": "#212943",
+    "accent": "#a8c8ff",
+    "accentAlt": "#dce8ff",
+    "secondary": "#c1b5e8",
+    "highlight": "#b963a8",
+    "text": "#eef2ff",
+    "muted": "#a5adc7",
+    "line": "#52678e"
+  }
+}

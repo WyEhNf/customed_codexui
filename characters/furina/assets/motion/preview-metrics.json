@@ -1,0 +1,15 @@
+{
+  "id": "furina",
+  "rawFaceMAD": 0.0,
+  "rawProtectedMapMaxPx": 0.0,
+  "localWarpPixelMAD": 7.354412948931253,
+  "localWarpChangedPixels": 224974,
+  "maximumMeshDisplacementPx": 5.223057746887207,
+  "globalCameraMotion": false,
+  "frameCount": 270,
+  "width": 1920,
+  "height": 1080,
+  "fps": 30,
+  "seconds": 9,
+  "method": "Parametric local mesh animation of the approved illustration, face/hand/joint protected, plus separately animated environment FX. Not generated video."
+}

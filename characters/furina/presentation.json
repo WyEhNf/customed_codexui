@@ -1,0 +1,99 @@
+{
+  "id": "furina",
+  "name": "芙宁娜",
+  "brandName": "Furina",
+  "themeName": "水光开幕",
+  "subtitle": "不休独舞",
+  "form": "荒性 Ousia：黑色衣装、短发",
+  "loadingStates": [
+    "正在点亮舞台…",
+    "正在整理今日剧目…",
+    "正在唤醒水光…",
+    "帷幕将启，一切就绪。"
+  ],
+  "copyNote": "themeName 与 loadingStates 为本次原创 UI 文案，非官方台词；subtitle 为角色称号。",
+  "palette": {
+    "background": "#0A1026",
+    "panel": "#111D3A",
+    "panelAlt": "#192A4E",
+    "accent": "#78BAEE",
+    "accentAlt": "#4265C5",
+    "secondary": "#B9A6E9",
+    "highlight": "#D1AD72",
+    "text": "#EDF5FF",
+    "muted": "#98A8C8",
+    "line": "#35496B"
+  },
+  "paletteNote": "本次主题设计配色，非官方色卡。",
+  "assets": {
+    "background": "background.png",
+    "avatar": "avatar.png",
+    "portrait": "portrait.png",
+    "skill": "skill.png",
+    "burst": "burst.png"
+  },
+  "generation": {
+    "tool": "built-in image_gen",
+    "width": 1672,
+    "height": 941,
+    "aspectRatio": "approximately 16:9",
+    "promptPath": "prompt.txt",
+    "references": [
+      "../../character-research/furina/splash-ousia-full.png",
+      "../../character-research/furina/avatar-ousia.png"
+    ],
+    "originalGeneratedPath": "C:/Users/admin/.codex/generated_images/01a171c8-bf98-7bb0-9585-2195c761bbf5/exec-9fb53cfb-089b-40a9-8774-a51a3b1798d2.png",
+    "outputTreatment": "生成 PNG 原样复制到 background.png，未后处理。",
+    "composition": "约 16:9；右侧三分之二身角色主视觉，左侧深海蓝低对比留白；无文字、无签名、无 UI 控件。"
+  },
+  "promptPath": "prompt.txt",
+  "provenance": {
+    "sourceManifest": "sources.json",
+    "sourceManifestTreatment": "由 character-research/furina/sources.json 原样复制。",
+    "researchReadme": "../../character-research/furina/README.zh-CN.md",
+    "researchCopy": "../../character-research/furina/COPY.zh-CN.md",
+    "sourcePage": "https://wiki.hoyolab.com/pc/genshin/entry/4376?lang=zh-cn",
+    "unchangedCopies": [
+      {
+        "output": "avatar.png",
+        "source": "../../character-research/furina/avatar-ousia.png"
+      },
+      {
+        "output": "portrait.png",
+        "source": "../../character-research/furina/splash-ousia-full.png"
+      },
+      {
+        "output": "skill.png",
+        "source": "../../character-research/furina/skill.png"
+      },
+      {
+        "output": "burst.png",
+        "source": "../../character-research/furina/burst.png"
+      }
+    ]
+  },
+  "limitations": [
+    "background.png 是参考角色原画生成的衍生背景，不应标作官方原画。",
+    "portrait.png 为完整荒性原画原样副本，含水光、沙龙成员和舞台特效，并非独立角色抠图。",
+    "本套头像、原画和生成背景统一荒性；未混用白衣长发的芒性立绘。",
+    "HoYoWiki 含社区编辑，托管 URL 与下载成功不等于作者身份或再分发许可；逐项素材许可状态见 sources.json。",
+    "未制作签名字样；由主界面统一生成花体矢量描边。"
+  ],
+  "motif": "drop",
+  "signature": {
+    "kind": "Segoe Script font outline",
+    "official": false
+  },
+  "baseSkeleton": "Sandrone Codex 0.6.1",
+  "codeChanges": "displayed prose and literal colors only",
+  "releaseVersion": "1.4.0",
+  "production": {
+    "dailyComposition": "assets/ui/composition.json",
+    "workspaceFrame": "assets/ui/workspace-frame.json",
+    "workspaceBackground": "assets/ui/workspace-background.json",
+    "opening": "assets/motion/derived.json",
+    "lettering": "assets/branding/opening-lettering.json",
+    "material": "assets/ui/personality.json",
+    "layoutChanged": false
+  }
+}

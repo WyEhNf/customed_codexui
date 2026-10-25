@@ -1,0 +1,31 @@
+{
+  "schemaVersion": 1,
+  "id": "nahida-codex-ui",
+  "name": "纳西妲·森梦新叶",
+  "brandSubtitle": "Nahida",
+  "tagline": "让灵感在这里继续。",
+  "projectPrefix": "项目 · ",
+  "projectLabel": "选择项目",
+  "statusText": "NAHIDA ONLINE",
+  "quote": "A PERSONAL PLACE FOR THOUGHTS",
+  "image": "background.png",
+  "appearance": "dark",
+  "art": {
+    "focusX": 0.76,
+    "focusY": 0.46,
+    "safeArea": "left",
+    "taskMode": "ambient"
+  },
+  "colors": {
+    "background": "#0B1712",
+    "panel": "#12291D",
+    "panelAlt": "#1C3527",
+    "accent": "#A6D78A",
+    "accentAlt": "#72AB8D",
+    "secondary": "#B5CDA8",
+    "highlight": "#D6D8A1",
+    "text": "#E4EDD8",
+    "muted": "#92AF9B",
+    "line": "#365941"
+  }
+}

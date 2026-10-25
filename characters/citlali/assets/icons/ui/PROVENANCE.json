@@ -1,0 +1,32 @@
+{
+  "source": "Approved 2026-10-25 character icon proposal A; nine original role templates plus matching native-navigation extensions",
+  "approved": true,
+  "originalRoles": [
+    "folder",
+    "folder-open",
+    "projects",
+    "chat",
+    "new-chat",
+    "file",
+    "terminal",
+    "search",
+    "settings"
+  ],
+  "matchingNavigationRoles": [
+    "home",
+    "sidebar",
+    "history",
+    "artifacts",
+    "plugins",
+    "explore",
+    "review",
+    "sites",
+    "agents",
+    "activity"
+  ],
+  "baseGrid": 24,
+  "strokeWidth": 1.5,
+  "geometryUnchanged": true,
+  "reactChildrenUnchanged": true,
+  "revision": "3f1a3c8668cd825173df336f8122f2094b06d2a0035b2d67bcb7f3f420845398"
+}

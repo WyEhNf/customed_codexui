@@ -1,0 +1,110 @@
+{
+  "id": "mitya",
+  "name": "米提亚",
+  "brandName": "Mitya",
+  "themeName": "雪夜星轨",
+  "subtitle": "寒夜里的理性星轨",
+  "loadingStates": [
+    "正在校准星轨…",
+    "正在整理思绪…",
+    "正在点亮雪夜…",
+    "轨迹已就位，准备完成。"
+  ],
+  "copyNote": "themeName、subtitle 与 loadingStates 均为本次原创 UI 文案，非官方称号或台词。",
+  "palette": {
+    "background": "#111827",
+    "panel": "#1A2436",
+    "panelAlt": "#273349",
+    "accent": "#A8BDE0",
+    "accentAlt": "#8271B7",
+    "secondary": "#C5B8EC",
+    "highlight": "#BBDDF1",
+    "text": "#EEF3FA",
+    "muted": "#9BAAC0",
+    "line": "#445268"
+  },
+  "paletteNote": "本次主题设计配色，非官方色卡。",
+  "assets": {
+    "background": "background.png",
+    "avatar": "avatar.png",
+    "portrait": "portrait.png"
+  },
+  "generation": {
+    "tool": "built-in image_gen",
+    "mode": "edit-selected-reference",
+    "selectedCandidate": "M1",
+    "reference": "selected-original.jpg",
+    "promptPath": "prompt.txt",
+    "avatarPromptPath": "avatar-prompt.txt",
+    "width": 1672,
+    "height": 941,
+    "backgroundSha256": "0c7c11e475165b61b44305c357844791b378202bf19e30cc0e3e9e96ff3a7292",
+    "avatarMasterSha256": "b082e8cfd3eafaf6e50edb1e0e80c51a51450302587ac40464dca2757719dcb9",
+    "avatarAlpha": true,
+    "outputCopiedWithoutPixelEditing": true,
+    "avatarExport": "Technical 256px resize retaining generated alpha",
+    "officialOriginal": false
+  },
+  "promptPath": "prompt.txt",
+  "provenance": {
+    "sourceManifest": "sources.json",
+    "sourceManifestTreatment": "由 character-research/mitya/sources.json 原样复制。",
+    "sourcePage": "https://genshin.hoyoverse.com/zh-tw/news/detail/165002",
+    "researchReadme": "../../character-research/mitya/README.zh-CN.md",
+    "avatar": {
+      "source": "../../character-research/mitya/hoyowiki-ugc-icon.png",
+      "classification": "HoYoWiki 社区上传镜像；非已独立核验的官方头像原件。",
+      "sourceFormat": "WEBP",
+      "outputFormat": "PNG",
+      "transformation": "仅将真实 WEBP 解码并无损保存为 PNG，保留 256×256 RGBA 像素；无裁切、重绘或调色。"
+    },
+    "backgroundReference": "../../character-research/mitya/official-introduction-2026-06-26.jpg"
+  },
+  "limitations": [
+    "Main artwork and avatar are AI-edited derivatives of the approved image, not pixel-identical official originals. The unmodified selected source and attribution are retained.",
+    "Original Sandrone layout and opening geometry remain unchanged.",
+    "Character and source artwork rights remain with their owners; MIT code license does not grant artwork rights."
+  ],
+  "selection": {
+    "candidate": "M1",
+    "approved": true,
+    "referenceFile": "selected-original.jpg",
+    "sourceUrl": "https://www.4gamer.net/games/486/G048621/20261023056/SS/011.jpg",
+    "sourcePage": "https://www.4gamer.net/games/486/G048621/20261023056/index_2.html",
+    "sourceClassification": "HoYoverse官方7.2厂商供稿，由4Gamer媒体图库托管；不是官方站直链，也不是同人图。",
+    "sourceSha256": "6609099cf5cb6ff3068c601b9647bbf62098dc7bf9712b8f12b09ef13096d7bb",
+    "selectedAt": "2026-10-25",
+    "adaptation": "Built-in image_gen edit of the selected image: preserve main character, adapt widescreen framing and readable dark space; derived avatar cutout"
+  },
+  "sources": {
+    "background": {
+      "kind": "AI-edited derivative of user-selected original",
+      "selectedCandidate": "M1"
+    },
+    "avatar": {
+      "kind": "AI-derived head/shoulder cutout from selected original",
+      "selectedCandidate": "M1"
+    },
+    "portrait": {
+      "kind": "Wide background reused in the unchanged original media-fallback slot",
+      "selectedCandidate": "M1"
+    }
+  },
+  "motif": "orbit",
+  "signature": {
+    "kind": "Segoe Script font outline",
+    "official": false
+  },
+  "baseSkeleton": "Sandrone Codex 0.6.1",
+  "codeChanges": "displayed prose and literal colors only",
+  "releaseVersion": "1.4.0",
+  "production": {
+    "dailyComposition": "assets/ui/composition.json",
+    "workspaceFrame": "assets/ui/workspace-frame.json",
+    "workspaceBackground": "assets/ui/workspace-background.json",
+    "opening": "assets/motion/derived.json",
+    "lettering": "assets/branding/opening-lettering.json",
+    "material": "assets/ui/personality.json",
+    "layoutChanged": false
+  }
+}

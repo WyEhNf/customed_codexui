@@ -1,0 +1,11 @@
+{
+  "candidate": "H4",
+  "approved": true,
+  "referenceFile": "selected-original.png",
+  "sourceUrl": "https://act-upload.hoyoverse.com/event-ugc-hoyowiki/2026/08/14/35428890/f145aee8b9681f4ba82f654b8a921088_6400347511883244451.png",
+  "sourcePage": "https://www.hoyolab.com/article/45854222",
+  "sourceClassification": "社区镜像（HoYoWiki关联到官方生日发布帖的贺图）",
+  "sourceSha256": "936383bc814ed7f10b9073e72419954e797a6eebd773c1299204c8a476da4b61",
+  "selectedAt": "2026-10-25",
+  "adaptation": "Built-in image_gen edit of the selected image: preserve main character, adapt widescreen framing and readable dark space; derived avatar cutout"
+}

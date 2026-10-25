@@ -1,0 +1,15 @@
+{
+  "id": "istaroth",
+  "rawFaceMAD": 0.0,
+  "rawProtectedMapMaxPx": 2.4300206860061735e-06,
+  "localWarpPixelMAD": 7.328174409640829,
+  "localWarpChangedPixels": 223423,
+  "maximumMeshDisplacementPx": 5.1119465827941895,
+  "globalCameraMotion": false,
+  "frameCount": 270,
+  "width": 1920,
+  "height": 1080,
+  "fps": 30,
+  "seconds": 9,
+  "method": "Parametric local mesh animation of the approved illustration, face/hand/joint protected, plus separately animated environment FX. Not generated video."
+}

@@ -1,0 +1,51 @@
+{
+  "packageVersion": 1,
+  "themeId": "sandrone-codex-ui",
+  "version": "1.4.0",
+  "skinApiVersion": 1,
+  "minClientVersion": "1.5.21",
+  "platforms": [
+    "windows"
+  ],
+  "capabilities": [
+    "background",
+    "tokens",
+    "safe-css"
+  ],
+  "publisher": {
+    "id": "codexui-local",
+    "displayName": "Codex UI Characters"
+  },
+  "license": "LicenseRef-Character-Artwork",
+  "files": [
+    {
+      "path": "theme.json",
+      "bytes": 748,
+      "sha256": "0caa4ddd544f47c776e96268685a855894b5d97a031effa4348d21ad147797a5",
+      "mediaType": "application/json"
+    },
+    {
+      "path": "theme.css",
+      "bytes": 968,
+      "sha256": "1e8d7f736e89bffcf32f10cf3ed71b776144a4002df7f060f753377a604969c3",
+      "mediaType": "text/css"
+    },
+    {
+      "path": "background.png",
+      "bytes": 1247028,
+      "sha256": "c6ac07cd67975182ac70da97e75427555bd4f3af63733db3bef3441d2009e05f",
+      "mediaType": "image/png"
+    },
+    {
+      "path": "LICENSE.txt",
+      "bytes": 236,
+      "sha256": "d541c9f4bbf3f8ee8c2e1bd0733a0400946550b6654ee7985a0392d8cfb0731a",
+      "mediaType": "text/plain"
+    }
+  ],
+  "provenance": {
+    "aiGenerated": false,
+    "summary": "Retained daily character artwork with complete subtle frame; independent animated opening; original native layout retained."
+  },
+  "createdAt": "2026-10-25T00:00:00+08:00"
+}

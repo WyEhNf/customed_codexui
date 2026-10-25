@@ -1,0 +1,31 @@
+{
+  "schemaVersion": 1,
+  "id": "ayaka-codex-ui",
+  "name": "神里绫华·霜华雅庭",
+  "brandSubtitle": "Kamisato Ayaka",
+  "tagline": "让灵感在这里继续。",
+  "projectPrefix": "项目 · ",
+  "projectLabel": "选择项目",
+  "statusText": "KAMISATO AYAKA ONLINE",
+  "quote": "A PERSONAL PLACE FOR THOUGHTS",
+  "image": "background.png",
+  "appearance": "dark",
+  "art": {
+    "focusX": 0.76,
+    "focusY": 0.46,
+    "safeArea": "left",
+    "taskMode": "ambient"
+  },
+  "colors": {
+    "background": "#0B1020",
+    "panel": "#121C32",
+    "panelAlt": "#19253D",
+    "accent": "#A6D9F1",
+    "accentAlt": "#788BCE",
+    "secondary": "#E6B5CE",
+    "highlight": "#D7C39D",
+    "text": "#E6EFF7",
+    "muted": "#97A9C4",
+    "line": "#30435D"
+  }
+}

@@ -1,0 +1,133 @@
+{
+  "file": "sandrone-loop-1080p.mp4",
+  "source": "G:\\sandrone\\design-review\\2026-10-25\\full-scene-v7\\references\\istaroth-current.png",
+  "sourceSha256": "d22a2a16aa0f4b7693515bdd20c12c340d08f8730f484a23b00d1b182542cf25",
+  "sha256": "00e6f34c3fadb0257bde1c493be56d2819f5497666298fa580a9eab0187f6fdf",
+  "bytes": 3648850,
+  "seconds": 9,
+  "width": 1920,
+  "height": 1080,
+  "fps": 30,
+  "frames": 270,
+  "posterFile": "sandrone-first-frame.jpg",
+  "posterSha256": "bb4673fac9b2dfc89ac6f9fade1a1152e566c9edf7e94c9af6734ea5e8321b0e",
+  "animationKind": "illustrated-local-motion",
+  "globalCameraMotion": false,
+  "faceProtected": true,
+  "handJointProtected": true,
+  "motionRegions": [
+    {
+      "name": "breathing",
+      "kind": "breathing",
+      "centerNorm": [
+        0.788,
+        0.69
+      ],
+      "radiusNorm": [
+        0.11,
+        0.148
+      ],
+      "requestedDisplacementPx": 1.15,
+      "cyclesPerClip": 2
+    },
+    {
+      "name": "long-hair",
+      "kind": "hair-sway",
+      "centerNorm": [
+        0.559,
+        0.745
+      ],
+      "radiusNorm": [
+        0.19,
+        0.21
+      ],
+      "requestedDisplacementPx": 4.6,
+      "cyclesPerClip": 1
+    },
+    {
+      "name": "robe-tail",
+      "kind": "cloth-sway",
+      "centerNorm": [
+        0.903,
+        0.83
+      ],
+      "radiusNorm": [
+        0.075,
+        0.12
+      ],
+      "requestedDisplacementPx": 3.2,
+      "cyclesPerClip": 1
+    },
+    {
+      "name": "left-hair",
+      "kind": "hair-sway",
+      "centerNorm": [
+        0.635,
+        0.507
+      ],
+      "radiusNorm": [
+        0.092,
+        0.15
+      ],
+      "requestedDisplacementPx": 3.3,
+      "cyclesPerClip": 2
+    }
+  ],
+  "protectionRegions": [
+    {
+      "name": "face",
+      "kind": "face",
+      "centerNorm": [
+        0.792,
+        0.378
+      ],
+      "radiusNorm": [
+        0.091,
+        0.13
+      ]
+    },
+    {
+      "name": "near-hand",
+      "kind": "hand",
+      "centerNorm": [
+        0.842,
+        0.585
+      ],
+      "radiusNorm": [
+        0.074,
+        0.074
+      ]
+    },
+    {
+      "name": "low-hand",
+      "kind": "hand",
+      "centerNorm": [
+        0.949,
+        0.9
+      ],
+      "radiusNorm": [
+        0.055,
+        0.07
+      ]
+    },
+    {
+      "name": "neck",
+      "kind": "joint",
+      "centerNorm": [
+        0.79,
+        0.508
+      ],
+      "radiusNorm": [
+        0.055,
+        0.046
+      ]
+    }
+  ],
+  "environmentEffects": [
+    "time-ring-glints",
+    "golden-sand-motes"
+  ],
+  "metricsFile": "metrics.json",
+  "fullScene": true,
+  "note": "New parameterized illustration animation: local breathing, cloth/hair displacement and environment effects; faces, hands and joints protected. Not a static repeated carrier, camera-only animation or model-generated motion video."
+}

@@ -1,0 +1,53 @@
+{
+  "character": "米提亚",
+  "selected": {
+    "candidate": "M1",
+    "approved": true,
+    "referenceFile": "selected-original.jpg",
+    "sourceUrl": "https://www.4gamer.net/games/486/G048621/20261023056/SS/011.jpg",
+    "sourcePage": "https://www.4gamer.net/games/486/G048621/20261023056/index_2.html",
+    "sourceClassification": "HoYoverse官方7.2厂商供稿，由4Gamer媒体图库托管；不是官方站直链，也不是同人图。",
+    "sourceSha256": "6609099cf5cb6ff3068c601b9647bbf62098dc7bf9712b8f12b09ef13096d7bb",
+    "selectedAt": "2026-10-25",
+    "adaptation": "Built-in image_gen edit of the selected image: preserve main character, adapt widescreen framing and readable dark space; derived avatar cutout"
+  },
+  "originalCandidate": {
+    "id": "M1",
+    "title": "雷光轨道 · 7.2祈愿动作立绘",
+    "image_url": "https://www.4gamer.net/games/486/G048621/20261023056/SS/011.jpg",
+    "source_page": "https://www.4gamer.net/games/486/G048621/20261023056/index_2.html",
+    "source_classification": "HoYoverse官方7.2厂商供稿，由4Gamer媒体图库托管；不是官方站直链，也不是同人图。",
+    "width": 1920,
+    "height": 1080,
+    "recommendation": "首推背景候选。米提亚在右偏中，完整服装、长围巾与雷光轨道辨识度高；比旧近脸图更有空间感。左侧含日文祈愿文字和芙宁娜小缩略图，预览或后续构图需保留来源说明，不能把缩略图当米提亚。",
+    "publication_date": "2026-10-23",
+    "is_new_search_result": true,
+    "reference_only": false,
+    "subject_verified": "逐张打开1920原图确认主体是银白短发紫眼、深蓝紫服装金色扣饰的米提亚；与介绍横图对应。",
+    "contains_other_character_thumbnail": true,
+    "contains_group_cover": false,
+    "bytes": 1930428,
+    "sha256": "6609099cf5cb6ff3068c601b9647bbf62098dc7bf9712b8f12b09ef13096d7bb",
+    "decode_verified": true
+  },
+  "derivative": {
+    "tool": "built-in image_gen",
+    "mode": "edit-selected-reference",
+    "selectedCandidate": "M1",
+    "reference": "selected-original.jpg",
+    "promptPath": "prompt.txt",
+    "avatarPromptPath": "avatar-prompt.txt",
+    "width": 1672,
+    "height": 941,
+    "backgroundSha256": "0c7c11e475165b61b44305c357844791b378202bf19e30cc0e3e9e96ff3a7292",
+    "avatarMasterSha256": "b082e8cfd3eafaf6e50edb1e0e80c51a51450302587ac40464dca2757719dcb9",
+    "avatarAlpha": true,
+    "outputCopiedWithoutPixelEditing": true,
+    "avatarExport": "Technical 256px resize retaining generated alpha",
+    "officialOriginal": false
+  },
+  "prompts": [
+    "prompt.txt",
+    "avatar-prompt.txt"
+  ]
+}

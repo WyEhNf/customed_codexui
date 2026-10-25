@@ -1,0 +1,20 @@
+{
+  "id": "citlali",
+  "rawFaceMAD": 0.0,
+  "rawProtectedMapMaxPx": 6.862406735308468e-06,
+  "localWarpPixelMAD": 8.887635075250124,
+  "localWarpChangedPixels": 199691,
+  "maximumMeshDisplacementPx": 5.235184192657471,
+  "globalCameraMotion": false,
+  "frameCount": 270,
+  "width": 1920,
+  "height": 1080,
+  "fps": 30,
+  "seconds": 9,
+  "method": "Parametric local mesh animation of the approved illustration, face/hand/joint protected, plus separately animated environment FX. Not generated video.",
+  "decodedFrameMAD": 2.870852944958848,
+  "encodedFaceMAD": 2.326514824409902,
+  "loopEndpointMAD": 1.8916989776234567,
+  "bytes": 4148391,
+  "renderSeconds": 51.58
+}

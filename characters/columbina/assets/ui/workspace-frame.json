@@ -1,0 +1,20 @@
+{
+  "schemaVersion": 1,
+  "id": "columbina",
+  "width": 1920,
+  "height": 1080,
+  "kind": "complete-low-contrast-character-background-frame",
+  "placement": "native-main-only",
+  "bounds": {
+    "left": 46,
+    "top": 90,
+    "right": 1876,
+    "bottom": 990
+  },
+  "completeFourEdges": true,
+  "motif": "crescent-and-lunar-arc",
+  "maximumDeclaredOpacity": 0.18,
+  "hasOpaqueSurface": false,
+  "sourcePersonRedrawn": false,
+  "preserveOriginal": false
+}

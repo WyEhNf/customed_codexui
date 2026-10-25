@@ -1,0 +1,13 @@
+import assert from 'node:assert/strict';
+import {healthyHiddenTheme} from '../engine/target-runner.mjs';
+const sheet={},native={version:'0.5.3',css:'trusted-css',sheet};
+globalThis.window={__SANDRONE_NATIVE_UI__:native,__CODEX_DREAM_SKIN_STATE__:{revision:'trusted-revision'}};
+globalThis.innerWidth=1000;globalThis.innerHeight=800;
+let composer={getBoundingClientRect:()=>({width:700,height:100})};
+globalThis.document={hidden:true,visibilityState:'hidden',documentElement:{getAttribute:()=>'active'},adoptedStyleSheets:[sheet],querySelector:()=>composer};
+assert.equal(healthyHiddenTheme('trusted-revision','trusted-css'),true);
+assert.equal(healthyHiddenTheme('old-revision','trusted-css'),false);
+assert.equal(healthyHiddenTheme('trusted-revision','changed-css'),false);
+document.adoptedStyleSheets=[];assert.equal(healthyHiddenTheme('trusted-revision','trusted-css'),false);
+document.adoptedStyleSheets=[sheet];composer=null;assert.equal(healthyHiddenTheme('trusted-revision','trusted-css'),false,'blank service page rejected');
+console.log('PASS: background reuse requires matching revision, owned stylesheet and actual composer; cold visibility checks unchanged');

@@ -1,0 +1,143 @@
+{
+  "schemaVersion": 1,
+  "slug": "hutao",
+  "characterNameZh": "胡桃",
+  "characterNameEn": "Hu Tao",
+  "brandNameEn": "HU TAO",
+  "themeNameZh": "蝶火幽梅",
+  "themeNameEn": "Crimson Reverie",
+  "subtitleZh": "雪霁梅香",
+  "splashStatuses": [
+    "正在点亮案头灯…",
+    "蝶火正在引路…",
+    "正在收好灵感小笺…",
+    "梅影已至，准备就绪。"
+  ],
+  "copyProvenance": "主题名与4条状态为本次原创；角色称号核对自 character-research 对应 README 和 sources.json。",
+  "palette": {
+    "background": "#140D12",
+    "panel": "#25131C",
+    "panelAlt": "#311A23",
+    "accent": "#D25B65",
+    "accentAlt": "#ED8C70",
+    "secondary": "#BD7290",
+    "highlight": "#E5B06E",
+    "text": "#F1E4E2",
+    "muted": "#AF9299",
+    "line": "#55333F"
+  },
+  "paletteProvenance": "为深色原生界面人工设计的建议色板；不是官方品牌手册色值。",
+  "assets": {
+    "background": "background.png",
+    "avatar": "avatar.png",
+    "portrait": "portrait.png",
+    "element": "element.png",
+    "skill": "skill.png",
+    "burst": "burst.png"
+  },
+  "sources": {
+    "avatar": {
+      "kind": "AI-derived head/shoulder cutout from selected original",
+      "selectedCandidate": "H4"
+    },
+    "portrait": {
+      "kind": "Wide background reused in the unchanged original media-fallback slot",
+      "selectedCandidate": "H4"
+    },
+    "skill": {
+      "localFile": "skill.png",
+      "originalFile": "G:\\sandrone\\character-research\\hutao\\assets\\elemental-skill-icon.webp",
+      "sourceManifest": "G:\\sandrone\\character-research\\hutao\\sources.json",
+      "sourcePage": "https://wiki.hoyolab.com/pc/genshin/entry/34?lang=zh-cn",
+      "downloadUrl": "https://bbs.hoyolab.com/hoyowiki/picture/character/胡桃/battle_talent_1/battle_talent_1.png",
+      "sourceClass": "hoyowiki_character_static_resource",
+      "actualFormat": "WEBP",
+      "originalSha256": "1a0a707c09bc245f3fbc3a03acb74714a3bb1c8cbe27095899d7728b082fdfef",
+      "bytePreservingCopy": true
+    },
+    "burst": {
+      "localFile": "burst.png",
+      "originalFile": "G:\\sandrone\\character-research\\hutao\\assets\\elemental-burst-icon.webp",
+      "sourceManifest": "G:\\sandrone\\character-research\\hutao\\sources.json",
+      "sourcePage": "https://wiki.hoyolab.com/pc/genshin/entry/34?lang=zh-cn",
+      "downloadUrl": "https://bbs.hoyolab.com/hoyowiki/picture/character/胡桃/battle_talent_2/battle_talent_2.png",
+      "sourceClass": "hoyowiki_character_static_resource",
+      "actualFormat": "WEBP",
+      "originalSha256": "d83d44c97a8844d2a4fbe4d622c2bb2b248a5af38440def576f956ce15ae739d",
+      "bytePreservingCopy": true
+    },
+    "element": {
+      "localFile": "element.png",
+      "originalFile": "G:\\sandrone\\character-research\\hutao\\assets\\avatar-icon.png",
+      "fallback": true,
+      "description": "原始头像的逐字节副本，用作通用角色图标；不是冰/火/草元素标志。研究素材中没有独立元素图标。",
+      "actualFormat": "PNG",
+      "originalSha256": "63433228b284d259a123455b6592f5c3c629bbb1f80b5ac0bb5debc188973372",
+      "bytePreservingCopy": true
+    },
+    "background": {
+      "kind": "AI-edited derivative of user-selected original",
+      "selectedCandidate": "H4"
+    }
+  },
+  "generation": {
+    "tool": "built-in image_gen",
+    "mode": "edit-selected-reference",
+    "selectedCandidate": "H4",
+    "reference": "selected-original.png",
+    "promptPath": "prompt.txt",
+    "avatarPromptPath": "avatar-prompt.txt",
+    "width": 1672,
+    "height": 940,
+    "backgroundSha256": "dd2c164bcccb6e5aa6a781dbef55f0b32a2d307f17522b47a52a14053e58b433",
+    "avatarMasterSha256": "512c9bd3b8b86036a9b426f9d0c0600af696ada201bac11b0c55214365be56e7",
+    "avatarAlpha": true,
+    "outputCopiedWithoutPixelEditing": true,
+    "avatarExport": "Technical 256px resize retaining generated alpha",
+    "officialOriginal": false
+  },
+  "limitations": [
+    "Main artwork and avatar are AI-edited derivatives of the approved image, not pixel-identical official originals. The unmodified selected source and attribution are retained.",
+    "Original Sandrone layout and opening geometry remain unchanged.",
+    "Character and source artwork rights remain with their owners; MIT code license does not grant artwork rights."
+  ],
+  "selection": {
+    "candidate": "H4",
+    "approved": true,
+    "referenceFile": "selected-original.png",
+    "sourceUrl": "https://act-upload.hoyoverse.com/event-ugc-hoyowiki/2026/08/14/35428890/f145aee8b9681f4ba82f654b8a921088_6400347511883244451.png",
+    "sourcePage": "https://www.hoyolab.com/article/45854222",
+    "sourceClassification": "社区镜像（HoYoWiki关联到官方生日发布帖的贺图）",
+    "sourceSha256": "936383bc814ed7f10b9073e72419954e797a6eebd773c1299204c8a476da4b61",
+    "selectedAt": "2026-10-25",
+    "adaptation": "Built-in image_gen edit of the selected image: preserve main character, adapt widescreen framing and readable dark space; derived avatar cutout"
+  },
+  "name": "胡桃",
+  "brandName": "Hu Tao",
+  "themeName": "蝶火幽梅",
+  "subtitle": "雪霁梅香",
+  "loadingStates": [
+    "正在点亮案头灯…",
+    "蝶火正在引路…",
+    "正在收好灵感小笺…",
+    "梅影已至，准备就绪。"
+  ],
+  "id": "hutao",
+  "motif": "butterfly",
+  "signature": {
+    "kind": "Segoe Script font outline",
+    "official": false
+  },
+  "baseSkeleton": "Sandrone Codex 0.6.1",
+  "codeChanges": "displayed prose and literal colors only",
+  "releaseVersion": "1.4.0",
+  "production": {
+    "dailyComposition": "assets/ui/composition.json",
+    "workspaceFrame": "assets/ui/workspace-frame.json",
+    "workspaceBackground": "assets/ui/workspace-background.json",
+    "opening": "assets/motion/derived.json",
+    "lettering": "assets/branding/opening-lettering.json",
+    "material": "assets/ui/personality.json",
+    "layoutChanged": false
+  }
+}

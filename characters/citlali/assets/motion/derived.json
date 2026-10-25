@@ -1,0 +1,157 @@
+{
+  "file": "sandrone-loop-1080p.mp4",
+  "source": "G:\\sandrone\\design-review\\2026-10-25\\full-scene-v7\\openings\\citlali-full-scene.png",
+  "sourceSha256": "432779cd35583ad3682d6707ef0d9d2cca7b64060fdc41e18b41e4d10135c1e5",
+  "sha256": "c320f49166a3f2875e66a9ff13960558c7463b25e5dac9f27b4b7575ffae17d7",
+  "bytes": 4148391,
+  "seconds": 9,
+  "width": 1920,
+  "height": 1080,
+  "fps": 30,
+  "frames": 270,
+  "posterFile": "sandrone-first-frame.jpg",
+  "posterSha256": "4f4a84019c69d384043b1c1b2deaf7c835f6f7d256c12a542776ff3b284050d7",
+  "animationKind": "illustrated-local-motion",
+  "globalCameraMotion": false,
+  "faceProtected": true,
+  "handJointProtected": true,
+  "motionRegions": [
+    {
+      "name": "breathing",
+      "kind": "breathing",
+      "centerNorm": [
+        0.699,
+        0.433
+      ],
+      "radiusNorm": [
+        0.09,
+        0.12
+      ],
+      "requestedDisplacementPx": 1.25,
+      "cyclesPerClip": 2
+    },
+    {
+      "name": "hair-tail",
+      "kind": "hair-sway",
+      "centerNorm": [
+        0.811,
+        0.494
+      ],
+      "radiusNorm": [
+        0.107,
+        0.18
+      ],
+      "requestedDisplacementPx": 4.7,
+      "cyclesPerClip": 1
+    },
+    {
+      "name": "left-hair",
+      "kind": "hair-sway",
+      "centerNorm": [
+        0.594,
+        0.337
+      ],
+      "radiusNorm": [
+        0.09,
+        0.09
+      ],
+      "requestedDisplacementPx": 3.6,
+      "cyclesPerClip": 1
+    },
+    {
+      "name": "woven-tassels",
+      "kind": "cloth-sway",
+      "centerNorm": [
+        0.871,
+        0.835
+      ],
+      "radiusNorm": [
+        0.1,
+        0.105
+      ],
+      "requestedDisplacementPx": 3.6,
+      "cyclesPerClip": 2
+    }
+  ],
+  "protectionRegions": [
+    {
+      "name": "face",
+      "kind": "face",
+      "centerNorm": [
+        0.72,
+        0.274
+      ],
+      "radiusNorm": [
+        0.068,
+        0.108
+      ]
+    },
+    {
+      "name": "plush-hands",
+      "kind": "hand",
+      "centerNorm": [
+        0.653,
+        0.455
+      ],
+      "radiusNorm": [
+        0.055,
+        0.062
+      ]
+    },
+    {
+      "name": "neck",
+      "kind": "joint",
+      "centerNorm": [
+        0.712,
+        0.367
+      ],
+      "radiusNorm": [
+        0.043,
+        0.046
+      ]
+    },
+    {
+      "name": "front-knee",
+      "kind": "joint",
+      "centerNorm": [
+        0.588,
+        0.653
+      ],
+      "radiusNorm": [
+        0.04,
+        0.052
+      ]
+    },
+    {
+      "name": "front-ankle",
+      "kind": "joint",
+      "centerNorm": [
+        0.615,
+        0.907
+      ],
+      "radiusNorm": [
+        0.035,
+        0.048
+      ]
+    },
+    {
+      "name": "rear-foot",
+      "kind": "joint",
+      "centerNorm": [
+        0.661,
+        0.836
+      ],
+      "radiusNorm": [
+        0.042,
+        0.052
+      ]
+    }
+  ],
+  "environmentEffects": [
+    "amethyst-stars",
+    "crystal-glints"
+  ],
+  "metricsFile": "metrics.json",
+  "fullScene": true,
+  "note": "New parameterized illustration animation: local breathing, cloth/hair displacement and environment effects; faces, hands and joints protected. Not a static repeated carrier, camera-only animation or model-generated motion video."
+}

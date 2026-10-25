@@ -1,0 +1,40 @@
+{
+  "version": 3,
+  "id": "sandrone",
+  "approvedDesignVersion": 7,
+  "refinementVersion": "1.4.0",
+  "framePlacement": "native-main-only",
+  "source": "references/sandrone-current.png",
+  "sourceFile": "workspace-source.png",
+  "sourceSha256": "851e80a8272c8ab6968070206cef44fb6aa161f19cbcc0157296bf208d1f7dcd",
+  "openingSource": "media/sandrone-original-poster.jpg",
+  "openingSourceSha256": "49a248d7f791e83d55359e0c418ab3f8e181ee9902c9a567178b18b922b88f45",
+  "workspaceFrame": {
+    "schemaVersion": 1,
+    "id": "sandrone",
+    "width": 1920,
+    "height": 1080,
+    "kind": "complete-low-contrast-character-background-frame",
+    "placement": "native-main-only",
+    "bounds": {
+      "left": 46,
+      "top": 90,
+      "right": 1876,
+      "bottom": 990
+    },
+    "completeFourEdges": true,
+    "motif": "original-preserved",
+    "maximumDeclaredOpacity": 0.18,
+    "hasOpaqueSurface": false,
+    "sourcePersonRedrawn": false,
+    "preserveOriginal": true
+  },
+  "workspaceBackground": "assets/ui/workspace-background.json",
+  "foregroundSha256": "50e4d888916f16b0ce03514df43a5df7a04e0f135f2139d83fa215cc0e48ed46",
+  "scale": 1,
+  "brightness": 1,
+  "canvasColor": "#111318",
+  "originalPeople": false,
+  "method": "Approved source person retained with its original quiet masks in an independent foreground; faint frame follows native main bounds excluding sidebar; original Sandrone composition is contained in native main",
+  "outputSha256": "c6ac07cd67975182ac70da97e75427555bd4f3af63733db3bef3441d2009e05f"
+}

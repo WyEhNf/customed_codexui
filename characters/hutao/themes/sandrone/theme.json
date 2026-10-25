@@ -1,0 +1,31 @@
+{
+  "schemaVersion": 1,
+  "id": "hutao-codex-ui",
+  "name": "胡桃·蝶火幽梅",
+  "brandSubtitle": "Hu Tao",
+  "tagline": "让灵感在这里继续。",
+  "projectPrefix": "项目 · ",
+  "projectLabel": "选择项目",
+  "statusText": "HU TAO ONLINE",
+  "quote": "A PERSONAL PLACE FOR THOUGHTS",
+  "image": "background.png",
+  "appearance": "dark",
+  "art": {
+    "focusX": 0.76,
+    "focusY": 0.46,
+    "safeArea": "left",
+    "taskMode": "ambient"
+  },
+  "colors": {
+    "background": "#140D12",
+    "panel": "#25131C",
+    "panelAlt": "#311A23",
+    "accent": "#D25B65",
+    "accentAlt": "#ED8C70",
+    "secondary": "#BD7290",
+    "highlight": "#E5B06E",
+    "text": "#F1E4E2",
+    "muted": "#AF9299",
+    "line": "#55333F"
+  }
+}

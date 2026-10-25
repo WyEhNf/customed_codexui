@@ -1,0 +1,43 @@
+[data-ds-part="root"] {
+  color: #f3eee3;
+}
+[data-ds-part="message"] {
+  background-color: #101721;
+  color: #f3eee3;
+  border-color: #344153;
+  font-size: 15px;
+  line-height: 1.8;
+  border-radius: 14px;
+}
+[data-ds-part="thread"] {
+  background-color: transparent;
+}
+[data-ds-part="sidebar"] {
+  background-color: rgba(12,16,22,0.96);
+  border-right-color: #766246;
+  border-right-width: 1px;
+  border-right-style: solid;
+}
+[data-ds-part="composer"] {
+  background-color: #151e2a;
+  border-color: #9e8256;
+  border-width: 1px;
+  border-style: solid;
+  border-radius: 12px;
+}
+[data-ds-part="composer"]:focus-visible {
+  border-color: #e3d4b1;
+  box-shadow: 0 0 12px rgba(199,168,110,0.15);
+}
+[data-ds-part="project-list"]:hover {
+  border-color: #c7a86e;
+  transition-property: border-color;
+  transition-duration: 180ms;
+}
+[data-ds-part="dialog"] {
+  background-color: #17191f;
+  color: #ebe3d1;
+  border-color: #9e8256;
+  border-width: 1px;
+  border-style: solid;
+}

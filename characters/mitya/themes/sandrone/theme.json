@@ -1,0 +1,31 @@
+{
+  "schemaVersion": 1,
+  "id": "mitya-codex-ui",
+  "name": "米提亚·雪夜星轨",
+  "brandSubtitle": "Mitya",
+  "tagline": "让灵感在这里继续。",
+  "projectPrefix": "项目 · ",
+  "projectLabel": "选择项目",
+  "statusText": "MITYA ONLINE",
+  "quote": "A PERSONAL PLACE FOR THOUGHTS",
+  "image": "background.png",
+  "appearance": "dark",
+  "art": {
+    "focusX": 0.76,
+    "focusY": 0.46,
+    "safeArea": "left",
+    "taskMode": "ambient"
+  },
+  "colors": {
+    "background": "#111827",
+    "panel": "#1A2436",
+    "panelAlt": "#273349",
+    "accent": "#A8BDE0",
+    "accentAlt": "#8271B7",
+    "secondary": "#C5B8EC",
+    "highlight": "#BBDDF1",
+    "text": "#EEF3FA",
+    "muted": "#9BAAC0",
+    "line": "#445268"
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "schemaVersion": 1,
+  "id": "citlali",
+  "mode": "layered",
+  "canvasColor": "#100d22",
+  "focusX": 0.76,
+  "focusY": 0.46,
+  "foreground": "workspace-foreground.png",
+  "frame": "workspace-frame.svg",
+  "width": 1920,
+  "height": 1080
+}

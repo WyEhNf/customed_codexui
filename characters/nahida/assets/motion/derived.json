@@ -1,0 +1,157 @@
+{
+  "file": "sandrone-loop-1080p.mp4",
+  "source": "G:\\sandrone\\design-review\\2026-10-25\\full-scene-v7\\references\\nahida-current.png",
+  "sourceSha256": "161f54626a927198fab570c769e23aa0f43e31d8f2de6cb239e48972a7699246",
+  "sha256": "4f51b0a9e9e9970588955293c42eb94c1cf45b8152c2d8c4bd59be4618e8859c",
+  "bytes": 3461771,
+  "seconds": 9,
+  "width": 1920,
+  "height": 1080,
+  "fps": 30,
+  "frames": 270,
+  "posterFile": "sandrone-first-frame.jpg",
+  "posterSha256": "caa0c6a502e18970d8c0f267e19232bddabad0724c037cf9602584ea983cc5fd",
+  "animationKind": "illustrated-local-motion",
+  "globalCameraMotion": false,
+  "faceProtected": true,
+  "handJointProtected": true,
+  "motionRegions": [
+    {
+      "name": "breathing",
+      "kind": "breathing",
+      "centerNorm": [
+        0.751,
+        0.5
+      ],
+      "radiusNorm": [
+        0.085,
+        0.105
+      ],
+      "requestedDisplacementPx": 1.35,
+      "cyclesPerClip": 2
+    },
+    {
+      "name": "ponytail",
+      "kind": "hair-sway",
+      "centerNorm": [
+        0.824,
+        0.374
+      ],
+      "radiusNorm": [
+        0.077,
+        0.11
+      ],
+      "requestedDisplacementPx": 3.8,
+      "cyclesPerClip": 1
+    },
+    {
+      "name": "leaf-cape",
+      "kind": "cloth-sway",
+      "centerNorm": [
+        0.854,
+        0.574
+      ],
+      "radiusNorm": [
+        0.12,
+        0.16
+      ],
+      "requestedDisplacementPx": 4.8,
+      "cyclesPerClip": 1
+    },
+    {
+      "name": "dress-edge",
+      "kind": "cloth-sway",
+      "centerNorm": [
+        0.738,
+        0.623
+      ],
+      "radiusNorm": [
+        0.09,
+        0.078
+      ],
+      "requestedDisplacementPx": 3.2,
+      "cyclesPerClip": 2
+    }
+  ],
+  "protectionRegions": [
+    {
+      "name": "face",
+      "kind": "face",
+      "centerNorm": [
+        0.748,
+        0.337
+      ],
+      "radiusNorm": [
+        0.073,
+        0.104
+      ]
+    },
+    {
+      "name": "high-hand",
+      "kind": "hand",
+      "centerNorm": [
+        0.818,
+        0.296
+      ],
+      "radiusNorm": [
+        0.05,
+        0.06
+      ]
+    },
+    {
+      "name": "low-hand",
+      "kind": "hand",
+      "centerNorm": [
+        0.637,
+        0.558
+      ],
+      "radiusNorm": [
+        0.045,
+        0.055
+      ]
+    },
+    {
+      "name": "neck",
+      "kind": "joint",
+      "centerNorm": [
+        0.741,
+        0.425
+      ],
+      "radiusNorm": [
+        0.043,
+        0.045
+      ]
+    },
+    {
+      "name": "left-ankle",
+      "kind": "joint",
+      "centerNorm": [
+        0.746,
+        0.836
+      ],
+      "radiusNorm": [
+        0.04,
+        0.06
+      ]
+    },
+    {
+      "name": "right-ankle",
+      "kind": "joint",
+      "centerNorm": [
+        0.811,
+        0.792
+      ],
+      "radiusNorm": [
+        0.042,
+        0.065
+      ]
+    }
+  ],
+  "environmentEffects": [
+    "jade-leaves",
+    "forest-fireflies"
+  ],
+  "metricsFile": "metrics.json",
+  "fullScene": true,
+  "note": "New parameterized illustration animation: local breathing, cloth/hair displacement and environment effects; faces, hands and joints protected. Not a static repeated carrier, camera-only animation or model-generated motion video."
+}

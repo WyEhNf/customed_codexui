@@ -1,0 +1,40 @@
+{
+  "version": 3,
+  "id": "hutao",
+  "approvedDesignVersion": 7,
+  "refinementVersion": "1.4.0",
+  "framePlacement": "native-main-only",
+  "source": "characters/hutao-daily.png",
+  "sourceFile": "workspace-source.png",
+  "sourceSha256": "6e96666eb9921e7af91e3371a69d26dae71e2f41562f6e6ba4bd7dee7cdea3bf",
+  "openingSource": "references/hutao-current.png",
+  "openingSourceSha256": "1950a371f1b847a5abd8167346d9bc19f3f969f150c751ed6ed327db56070688",
+  "workspaceFrame": {
+    "schemaVersion": 1,
+    "id": "hutao",
+    "width": 1920,
+    "height": 1080,
+    "kind": "complete-low-contrast-character-background-frame",
+    "placement": "native-main-only",
+    "bounds": {
+      "left": 46,
+      "top": 90,
+      "right": 1876,
+      "bottom": 990
+    },
+    "completeFourEdges": true,
+    "motif": "butterfly-and-petal-vein",
+    "maximumDeclaredOpacity": 0.18,
+    "hasOpaqueSurface": false,
+    "sourcePersonRedrawn": false,
+    "preserveOriginal": false
+  },
+  "workspaceBackground": "assets/ui/workspace-background.json",
+  "foregroundSha256": "bb624b11e215599dc8c77297688637267356561b811751a01e96bdffc9a42dc6",
+  "scale": 0.7,
+  "brightness": 0.82,
+  "canvasColor": "#130908",
+  "originalPeople": false,
+  "method": "Approved source person retained with its original quiet masks in an independent foreground; faint frame follows native main bounds excluding sidebar; original Sandrone composition is contained in native main",
+  "outputSha256": "771066e5e01d1e78a5201713d127124430f886c8b404665247b28a821ac6a00f"
+}

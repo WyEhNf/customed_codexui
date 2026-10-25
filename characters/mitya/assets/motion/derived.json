@@ -1,0 +1,181 @@
+{
+  "file": "sandrone-loop-1080p.mp4",
+  "source": "G:\\sandrone\\CodexUI-Integrated\\staging-1.4.0\\Windows-Portable\\integration\\art-revisions\\v14\\mitya-opening-quiet.png",
+  "sourceSha256": "d5bdfab17c5aa99e94a9ec2813c9c47466eed5d5210d71c0f22508709c1d6bab",
+  "sha256": "706424d60b714bd218f630bd98002981b0ffe5f696ff019ae4ff2d0da7a4179a",
+  "bytes": 3127729,
+  "seconds": 9,
+  "width": 1920,
+  "height": 1080,
+  "fps": 30,
+  "frames": 270,
+  "posterFile": "sandrone-first-frame.jpg",
+  "posterSha256": "bb7d5c7fb725bb3d534043f68ed98b431116c2589e769a3f4279c6286a554c36",
+  "animationKind": "illustrated-local-motion",
+  "globalCameraMotion": false,
+  "faceProtected": true,
+  "handJointProtected": true,
+  "motionRegions": [
+    {
+      "name": "quiet-breathing",
+      "kind": "breathing",
+      "centerNorm": [
+        0.703,
+        0.414
+      ],
+      "radiusNorm": [
+        0.082,
+        0.11
+      ],
+      "requestedDisplacementPx": 1.1,
+      "cyclesPerClip": 2
+    },
+    {
+      "name": "resting-scarf",
+      "kind": "cloth-sway",
+      "centerNorm": [
+        0.857,
+        0.571
+      ],
+      "radiusNorm": [
+        0.097,
+        0.065
+      ],
+      "requestedDisplacementPx": 2.5,
+      "cyclesPerClip": 1
+    },
+    {
+      "name": "hanging-coat",
+      "kind": "cloth-sway",
+      "centerNorm": [
+        0.773,
+        0.741
+      ],
+      "radiusNorm": [
+        0.068,
+        0.138
+      ],
+      "requestedDisplacementPx": 2.2,
+      "cyclesPerClip": 1
+    },
+    {
+      "name": "hair-tips",
+      "kind": "hair-sway",
+      "centerNorm": [
+        0.748,
+        0.249
+      ],
+      "radiusNorm": [
+        0.034,
+        0.065
+      ],
+      "requestedDisplacementPx": 1.8,
+      "cyclesPerClip": 1
+    }
+  ],
+  "protectionRegions": [
+    {
+      "name": "face",
+      "kind": "face",
+      "centerNorm": [
+        0.7,
+        0.221
+      ],
+      "radiusNorm": [
+        0.069,
+        0.099
+      ]
+    },
+    {
+      "name": "near-hand",
+      "kind": "hand",
+      "centerNorm": [
+        0.618,
+        0.494
+      ],
+      "radiusNorm": [
+        0.043,
+        0.048
+      ]
+    },
+    {
+      "name": "far-hand",
+      "kind": "hand",
+      "centerNorm": [
+        0.6,
+        0.481
+      ],
+      "radiusNorm": [
+        0.035,
+        0.044
+      ]
+    },
+    {
+      "name": "neck",
+      "kind": "joint",
+      "centerNorm": [
+        0.698,
+        0.306
+      ],
+      "radiusNorm": [
+        0.043,
+        0.043
+      ]
+    },
+    {
+      "name": "left-knee",
+      "kind": "joint",
+      "centerNorm": [
+        0.553,
+        0.556
+      ],
+      "radiusNorm": [
+        0.055,
+        0.055
+      ]
+    },
+    {
+      "name": "right-knee",
+      "kind": "joint",
+      "centerNorm": [
+        0.641,
+        0.573
+      ],
+      "radiusNorm": [
+        0.052,
+        0.055
+      ]
+    },
+    {
+      "name": "left-ankle",
+      "kind": "joint",
+      "centerNorm": [
+        0.524,
+        0.773
+      ],
+      "radiusNorm": [
+        0.042,
+        0.06
+      ]
+    },
+    {
+      "name": "right-ankle",
+      "kind": "joint",
+      "centerNorm": [
+        0.6,
+        0.826
+      ],
+      "radiusNorm": [
+        0.042,
+        0.059
+      ]
+    }
+  ],
+  "environmentEffects": [
+    "sparse-snow-beyond-window",
+    "soft-lamplight"
+  ],
+  "metricsFile": "metrics.json",
+  "fullScene": true,
+  "note": "New parameterized illustration animation: local breathing, cloth/hair displacement and environment effects; faces, hands and joints protected. Not a static repeated carrier, camera-only animation or model-generated motion video."
+}

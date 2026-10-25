@@ -1,0 +1,19 @@
+{
+  "file": "sandrone-loop-1080p.mp4",
+  "source": "G:\\sandrone\\SandroneCodex-0.6.1\\Windows-Portable\\assets\\motion\\sandrone-loop-1080p.mp4",
+  "sourceSha256": "539af561ef48548369bc8acf98bdb654e36b0beb8739a2e52e71b6a5d9804f18",
+  "sha256": "539af561ef48548369bc8acf98bdb654e36b0beb8739a2e52e71b6a5d9804f18",
+  "bytes": 9290473,
+  "seconds": 9,
+  "width": 1920,
+  "height": 1080,
+  "fps": 30,
+  "posterFile": "sandrone-first-frame.jpg",
+  "posterSha256": "49a248d7f791e83d55359e0c418ab3f8e181ee9902c9a567178b18b922b88f45",
+  "animationKind": "source-video",
+  "globalCameraMotion": null,
+  "faceProtected": null,
+  "motionRegions": [],
+  "fullScene": false,
+  "note": "Original Sandrone supplied animation preserved byte-for-byte."
+}

@@ -1,0 +1,215 @@
+{
+  "character": "伊斯塔露",
+  "english_name": "Istaroth",
+  "as_of_date": "2026-10-25",
+  "retrieved_at_utc": "2026-10-25T06:48:59.255212+00:00",
+  "entry_page_id": 4898,
+  "entry_page_id_discovery": {
+    "url": "https://sg-wiki-api.hoyolab.com/hoyowiki/wapi/search",
+    "method": "GET",
+    "parameters": {
+      "keyword": "伊斯塔露"
+    },
+    "headers": {
+      "x-rpc-language": "zh-cn"
+    },
+    "matched_entry_page_id": "4898",
+    "matched_entry_name": "伊斯塔露"
+  },
+  "copyright_note": "官方发布、托管可访问或下载成功均不等于已取得再分发许可。HoYoWiki内容可由社区编辑。",
+  "facts": [
+    {
+      "claim": "官方名称：伊斯塔露 / Istaroth；正式称谓「时之执政」。",
+      "primary_sources": [
+        "https://genshin.hoyoverse.com/zh-tw/news/detail/157548",
+        "https://genshin.hoyoverse.com/pt/news/detail/157548",
+        "https://www.youtube.com/watch?v=juStpsdYU24"
+      ],
+      "verification": "官方发布正文给出称谓与名字；正式称谓写作时之执政，时间之执政可作语义说明。"
+    },
+    {
+      "claim": "HoYoWiki收录于NPC图鉴；其头像和画廊由社区上传。",
+      "sources": [
+        "https://wiki.hoyolab.com/pc/genshin/entry/4898?lang=zh-cn"
+      ],
+      "verification": "entry_page menu_id为10；图片URL为event-ugc-hoyowiki。"
+    }
+  ],
+  "missing_assets": [
+    "未取得已由官方独立发布且核验成功的干净角色头像。",
+    "未取得官方透明角色立绘或可直接抠图的透明原画。"
+  ],
+  "downloaded_asset_count": 6,
+  "assets": [
+    {
+      "file": "official-introduction-2025-07-09.jpg",
+      "label_from_source": "若娜瓦　纳贝里士　莱茵多特　伊斯塔露（繁体中文）",
+      "source_page": "https://genshin.hoyoverse.com/zh-tw/news/detail/157548",
+      "source_api": "https://sg-public-api-static.hoyoverse.com/content_v2_user/app/a1b1f9d3315447cc/getContent?iAppId=32&iInfoId=157548&sLangKey=zh-tw",
+      "source_field": "data.sContent img[2]",
+      "download_url": "https://fastcdn.hoyoverse.com/content-v2/hk4e/157548/adc27b91104c9bb1e615dd5952f378e6_4605391939640231079.jpg",
+      "source_classification": "Official Genshin Impact website published static character-introduction image",
+      "publication_date": "2025-07-09",
+      "bytes": 1269617,
+      "sha256": "784c1b72d0125fb0a9bd68935d60297be929fca20b6a2b21ec7805b6fd0ff902",
+      "width": 1920,
+      "height": 1000,
+      "format": "JPEG",
+      "mode": "RGB",
+      "has_alpha_channel": false,
+      "has_transparent_pixels": false,
+      "decode_verified": true,
+      "modified": false,
+      "transformation": "none; HTTP response body saved unchanged",
+      "inspection": "Pillow Image.load() succeeded; visually inspected; final on-disk byte count and SHA-256 rechecked.",
+      "animated": false,
+      "frame_count": 1,
+      "recommended_as_character_main_image": true,
+      "official_original_verified": true
+    },
+    {
+      "file": "hoyowiki-ugc-icon.png",
+      "source_field": "page.icon_url",
+      "download_url": "https://act-upload.hoyoverse.com/event-ugc-hoyowiki/2025/11/07/326985891/6c6230d12f0386d6d86e680bd88d4398_8454218153591000583.png",
+      "bytes": 648746,
+      "sha256": "a3a9ab39d3be5950879660908188862ddc585384c1c91325fe9bcbb1b8be5482",
+      "width": 1080,
+      "height": 1080,
+      "format": "PNG",
+      "mode": "RGBA",
+      "has_alpha_channel": true,
+      "has_transparent_pixels": false,
+      "alpha_extrema": [
+        255,
+        255
+      ],
+      "decode_verified": true,
+      "modified": false,
+      "transformation": "none; HTTP response body saved unchanged",
+      "source_classification": "HoYoWiki community-uploaded asset (event-ugc-hoyowiki); original authorship and official publication match not independently established",
+      "inspection": "Pillow Image.load() succeeded; visually inspected; final on-disk byte count and SHA-256 rechecked.",
+      "animated": false,
+      "frame_count": 1,
+      "recommended_as_character_main_image": false,
+      "source_page": "https://wiki.hoyolab.com/pc/genshin/entry/4898?lang=zh-cn",
+      "source_api": "https://sg-wiki-api.hoyolab.com/hoyowiki/wapi/entry_page?entry_page_id=4898&lang=zh-cn",
+      "provenance_note": "event-ugc-hoyowiki为社区上传路径。只确认公开页面引用及视觉形象，不将该文件宣称为官方发布原件、原创同人或获授权再分发素材。",
+      "usage_note": "1080×1080不透明脸部特写；视觉符合已公开PV形象，仍是社区上传版本。",
+      "official_original_verified": false
+    },
+    {
+      "file": "hoyowiki-ugc-gallery-01.png",
+      "source_field": "gallery_character.list[0].img",
+      "download_url": "https://act-upload.hoyoverse.com/event-ugc-hoyowiki/2025/11/07/326985891/095dabc9016d6f5a9357406657cdb16c_8074214309774795896.png",
+      "bytes": 1913179,
+      "sha256": "dca6b10063f2188661cc6c532cfcabf945a94eed6b693c8980dafa2bd3c0145a",
+      "width": 1920,
+      "height": 1080,
+      "format": "PNG",
+      "mode": "RGBA",
+      "has_alpha_channel": true,
+      "has_transparent_pixels": false,
+      "alpha_extrema": [
+        255,
+        255
+      ],
+      "decode_verified": true,
+      "modified": false,
+      "transformation": "none; HTTP response body saved unchanged",
+      "source_classification": "HoYoWiki community-uploaded asset (event-ugc-hoyowiki); original authorship and official publication match not independently established",
+      "inspection": "Pillow Image.load() succeeded; visually inspected; final on-disk byte count and SHA-256 rechecked.",
+      "animated": false,
+      "frame_count": 1,
+      "recommended_as_character_main_image": false,
+      "source_page": "https://wiki.hoyolab.com/pc/genshin/entry/4898?lang=zh-cn",
+      "source_api": "https://sg-wiki-api.hoyolab.com/hoyowiki/wapi/entry_page?entry_page_id=4898&lang=zh-cn",
+      "provenance_note": "event-ugc-hoyowiki为社区上传路径。只确认公开页面引用及视觉形象，不将该文件宣称为官方发布原件、原创同人或获授权再分发素材。",
+      "usage_note": "1920×1080不透明PV场景画面，人物在右侧；不是透明原画。",
+      "official_original_verified": false
+    },
+    {
+      "file": "hoyowiki-ugc-gallery-02.png",
+      "source_field": "gallery_character.list[1].img",
+      "download_url": "https://act-upload.hoyoverse.com/event-ugc-hoyowiki/2025/11/07/326985891/3ceb079ba48c77901d1b35894e887d70_4747806448634094160.png",
+      "bytes": 1639634,
+      "sha256": "744bbfd0d7dd13124062b07494a6f6c453002faa0e95714addd9c76b1c8f7960",
+      "width": 1920,
+      "height": 1080,
+      "format": "PNG",
+      "mode": "RGBA",
+      "has_alpha_channel": true,
+      "has_transparent_pixels": false,
+      "alpha_extrema": [
+        255,
+        255
+      ],
+      "decode_verified": true,
+      "modified": false,
+      "transformation": "none; HTTP response body saved unchanged",
+      "source_classification": "HoYoWiki community-uploaded asset (event-ugc-hoyowiki); original authorship and official publication match not independently established",
+      "inspection": "Pillow Image.load() succeeded; visually inspected; final on-disk byte count and SHA-256 rechecked.",
+      "animated": false,
+      "frame_count": 1,
+      "recommended_as_character_main_image": false,
+      "source_page": "https://wiki.hoyolab.com/pc/genshin/entry/4898?lang=zh-cn",
+      "source_api": "https://sg-wiki-api.hoyolab.com/hoyowiki/wapi/entry_page?entry_page_id=4898&lang=zh-cn",
+      "provenance_note": "event-ugc-hoyowiki为社区上传路径。只确认公开页面引用及视觉形象，不将该文件宣称为官方发布原件、原创同人或获授权再分发素材。",
+      "usage_note": "1920×1080不透明PV风格场景，人物与时环；不是透明原画。",
+      "official_original_verified": false
+    },
+    {
+      "file": "hoyowiki-ugc-gallery-03.png",
+      "source_field": "gallery_character.list[2].img",
+      "download_url": "https://act-upload.hoyoverse.com/event-ugc-hoyowiki/2025/11/07/326985891/bd7b67487a3720542f149829e255e074_7954001605247619005.png",
+      "bytes": 2328101,
+      "sha256": "55efad8791464b583f73886c5aae677ccb42b1fce10c0c78cfde157242bdef3b",
+      "width": 1920,
+      "height": 1080,
+      "format": "PNG",
+      "mode": "RGBA",
+      "has_alpha_channel": true,
+      "has_transparent_pixels": false,
+      "alpha_extrema": [
+        255,
+        255
+      ],
+      "decode_verified": true,
+      "modified": false,
+      "transformation": "none; HTTP response body saved unchanged",
+      "source_classification": "HoYoWiki community-uploaded asset (event-ugc-hoyowiki); original authorship and official publication match not independently established",
+      "inspection": "Pillow Image.load() succeeded; visually inspected; final on-disk byte count and SHA-256 rechecked.",
+      "animated": false,
+      "frame_count": 1,
+      "recommended_as_character_main_image": false,
+      "source_page": "https://wiki.hoyolab.com/pc/genshin/entry/4898?lang=zh-cn",
+      "source_api": "https://sg-wiki-api.hoyolab.com/hoyowiki/wapi/entry_page?entry_page_id=4898&lang=zh-cn",
+      "provenance_note": "event-ugc-hoyowiki为社区上传路径。只确认公开页面引用及视觉形象，不将该文件宣称为官方发布原件、原创同人或获授权再分发素材。",
+      "usage_note": "1920×1080不透明背面场景；不是角色正面头像。",
+      "official_original_verified": false
+    },
+    {
+      "file": "official-pv-gods-limits-cover.jpg",
+      "source_page": "https://www.youtube.com/watch?v=juStpsdYU24",
+      "download_url": "https://i.ytimg.com/vi/juStpsdYU24/maxresdefault.jpg",
+      "bytes": 137804,
+      "sha256": "ac7148f5219ce9897b79422213376d257d7df634743ffef59648411488969e92",
+      "width": 1280,
+      "height": 720,
+      "format": "JPEG",
+      "mode": "RGB",
+      "has_alpha_channel": false,
+      "has_transparent_pixels": false,
+      "decode_verified": true,
+      "modified": false,
+      "transformation": "none; HTTP response body saved unchanged",
+      "source_classification": "Official Genshin Impact YouTube video thumbnail; not a standalone character illustration",
+      "source_field": "YouTube maxresdefault thumbnail",
+      "inspection": "Pillow Image.load() succeeded; visually inspected; final on-disk byte count and SHA-256 rechecked.",
+      "animated": false,
+      "frame_count": 1,
+      "recommended_as_character_main_image": false,
+      "official_original_verified": true,
+      "usage_note": "官方PV整体封面，画面主角并非本目录角色；仅作来源封面，禁止用作本角色头像或主图。"
+    }
+  ]
+}

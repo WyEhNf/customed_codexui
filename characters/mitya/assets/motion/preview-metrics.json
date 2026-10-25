@@ -1,0 +1,15 @@
+{
+  "id": "mitya",
+  "rawFaceMAD": 0.0,
+  "rawProtectedMapMaxPx": 0.0,
+  "localWarpPixelMAD": 13.398213072489686,
+  "localWarpChangedPixels": 262492,
+  "maximumMeshDisplacementPx": 6.664761543273926,
+  "globalCameraMotion": false,
+  "frameCount": 270,
+  "width": 1920,
+  "height": 1080,
+  "fps": 30,
+  "seconds": 9,
+  "method": "Parametric local mesh animation of the approved illustration, face/hand/joint protected, plus separately animated environment FX. Not generated video."
+}

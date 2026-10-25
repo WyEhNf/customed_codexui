@@ -1,0 +1,40 @@
+{
+  "version": 3,
+  "id": "furina",
+  "approvedDesignVersion": 7,
+  "refinementVersion": "1.4.0",
+  "framePlacement": "native-main-only",
+  "source": "characters/furina-daily.png",
+  "sourceFile": "workspace-source.png",
+  "sourceSha256": "9fb56e5b00fd7340595ab8f326c06b1cbc69e3cd50745fc2bf76b752ecd1e2ca",
+  "openingSource": "references/furina-current.png",
+  "openingSourceSha256": "d2c595dca1fee20961917c76b5326f40db046341d44e00ba31c2364c7a40644e",
+  "workspaceFrame": {
+    "schemaVersion": 1,
+    "id": "furina",
+    "width": 1920,
+    "height": 1080,
+    "kind": "complete-low-contrast-character-background-frame",
+    "placement": "native-main-only",
+    "bounds": {
+      "left": 46,
+      "top": 90,
+      "right": 1876,
+      "bottom": 990
+    },
+    "completeFourEdges": true,
+    "motif": "drop-and-double-arch",
+    "maximumDeclaredOpacity": 0.18,
+    "hasOpaqueSurface": false,
+    "sourcePersonRedrawn": false,
+    "preserveOriginal": false
+  },
+  "workspaceBackground": "assets/ui/workspace-background.json",
+  "foregroundSha256": "e9aebfe5ba0972e26621bb66573d324ef550f28550a6107f5a1efe0db80f7957",
+  "scale": 0.72,
+  "brightness": 0.78,
+  "canvasColor": "#090e1c",
+  "originalPeople": false,
+  "method": "Approved source person retained with its original quiet masks in an independent foreground; faint frame follows native main bounds excluding sidebar; original Sandrone composition is contained in native main",
+  "outputSha256": "40a163c1278d24364a01e5d865cf874477c7590281e36687f77447e83df4b0f5"
+}

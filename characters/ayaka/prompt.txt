@@ -1,0 +1,12 @@
+Use case: stylized-concept
+Asset type: finished 16:9 anime character theme wallpaper for a native desktop application, background artwork only.
+Input images: Image 1 is the visual identity and costume reference for Kamisato Ayaka (神里绫华). Preserve her recognizable features accurately; it is not a layout to copy.
+Primary request: create an elegant night garden scene featuring Kamisato Ayaka, with ice blue, midnight navy and a restrained touch of pale sakura pink.
+Scene/backdrop: a tranquil Inazuma courtyard at night; an understated hint of a traditional veranda and hazy garden depth on the right, a few cherry petals and delicate ice glimmers near Ayaka.
+Subject: one Kamisato Ayaka in her default blue, black and gold kimono-inspired outfit; pale blue hair with straight bangs and high ponytail, blue-gray eyes, pink side ribbons, and her folding fan. Graceful calm expression and dignified pose. Use the supplied reference to preserve the original outfit design and face. No other person.
+Style/medium: refined high quality anime illustration, clean delicate line work and soft painterly shading, polished game key-art finish.
+Composition/framing: strictly landscape 16:9, ideally 2560x1440. Ayaka and all bright character effects occupy only the RIGHT 35 to 40 percent (x=60% to 98%), three-quarter body portrait from head to below knees. Keep her face fully inside the image around x=79%, y=27%. Her ponytail and fan must stay within that right-side composition. The LEFT 55 percent is very dark quiet negative space for real native UI: smooth midnight blue haze, extremely low contrast, no foreground object, no face, no branch crossing, no large bright petal, no decorative frame. Blend the transition organically around x=55% to 65%. Leave comfortable margins.
+Lighting/mood: cool moonlight and a gentle cyan edge light on the character; soft sakura bloom only behind the right side. Serene, aristocratic, airy, readable.
+Color palette: near-black navy #0B1020, deep indigo #121C32, icy blue #A6D9F1, muted periwinkle #788BCE, very sparse pale pink #E6B5CE.
+Text: none.
+Constraints: this must be a single continuous wallpaper, without any UI, cards, panels, buttons, borders, fake controls, logo, lettering, signature, caption or watermark. Keep the left 55 percent clean and dark. Do not reproduce any title or logo from the reference. Correct anatomy and natural hands. No new costume, no exaggerated proportions, no extra characters. Opaque background.

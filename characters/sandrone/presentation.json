@@ -1,0 +1,44 @@
+{
+  "name": "桑多涅",
+  "brandName": "Sandrone",
+  "themeName": "人偶工坊",
+  "subtitle": "FATUI / NO. 007",
+  "palette": {
+    "background": "#0c1016",
+    "panel": "#17191f",
+    "panelAlt": "#202027",
+    "accent": "#c7a86e",
+    "accentAlt": "#e3d4b1",
+    "secondary": "#a9cbd5",
+    "highlight": "#993e50",
+    "text": "#ebe3d1",
+    "muted": "#b8afa2",
+    "line": "#766246"
+  },
+  "loadingStates": [
+    "解算开始。",
+    "填入变量。",
+    "进程良好。",
+    "析构万理！啊哈哈哈..."
+  ],
+  "provenance": "Original local Sandrone 0.6.1 assets; third-party art rights not independently authenticated.",
+  "id": "sandrone",
+  "motif": "original",
+  "signature": {
+    "kind": "Segoe Script font outline",
+    "official": false
+  },
+  "baseSkeleton": "Sandrone Codex 0.6.1",
+  "codeChanges": "displayed prose and literal colors only",
+  "releaseVersion": "1.4.0",
+  "production": {
+    "dailyComposition": "assets/ui/composition.json",
+    "workspaceFrame": "assets/ui/workspace-frame.json",
+    "workspaceBackground": "assets/ui/workspace-background.json",
+    "opening": "assets/motion/derived.json",
+    "lettering": "assets/branding/opening-lettering.json",
+    "material": "assets/ui/personality.json",
+    "layoutChanged": false
+  },
+  "limitations": []
+}

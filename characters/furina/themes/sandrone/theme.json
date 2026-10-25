@@ -1,0 +1,31 @@
+{
+  "schemaVersion": 1,
+  "id": "furina-codex-ui",
+  "name": "芙宁娜·水光开幕",
+  "brandSubtitle": "Furina",
+  "tagline": "让灵感在这里继续。",
+  "projectPrefix": "项目 · ",
+  "projectLabel": "选择项目",
+  "statusText": "FURINA ONLINE",
+  "quote": "A PERSONAL PLACE FOR THOUGHTS",
+  "image": "background.png",
+  "appearance": "dark",
+  "art": {
+    "focusX": 0.76,
+    "focusY": 0.46,
+    "safeArea": "left",
+    "taskMode": "ambient"
+  },
+  "colors": {
+    "background": "#0A1026",
+    "panel": "#111D3A",
+    "panelAlt": "#192A4E",
+    "accent": "#78BAEE",
+    "accentAlt": "#4265C5",
+    "secondary": "#B9A6E9",
+    "highlight": "#D1AD72",
+    "text": "#EDF5FF",
+    "muted": "#98A8C8",
+    "line": "#35496B"
+  }
+}

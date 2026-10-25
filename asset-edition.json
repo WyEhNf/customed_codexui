@@ -1,0 +1,22 @@
+{
+  "edition": "character-integrated",
+  "version": "1.2.0",
+  "baseVersion": "Sandrone Codex 0.6.1",
+  "characters": [
+    "columbina",
+    "ayaka",
+    "hutao",
+    "nahida",
+    "furina",
+    "citlali",
+    "mitya",
+    "istaroth",
+    "sandrone"
+  ],
+  "removed": [
+    "durin"
+  ],
+  "scope": "Original Sandrone layout with embedded switching, approved M1/H4 image adaptations and React-safe themed native icons",
+  "approvedImages": {"mitya": "M1", "hutao": "H4"},
+  "iconRolesPerCharacter": 19
+}
