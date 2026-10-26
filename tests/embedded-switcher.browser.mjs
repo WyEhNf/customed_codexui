@@ -7,7 +7,7 @@ import {installCharacterSwitcher,removeCharacterSwitcher} from '../integration/e
 import {embeddedConfig} from '../integration/embedded-bridge.mjs';
 const require=createRequire(import.meta.url),{chromium}=require(process.env.PLAYWRIGHT_MODULE||'playwright');
 const root=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'..'),out=path.join(root,'evidence');await fs.mkdir(out,{recursive:true});
-const base=await embeddedConfig(root),browser=await chromium.launch({headless:true,channel:process.env.PLAYWRIGHT_CHANNEL||'msedge'}),matrix=[];
+const base=await embeddedConfig(root),browser=await chromium.launch({headless:true,channel:process.env.PLAYWRIGHT_CHANNEL||'chromium'}),matrix=[];
 try{
  const page=await browser.newPage({viewport:{width:1440,height:900}}),errors=[];page.on('pageerror',e=>errors.push(e.message));
  await page.setContent('<html data-dream-skin="active"><style>body{margin:0;background:#101421;color:#e6edf7;font:14px "Segoe UI"}#sandrone-replay-opening{position:fixed;right:150px;top:5px;height:26px;width:108px}main{position:fixed;left:30px;top:70px;width:900px;height:600px}</style><button id="sandrone-replay-opening">↻ 重播开屏</button><main>内置切换面板 · 离线组件验证</main></html>');

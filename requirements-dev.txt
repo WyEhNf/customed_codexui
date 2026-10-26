@@ -1,0 +1,2 @@
+# Only needed for offline video regression tests, never for installing a release.
+imageio-ffmpeg==0.6.0

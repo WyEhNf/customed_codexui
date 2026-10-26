@@ -14,6 +14,8 @@ machine.json
 *.zip
 integrity.json
 dist/
+coverage/
+.local-evidence/
 __pycache__/
 node_modules/
 .build-deps/

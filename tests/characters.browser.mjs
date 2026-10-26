@@ -7,7 +7,7 @@ const require=createRequire(import.meta.url),{chromium}=require(process.env.PLAY
 const root=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'..'),out=path.join(root,'evidence');await fs.mkdir(out,{recursive:true});
 const catalog=JSON.parse(await fs.readFile(path.join(root,'catalog.json'),'utf8'));
 assert.ok(!catalog.characters.some(c=>c.id==='durin'));assert.equal(catalog.characters.length,9);
-const browser=await chromium.launch({headless:true,channel:process.env.PLAYWRIGHT_CHANNEL||'msedge'}),results=[];
+const browser=await chromium.launch({headless:true,channel:process.env.PLAYWRIGHT_CHANNEL||'chromium'}),results=[];
 try{
  for(const c of catalog.characters){
   const page=await browser.newPage({viewport:{width:1440,height:900}}),errors=[];page.on('pageerror',e=>errors.push(e.message));

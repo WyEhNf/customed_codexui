@@ -85,7 +85,10 @@ try{
  $held.ExclusiveAddressUse=$true;$held.Start();$busyPort=[int]$held.LocalEndpoint.Port
  $selected=SelectDebugPort $busyPort
  Check ((TestDebugPort $selected) -and $selected -ne $busyPort) 'Real occupied fixture port did not fall back'
- Check $held.Server.IsBound 'Allocator must not stop an existing listener'
+ # TcpListener.Server can be null under newer PowerShell/.NET adapters.
+ # A stopped ephemeral listener returns its requested port (zero), whereas a
+ # bound listener retains the exact assigned endpoint checked here.
+ Check ($held.LocalEndpoint -is [Net.IPEndPoint] -and $held.LocalEndpoint.Port -eq $busyPort) 'Allocator must not stop an existing listener'
  $probe=[Net.Sockets.TcpListener]::new([Net.IPAddress]::Loopback,$selected);$probe.ExclusiveAddressUse=$true;$probe.Start()
  Check $probe.LocalEndpoint.Address.Equals([Net.IPAddress]::Loopback) 'Real fallback is not loopback'
  $probe.Stop();$probe=$null

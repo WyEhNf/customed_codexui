@@ -8,7 +8,20 @@ Special thanks to [fengye337/sandrone-codex](https://github.com/fengye337/sandro
 
 ## Installation
 
-You need Windows x64, Git, and the official Codex desktop app installed. Open the official app at least once before installing the themes.
+You need Windows x64 and the official Codex desktop app installed. Open the official app at least once before installing the themes.
+
+1. Download the Windows x64 ZIP from [Releases](https://github.com/WyEhNf/customed_codexui/releases/latest). You can verify the download against `SHA256SUMS.txt` on the same release page.
+2. If Windows shows an **Unblock** checkbox in the ZIP's Properties, select it before extracting. Extract the ZIP to a permanent folder, then run `Setup.ps1` with PowerShell to create the desktop shortcuts:
+
+   ```powershell
+   powershell.exe -NoProfile -ExecutionPolicy RemoteSigned -File .\Setup.ps1
+   ```
+
+Open the `codexui` folder on your desktop and launch a character shortcut, or run `CodexUI.exe` directly. Use the character switcher in the title bar to change themes. Each switch plays the selected character's opening animation.
+
+The themed client uses a separate profile shared by all themes. You may need to sign in on first launch.
+
+To build from source instead, install Git and follow these steps:
 
 1. Clone the repository:
 
@@ -27,15 +40,7 @@ You need Windows x64, Git, and the official Codex desktop app installed. Open th
 
    The build uses the Windows .NET Framework C# compiler. Character artwork, videos, and lettering are already included; no image or video generation tools are needed.
 
-4. Create the desktop shortcuts:
-
-   ```powershell
-   powershell.exe -NoProfile -ExecutionPolicy RemoteSigned -File .\Setup.ps1
-   ```
-
-Open the `codexui` folder on your desktop and launch a character shortcut, or run `CodexUI.exe` directly. Use the character switcher in the title bar to change themes. Each switch plays the selected character's opening animation.
-
-The themed client uses a separate profile shared by all themes. You may need to sign in on first launch.
+4. Run `Setup.ps1` as shown above to create the desktop shortcuts.
 
 To restore the original appearance, use the restore shortcut in the desktop `codexui` folder, or run:
 

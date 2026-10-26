@@ -1,0 +1,20 @@
+{
+  "name": "customed-codexui",
+  "version": "1.7.0",
+  "private": true,
+  "description": "Nine character themes for the Windows Codex desktop client",
+  "type": "module",
+  "engines": { "node": ">=24 <25" },
+  "scripts": {
+    "build": "node integration/build.mjs",
+    "test": "node tests/run.mjs unit",
+    "test:browser": "node tests/run.mjs browser",
+    "test:powershell": "node tests/run.mjs powershell",
+    "check:selectors": "node tests/selector-provenance.test.mjs",
+    "package": "python integration/package.py"
+  },
+  "devDependencies": {
+    "playwright": "1.62.1",
+    "sharp": "0.35.5"
+  }
+}

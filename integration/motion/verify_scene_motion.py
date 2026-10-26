@@ -2,10 +2,12 @@
 from pathlib import Path
 import hashlib
 import json
+import os
 import sys
 
 HERE=Path(__file__).resolve().parent
-sys.path.insert(0,str(HERE/'.build-deps'))
+for candidate in [HERE/'.build-deps', HERE.parents[1]/'.build-deps/python', *([Path(os.environ['CODEXUI_PYTHON_DEPS'])] if os.environ.get('CODEXUI_PYTHON_DEPS') else [])]:
+    if candidate.is_dir():sys.path.insert(0,str(candidate))
 import cv2
 import numpy as np
 

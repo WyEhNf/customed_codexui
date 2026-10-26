@@ -1,0 +1,11 @@
+{
+  "schemaVersion": 1,
+  "client": "Codex Windows 26.1021.2667.0",
+  "evidenceScope": "sanitized native source fixtures; isolated DOM regressions",
+  "reviewedAt": "2026-10-26",
+  "limitations": "Fixtures establish selector provenance and regression coverage. Installed-client, OS-window and future-client compatibility are not asserted by CI.",
+  "files": {
+    "integration/icon-contract.json": "c04ac077890fb766fa518abcba5f7e7e1e6cfe9cf523134dc66b1ecc855b3c03",
+    "tests/fixtures/native-ui-icons.json": "7fa83ada9afbed7d8bdca33af7548eb3cc7484dfcc32d5752a3e6aef0cc03f73"
+  }
+}

@@ -8,7 +8,7 @@ import {fileURLToPath} from 'node:url';
 import {createRequire} from 'node:module';
 import {createHash} from 'node:crypto';
 const root=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'..');
-const sharp=createRequire(import.meta.url)(process.env.SHARP_MODULE||'C:/Users/admin/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/sharp');
+const sharp=createRequire(import.meta.url)(process.env.SHARP_MODULE||'sharp');
 const sha=b=>createHash('sha256').update(b).digest('hex');
 const baselines={
  columbina:'a3e0a7871ba3120108c56179f9b302e4a181c87eb022cf31cd7e322199ffe15a',

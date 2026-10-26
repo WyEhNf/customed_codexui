@@ -1,7 +1,7 @@
 // Fixed integration UI. Character packs provide data and images, never scripts.
 export function installCharacterSwitcher(config) {
  const key='__CODEX_CHARACTER_SWITCHER__',fingerprint=JSON.stringify(config);
- if(window[key]?.fingerprint===fingerprint&&window[key].host.isConnected){window[key].sync();return {installed:true};}
+ if(window[key]?.fingerprint===fingerprint&&window[key].host.isConnected&&window[key].host.shadowRoot?.adoptedStyleSheets.includes(window[key].sheet)){window[key].sync();return {installed:true};}
  window[key]?.dispose?.();
  const host=document.createElement('div');host.id='codex-character-switcher';
  host.style.cssText='position:fixed;inset:0;z-index:2147482950;pointer-events:none';
@@ -81,7 +81,7 @@ export function installCharacterSwitcher(config) {
  window.addEventListener('resize',sync);document.addEventListener('fullscreenchange',sync);
  const overlay=navigator.windowControlsOverlay;overlay?.addEventListener('geometrychange',sync);
  const observer=new MutationObserver(sync);observer.observe(document.documentElement,{childList:true});const replay=document.getElementById('sandrone-replay-opening');if(replay)observer.observe(replay,{attributes:true,attributeFilter:['style','hidden']});
- window[key]={fingerprint,host,sync,pending:null,settle(requestId,result){
+ window[key]={fingerprint,revision:config.switcherRevision||'',selectedId:config.selectedId,host,sheet,sync,pending:null,settle(requestId,result){
   if(!this.pending||this.pending.requestId!==requestId)return false;
   const selected=this.pending.id;clearTimeout(timer);this.pending=null;busy=false;for(const button of list.children)button.disabled=false;
   if(!panel.hidden)list.querySelector('[data-character="'+selected+'"]')?.focus({preventScroll:true});

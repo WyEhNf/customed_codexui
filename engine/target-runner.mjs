@@ -2,29 +2,33 @@
 import {installNativeUi,setStartupPhase} from './renderer.mjs';
 export const transient = error => ['CDP_UNAVAILABLE','CDP_CLOSED','CDP_CONTEXT','CDP_TIMEOUT','RENDERER_NOT_READY'].includes(error?.code);
 export const call = (fn,...values)=>`(${fn.toString()})(${values.map(v=>JSON.stringify(v)).join(',')})`;
-export async function applyTargets({pages,connect,resources,verify,opening,decorate,force=false}){
+export async function applyTargets({pages,connect,resources,verify,opening,decorate,force=false,eligible=()=>true,onOutcome=()=>{},tolerateTargetErrors=false}){
  const results=await Promise.allSettled(pages.map(async page=>{
   let session;
   try{
+   if(!eligible(page.id))return {ready:false,backoff:true};
    session=await connect(page);
    const visible=await session.evaluate(`Boolean(document.visibilityState==='visible'&&!document.hidden&&innerWidth>=320&&innerHeight>=180&&document.body&&document.querySelector('button,[role="main"],textarea,[contenteditable="true"]'))`);
    if(!visible){
     const idle=await session.evaluate(`document.documentElement.getAttribute('data-dream-skin')==='active'&&window.__SANDRONE_NATIVE_UI__?.version==='0.5.3'&&document.adoptedStyleSheets.includes(window.__SANDRONE_NATIVE_UI__.sheet)`);
     return {ready:false,visible:false,idle:Boolean(idle)};
    }
-   const {loaded,css}=await resources();
+   const {loaded,css,nativeRevision}=await resources();
    if(opening)await opening(session);
    const skinPresent=!force&&await session.evaluate(`Boolean(document.documentElement.getAttribute('data-dream-skin')==='active'&&window.__CODEX_DREAM_SKIN_STATE__?.revision===${JSON.stringify(loaded.revision)})`);
    if(!skinPresent){await session.evaluate(call(setStartupPhase,'applying'));await session.evaluate(loaded.payload);}
-   const nativePresent=!force&&await session.evaluate(`window.__SANDRONE_NATIVE_UI__?.version==='0.5.3'&&window.__SANDRONE_NATIVE_UI__.css===${JSON.stringify(css)}&&document.adoptedStyleSheets.includes(window.__SANDRONE_NATIVE_UI__.sheet)`);
-   if(!nativePresent)await session.evaluate(call(installNativeUi,css));
-   if(decorate)await decorate(session);
+   const nativePresent=!force&&await session.evaluate(nativeRevision?`Boolean(window.__SANDRONE_NATIVE_UI__?.runtimeRevision===${JSON.stringify(nativeRevision)}&&document.adoptedStyleSheets.includes(window.__SANDRONE_NATIVE_UI__.sheet))`:`window.__SANDRONE_NATIVE_UI__?.version==='0.5.3'&&window.__SANDRONE_NATIVE_UI__.css===${JSON.stringify(css)}&&document.adoptedStyleSheets.includes(window.__SANDRONE_NATIVE_UI__.sheet)`);
+   if(!nativePresent)await session.evaluate(nativeRevision?`window.__SANDRONE_NATIVE_UI__?.dispose?.();${call(installNativeUi,css)};window.__SANDRONE_NATIVE_UI__.runtimeRevision=${JSON.stringify(nativeRevision)};`:call(installNativeUi,css));
+   if(decorate)await decorate(session,{force});
    const ready=verify?Boolean((await verify(session,page.id,loaded.theme.id,loaded.revision))?.pass):true;
    if(verify||!skinPresent)await session.evaluate(call(setStartupPhase,ready?'ready':'waiting'));
    return {visible:true,ready};
   }finally{await session?.close();}
  }));
- const fatal=results.find(r=>r.status==='rejected'&&!transient(r.reason));
+ for(let i=0;i<results.length;i++)onOutcome(pages[i],results[i]);
+ // The long-running watcher isolates renderer failures after validating shared
+ // resources. Explicit startup/apply retain strict fail-fast verification.
+ const fatal=results.find(r=>r.status==='rejected'&&!transient(r.reason)&&(!tolerateTargetErrors||['IDENTITY_MISMATCH','RUNTIME_VALIDATION'].includes(r.reason?.code)));
  if(fatal)throw fatal.reason;
  return {ready:results.some(r=>r.status==='fulfilled'&&r.value.ready),idle:results.some(r=>r.status==='fulfilled'&&r.value.idle),visible:results.some(r=>r.status==='fulfilled'&&r.value.visible)};
 }

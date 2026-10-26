@@ -1,7 +1,12 @@
 import path from 'node:path';
-import {stageCharacter,commitCharacter,finishCharacter,rollback,atomicJson} from './selection.mjs';
+import {stageCharacter,commitCharacter,finishCharacter,rollback,atomicJson,activeCharacterMatches} from './selection.mjs';
 // Reuse Sandrone's process/session controller; integration adds explicit replay and an in-window binding.
 export async function switchCharacter({root,id,offline=false,managedAlive,control}){
+ if(!offline&&await activeCharacterMatches(root,id)&&await managedAlive()){
+  const result=await control('launch',true);
+  if(!['ready','waiting'].includes(result.status))throw new Error(result.detail||result.message||'角色开屏重播失败。');
+  return {...result,id,replayed:true,message:result.status==='ready'?'当前角色已保留，并重播一次开屏。':'当前角色已保留，等待客户端主界面。'};
+ }
  const transaction=await stageCharacter(root,id);let prepared=false;
  try{
   if(!offline&&await managedAlive()){

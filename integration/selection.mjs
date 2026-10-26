@@ -1,6 +1,7 @@
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import {createHash,randomUUID} from 'node:crypto';
+import {pruneCompletedTransactions} from './transaction-gc.mjs';
 export const activeTargets=['assets','themes','engine/renderer.mjs','engine/native-ui.css','integrity.json','state/selection.json'];
 const digest=b=>createHash('sha256').update(b).digest('hex');
 export function inside(root,relative){
@@ -39,6 +40,18 @@ export async function verifyPack(root,id){
  }
  for(const n of ['engine/renderer.mjs','engine/native-ui.css','themes/sandrone/theme.json','themes/sandrone/background.png','assets/branding/sandrone-signature.json'])if(!manifest.files[n])throw new Error('Incomplete character payload: '+n);
  return {entry,pack,manifest};
+}
+// The replay fast path still checks both the signed-off pack manifest and the
+// active bytes. A stale selection record alone cannot bypass a real switch.
+export async function activeCharacterMatches(root,id){
+ let selection;try{const file=path.join(root,'state/selection.json'),stat=await fs.lstat(file);if(!stat.isFile()||stat.isSymbolicLink()||stat.size>4096)return false;selection=JSON.parse((await fs.readFile(file,'utf8')).replace(/^\uFEFF/,''));}catch(error){if(error.code==='ENOENT'||error instanceof SyntaxError)return false;throw error;}
+ if(selection.id!==id)return false;
+ const verified=await verifyPack(root,id);
+ for(const [name,expected]of Object.entries(verified.manifest.files)){
+  const file=inside(root,name);let stat;try{stat=await fs.lstat(file);}catch(error){if(error.code==='ENOENT')return false;throw error;}
+  if(!stat.isFile()||stat.isSymbolicLink()||digest(await fs.readFile(file))!==expected)return false;
+ }
+ return true;
 }
 export async function stageCharacter(root,id){
  const verified=await verifyPack(root,id),token=randomUUID(),directory=inside(root,'state/transactions/'+token);
@@ -85,8 +98,11 @@ export async function commitCharacter(root,transaction,{afterStep}={}){
  }catch(error){await rollback(root,transaction);throw error;}
 }
 export async function finishCharacter(root,transaction){
- transaction.journal.committed=true;await atomicJson(path.join(transaction.directory,'journal.json'),transaction.journal);
+ transaction.journal.committed=true;transaction.journal.completedAt=new Date().toISOString();await atomicJson(path.join(transaction.directory,'journal.json'),transaction.journal);
  await fs.unlink(path.join(root,'state/pending-switch.json'));
+ // A cleanup failure must never turn a successfully committed switch into an
+ // apparent activation failure. Uncertain records stay available for recovery.
+ try{transaction.cleanup=await pruneCompletedTransactions(root);}catch{transaction.cleanup={removed:0,skipped:1};}
 }
 export async function recoverPending(root){
  const pending=path.join(root,'state/pending-switch.json');if(!await exists(pending))return false;

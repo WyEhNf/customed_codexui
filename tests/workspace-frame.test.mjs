@@ -5,7 +5,7 @@ import {createRequire} from 'node:module';
 import {fileURLToPath} from 'node:url';
 import {buildWorkspaceFrame} from '../integration/build-workspace-frame.mjs';
 const root=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'..');
-const sharp=createRequire(import.meta.url)(process.env.SHARP_MODULE||'C:/Users/admin/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/sharp');
+const sharp=createRequire(import.meta.url)(process.env.SHARP_MODULE||'sharp');
 const catalog=JSON.parse(await fs.readFile(path.join(root,'catalog.json'),'utf8')),report=[];
 assert.throws(()=>buildWorkspaceFrame({id:'unknown'}),/Unknown/);
 for(const c of catalog.characters){

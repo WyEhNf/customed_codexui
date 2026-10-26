@@ -8,12 +8,13 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import os
 from pathlib import Path
 import sys
 
 HERE=Path(__file__).resolve().parent
 ROOT=HERE.parents[1]
-for candidate in [ROOT/'integration/motion/.build-deps',Path(r'G:\sandrone\CodexUI-Integrated\staging-1.3.0\Windows-Portable\integration\motion\.build-deps')]:
+for candidate in [ROOT/'integration/motion/.build-deps', ROOT/'.build-deps/python', *([Path(os.environ['CODEXUI_PYTHON_DEPS'])] if os.environ.get('CODEXUI_PYTHON_DEPS') else [])]:
     if candidate.is_dir():sys.path.insert(0,str(candidate))
 import cv2
 import numpy as np

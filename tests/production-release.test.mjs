@@ -11,7 +11,7 @@ const root=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'..');
 const out=path.join(root,'evidence/release-qa');
 await fs.mkdir(out,{recursive:true});
 const expected=['columbina','ayaka','hutao','nahida','furina','citlali','mitya','istaroth','sandrone'];
-const ffmpeg=process.env.FFMPEG_EXE||'C:/Users/admin/miniconda3/Lib/site-packages/imageio_ffmpeg/binaries/ffmpeg-win-x86_64-v7.1.exe';
+const ffmpeg=process.env.FFMPEG_EXE||'ffmpeg';
 const digest=b=>createHash('sha256').update(b).digest('hex');
 const read=async f=>JSON.parse((await fs.readFile(f,'utf8')).replace(/^\uFEFF/,''));
 function decode(file,{frames=1,fps=1}={}){
@@ -24,7 +24,7 @@ function decode(file,{frames=1,fps=1}={}){
 function mad(a,b){assert.equal(a.length,b.length);let sum=0;for(let i=0;i<a.length;i++)sum+=Math.abs(a[i]-b[i]);return sum/a.length;}
 const catalog=await loadCatalog(root),results=[];
 assert.deepEqual(catalog.characters.map(c=>c.id).sort(),[...expected].sort(),'Exactly the requested nine; no Durin');
-assert.match(catalog.version,/^1\.4\./,'Production release version, not the old static-carrier build');
+assert.equal(catalog.version,(await read(path.join(root,'package.json'))).version,'Production catalog matches authoritative package version');
 let failure;
 try{
  for(const c of catalog.characters){
@@ -84,7 +84,7 @@ try{
  if(archiveAt>=0){
   const archive=process.argv[archiveAt+1];assert.ok(archive,'Archive path required');
   const code=`import sys,json,zipfile\nfrom pathlib import PurePosixPath\nwith zipfile.ZipFile(sys.argv[1]) as z:\n names=z.namelist()\n bad=[n for n in names if set(PurePosixPath(n).parts)&{'profile','state','logs','evidence','backups','.git','.codex','__pycache__'} or PurePosixPath(n).name=='machine.json' or any(p.startswith('.env') for p in PurePosixPath(n).parts)]\n assert not bad,'Private/session files present: '+repr(bad)\n assert not any('durin' in n.lower() for n in names),'Excluded character is packaged'\n assert z.testzip() is None,'Archive CRC failure'\n assert 'Windows-Portable/integrity.json' in names,'Missing root integrity'\n print(json.dumps({'pass':True,'files':len(names),'personalStateIncluded':False}))`;
-  const r=spawnSync(process.env.PYTHON_EXE||'C:/Users/admin/miniconda3/python.exe',['-c',code,archive],{windowsHide:true,encoding:'utf8',timeout:60000});
+  const r=spawnSync(process.env.PYTHON_EXE||'python',['-c',code,archive],{windowsHide:true,encoding:'utf8',timeout:60000});
   assert.equal(r.status,0,'Release archive privacy/CRC: '+r.stderr);console.log('PASS archive '+r.stdout.trim());
  }
 }catch(error){failure={message:error.message,stack:error.stack};process.exitCode=1;}

@@ -1,0 +1,86 @@
+name: Build and test
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+  workflow_call:
+
+permissions:
+  contents: read
+
+jobs:
+  windows:
+    name: Windows / ${{ matrix.shell }}
+    runs-on: windows-latest
+    timeout-minutes: 60
+    strategy:
+      fail-fast: false
+      matrix:
+        shell: [powershell, pwsh]
+    defaults:
+      run:
+        shell: ${{ matrix.shell }}
+    env:
+      PLAYWRIGHT_CHANNEL: chromium
+      POWERSHELL_EXE: ${{ matrix.shell }}
+      PYTHON_EXE: python
+    steps:
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version: '24'
+          cache: npm
+      - name: Install declared test dependencies
+        run: |
+          npm.cmd ci
+          if ($LASTEXITCODE) { throw 'npm ci failed' }
+          python -m pip install --disable-pip-version-check -r requirements-dev.txt
+          if ($LASTEXITCODE) { throw 'FFmpeg dependency install failed' }
+          npx.cmd playwright install chromium
+          if ($LASTEXITCODE) { throw 'Chromium install failed' }
+      - name: Prepare official runtime and verify selector provenance
+        run: |
+          $nodePath = (Get-Command node.exe).Source
+          Copy-Item -LiteralPath $nodePath -Destination runtime/node.exe -Force
+          $license = Join-Path (Split-Path $nodePath) 'LICENSE'
+          if (!(Test-Path -LiteralPath $license)) { throw 'Official Node distribution license missing' }
+          Copy-Item -LiteralPath $license -Destination runtime/LICENSE-node.txt -Force
+          $signature = Get-AuthenticodeSignature -LiteralPath runtime/node.exe
+          if ($signature.Status -ne 'Valid' -or $signature.SignerCertificate.Subject -notmatch 'OpenJS Foundation') { throw 'Official Node signature invalid' }
+          node tests/selector-provenance.test.mjs
+          if ($LASTEXITCODE) { throw 'Selector provenance failed' }
+      - name: Build all nine packs and launchers from source
+        run: |
+          & ./Build-From-Source.ps1
+          if ($LASTEXITCODE) { throw 'Source build failed' }
+      - name: Isolated unit, asset and native geometry regressions
+        run: |
+          npm.cmd test
+          if ($LASTEXITCODE) { throw 'Unit regressions failed' }
+          npm.cmd run test:powershell
+          if ($LASTEXITCODE) { throw 'PowerShell regressions failed' }
+      - name: Isolated browser regressions
+        if: matrix.shell == 'pwsh'
+        run: |
+          npm.cmd run test:browser
+          if ($LASTEXITCODE) { throw 'Browser regressions failed' }
+      - name: Package runtime and verify complete archive integrity
+        run: |
+          python integration/package.py --output-dir dist
+          if ($LASTEXITCODE) { throw 'Portable packaging failed' }
+          $version = (Get-Content package.json -Raw | ConvertFrom-Json).version
+          node tests/portable-package.mjs "dist/CodexUI-Integrated-$version-Windows-x64.zip"
+          if ($LASTEXITCODE) { throw 'Packaged nine-role activation failed' }
+      - name: Upload portable release candidate
+        if: matrix.shell == 'pwsh'
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: windows-portable
+          path: |
+            dist/CodexUI-Integrated-*-Windows-x64.zip
+            dist/RELEASE.json
+            dist/SHA256SUMS.txt
+          if-no-files-found: error
+          retention-days: 7

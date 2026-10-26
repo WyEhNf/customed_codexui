@@ -1,0 +1,34 @@
+{
+  "schemaVersion": 1,
+  "description": "Explicit portable release inputs. Runtime manifests exclude source artwork, previews, metrics and authoring tools; the repository retains them for reproducibility.",
+  "rootFiles": [
+    "CodexUI.exe", "SandroneCodex.exe", "Setup.ps1", "Remove-Shortcuts.ps1",
+    "Theme-Actions.ps1", "verify-integrity.mjs", "README.md", "LICENSE",
+    "ASSET-LICENSE.md", "THIRD-PARTY-NOTICES.md", "asset-edition.json", "package.json", "catalog.json"
+  ],
+  "treeRoots": ["engine", "vendor/dream-skin", "runtime"],
+  "integrationFiles": [
+    "selection.mjs", "transaction-gc.mjs", "coordinator.mjs", "switch.mjs", "control-env.mjs",
+    "embedded-ui.mjs", "embedded-bridge.mjs", "character-icons.mjs", "material-ui.mjs",
+    "workspace-background.mjs", "decorators.mjs", "icon-contract.json", "material-contract.json",
+    "runtime-files.json"
+  ],
+  "packFiles": [
+    "engine/renderer.mjs", "engine/native-ui.css",
+    "assets/LICENSE.txt", "assets/workshop.ico",
+    "assets/characters/sandrone/portrait.png", "assets/characters/sandrone/round-icon.png",
+    "assets/backgrounds/dark-mechanical.jpg",
+    "assets/ornaments/01_ornate_gear.png", "assets/ornaments/02_mechanical_iris.png", "assets/ornaments/04_marionette_strings.png",
+    "assets/branding/signature-reference.jpg", "assets/branding/sandrone-signature.json", "assets/branding/opening-lettering.json",
+    "assets/icons/ui/icon-set.json", "assets/ui/personality.json", "assets/ui/workspace-background.json",
+    "assets/ui/workspace-foreground.png", "assets/ui/workspace-frame.svg",
+    "assets/motion/derived.json", "assets/motion/sandrone-first-frame.jpg",
+    "themes/sandrone/LICENSE.txt", "themes/sandrone/background.png", "themes/sandrone/manifest.json",
+    "themes/sandrone/theme.json", "themes/sandrone/theme.css"
+  ],
+  "optionalPackFiles": [
+    "assets/ornaments/cryo.png", "assets/ornaments/skill.png", "assets/ornaments/burst.png",
+    "assets/motion/sandrone-loop-1080p.mp4", "assets/motion/sandrone-loop-720p.mp4",
+    "assets/motion/sandrone-trace-1080p.mp4", "assets/motion/sandrone-outline.json", "assets/motion/scene-intro.json"
+  ]
+}

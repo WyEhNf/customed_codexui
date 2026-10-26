@@ -1,0 +1,69 @@
+name: Publish release
+
+on:
+  push:
+    tags: ['v*']
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
+      - name: Require the exact version tag
+        shell: pwsh
+        run: |
+          $version = (Get-Content package.json -Raw | ConvertFrom-Json).version
+          if ($env:GITHUB_REF -cne "refs/tags/v$version") { throw 'Release must run on the version tag declared by package.json' }
+  build:
+    needs: validate
+    uses: ./.github/workflows/ci.yml
+  publish:
+    needs: build
+    runs-on: windows-latest
+    permissions:
+      contents: write
+      actions: read
+    steps:
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
+      - name: Download the tested artifact with the GitHub CLI
+        shell: pwsh
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh run download $env:GITHUB_RUN_ID --repo $env:GITHUB_REPOSITORY --name windows-portable --dir dist
+          if ($LASTEXITCODE) { throw 'Artifact download failed' }
+      - name: Verify checksums and publish portable assets
+        shell: pwsh
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          $metadata = Get-Content dist/RELEASE.json -Raw | ConvertFrom-Json
+          $tag = "v$($metadata.version)"
+          if ($env:GITHUB_REF -cne "refs/tags/$tag") { throw 'Artifact version differs from tag' }
+          foreach ($line in Get-Content dist/SHA256SUMS.txt) {
+            if ($line -notmatch '^([a-f0-9]{64})  ([A-Za-z0-9._-]+)$') { throw 'Malformed checksum entry' }
+            $expected = $Matches[1]; $file = Join-Path dist $Matches[2]
+            if ((Get-FileHash -Algorithm SHA256 -LiteralPath $file).Hash.ToLowerInvariant() -cne $expected) { throw "Checksum mismatch: $file" }
+          }
+          $notes = @"
+          Nine character themes with their built-in switcher, source-aligned opening animations, and native Codex layout.
+
+          Download the Windows x64 portable ZIP, extract it, then run Setup.ps1. The official Codex desktop app must be installed and opened once.
+
+          This release improves framework scheduling, renderer lifecycle, runtime-only integrity and package size, and character-specific project labels. Development dependencies and historical preview bundles are excluded.
+
+          SHA256SUMS.txt verifies the ZIP and RELEASE.json. RELEASE.json identifies the tagged source and package contract.
+          "@
+          $notes | Set-Content -LiteralPath dist/release-notes.md -Encoding utf8
+          $assets = @("dist/$($metadata.file)", 'dist/RELEASE.json', 'dist/SHA256SUMS.txt')
+          gh release view $tag --repo $env:GITHUB_REPOSITORY 2>$null
+          if ($LASTEXITCODE -eq 0) {
+            gh release upload $tag @assets --clobber --repo $env:GITHUB_REPOSITORY
+          } else {
+            gh release create $tag @assets --verify-tag --title "Custom Codex UI $($metadata.version)" --notes-file dist/release-notes.md --repo $env:GITHUB_REPOSITORY
+          }
+          if ($LASTEXITCODE) { throw 'GitHub release publication failed' }

@@ -4,10 +4,10 @@ import assert from 'node:assert/strict';
 import {fileURLToPath,pathToFileURL} from 'node:url';
 import {createRequire} from 'node:module';
 const root=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'..'),require=createRequire(import.meta.url);
-let playwright;try{playwright=require(process.env.PLAYWRIGHT_MODULE||'playwright');}catch(error){if(process.env.PLAYWRIGHT_MODULE)throw error;playwright=require('C:/Users/admin/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright');}
+const playwright=require(process.env.PLAYWRIGHT_MODULE||'playwright');
 const evidence=path.join(root,'evidence/scene-entrance');await fs.mkdir(evidence,{recursive:true});
 const catalog=JSON.parse(await fs.readFile(path.join(root,'catalog.json'),'utf8'));
-const browser=await playwright.chromium.launch({headless:true,channel:'msedge'}),report={pass:false,characters:[],errors:[]};
+const browser=await playwright.chromium.launch({headless:true,channel:process.env.PLAYWRIGHT_CHANNEL||'chromium'}),report={pass:false,characters:[],errors:[]};
 const invoke=(page,fn,...args)=>page.evaluate(({code,args})=>eval('('+code+')')(...args),{code:fn.toString(),args});
 const load=async id=>{const pack=path.join(root,'characters',id);return {assets:await(await import(pathToFileURL(path.join(pack,'engine/assets.mjs')).href)).openingAssets(),renderer:await import(pathToFileURL(path.join(pack,'engine/renderer.mjs')).href)};};
 const sample=page=>page.evaluate(()=>{const s=document.getElementById('sandrone-opening').shadowRoot,frame=s.querySelector('.scene-intro-frame'),svg=frame?.querySelector('svg'),movie=s.querySelector('.motion'),matrix=svg?.getScreenCTM();return {intro:window.__SANDRONE_OPENING_STATE__.sceneIntro,video:window.__SANDRONE_OPENING_STATE__.video,time:movie.currentTime,source:movie.getAttribute('src')!==null,posterOpacity:Number(getComputedStyle(s.querySelector('.motion-poster')).opacity),movieOpacity:Number(getComputedStyle(movie).opacity),blurOpacity:Number(getComputedStyle(s.querySelector('.scene'),'::before').opacity),svg:svg?{viewBox:svg.getAttribute('viewBox'),aspect:svg.getAttribute('preserveAspectRatio'),matrix:{a:matrix.a,d:matrix.d,e:matrix.e,f:matrix.f}}:null,oldSeal:!!s.querySelector('.entrance-seal'),frameOpacity:frame?Number(getComputedStyle(frame).opacity):null,rotors:s.querySelectorAll('.scene-time-rotor').length,generic:['.gear','.iris','.orbit','.grain'].map(k=>getComputedStyle(s.querySelector(k)).display)};});

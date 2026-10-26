@@ -1,4 +1,4 @@
-// Independent read-only verification of the real assembled 1.4 character packs.
+// Independent read-only verification of the current assembled character packs.
 // Does not open a client, inspect profile state, or regenerate artwork.
 import fs from 'node:fs/promises';
 import path from 'node:path';
@@ -9,8 +9,8 @@ import {createHash} from 'node:crypto';
 import {spawnSync} from 'node:child_process';
 import {loadCatalog,verifyPack} from '../integration/selection.mjs';
 const root=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'..');
-const sharp=createRequire(import.meta.url)(process.env.SHARP_MODULE||'C:/Users/admin/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/sharp');
-const ffmpeg=process.env.FFMPEG_EXE||'C:/Users/admin/miniconda3/Lib/site-packages/imageio_ffmpeg/binaries/ffmpeg-win-x86_64-v7.1.exe';
+const sharp=createRequire(import.meta.url)(process.env.SHARP_MODULE||'sharp');
+const ffmpeg=process.env.FFMPEG_EXE||'ffmpeg';
 const sha=b=>createHash('sha256').update(b).digest('hex');
 const json=async f=>JSON.parse((await fs.readFile(f,'utf8')).replace(/^\uFEFF/,''));
 const expected=['columbina','ayaka','hutao','nahida','furina','citlali','mitya','istaroth','sandrone'];
@@ -19,7 +19,7 @@ const meanAbs=(a,b)=>{assert.equal(a.length,b.length);let total=0;for(let i=0;i<
 const raster=async file=>sharp(file).resize(160,90,{fit:'fill'}).removeAlpha().raw().toBuffer();
 let failure;
 try{
- assert.match(catalog.version,/^1\.[456]\.\d+$/);assert.deepEqual(catalog.characters.map(c=>c.id).sort(),[...expected].sort());
+ assert.equal(catalog.version,(await json(path.join(root,'package.json'))).version);assert.deepEqual(catalog.characters.map(c=>c.id).sort(),[...expected].sort());
  for(const c of catalog.characters){
   const {pack}=await verifyPack(root,c.id),meta=await json(path.join(pack,'presentation.json'));
   assert.equal(meta.releaseVersion,'1.4.0',c.id+' production version');
@@ -103,9 +103,9 @@ try{
    mitya={sourceDifference,sourceSha256:composition.openingSourceSha256,environmentEffects:ledger.environmentEffects,rawFaceMAD:metrics.rawFaceMAD,rawProtectedMapMaxPx:metrics.rawProtectedMapMaxPx,decodedFrames:frames.length,consecutiveMAD,brightnessRange};
   }
   report.characters.push({id:c.id,letteringEntries:Object.keys(lettering.entries).length,letteringGeometrySha256:lettering.geometrySha256,frame:frameStats||{originalPreserved:true},...(mitya?{quietMitya:mitya}:{})});
-  console.log('PASS refinement 1.4 '+c.id);
+  console.log('PASS art contract '+c.id);
  }
  report.pass=true;
 }catch(error){failure=error;report.failure={message:error.message};process.exitCode=1;}
-await fs.mkdir(path.join(root,'evidence/refinement'),{recursive:true});await fs.writeFile(path.join(root,'evidence/refinement/refinement-1.4.json'),JSON.stringify(report,null,2));
+await fs.mkdir(path.join(root,'evidence/art-contract'),{recursive:true});await fs.writeFile(path.join(root,'evidence/art-contract/results.json'),JSON.stringify(report,null,2));
 if(failure)throw failure;console.log(JSON.stringify({pass:true,characters:report.characters.length,lettering:true,completeBackgroundFrames:true,quietIndependentMitya:true,profileRead:false,clientOperated:false}));

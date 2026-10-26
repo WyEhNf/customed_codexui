@@ -540,7 +540,7 @@
     {
       "file": "themes/sandrone/manifest.json",
       "bytes": 1350,
-      "sha256": "69c4e7112d765237c17425bea9c839ebe3b0c014f37860849dfc0cdcbc4b2155"
+      "sha256": "7e2f07f2e0dc4b1f9ea8b859c97b1232a1b9e793611d0c5717b96bd9132cc327"
     },
     {
       "file": "themes/sandrone/theme.css",
@@ -550,7 +550,7 @@
     {
       "file": "themes/sandrone/theme.json",
       "bytes": 748,
-      "sha256": "0caa4ddd544f47c776e96268685a855894b5d97a031effa4348d21ad147797a5"
+      "sha256": "ef010abb50292515b94e2cb513b8d7ecf570c3b8ec59a387549e48d594dbf8a1"
     },
     {
       "file": "engine/assets.mjs",

@@ -34,18 +34,35 @@ export function installWorkspaceBackground(config){
  if(window[KEY]?.revision===config.revision){window[KEY].sync();return true;}
  window[KEY]?.dispose();
  const props=['background-image','background-size','background-position','background-repeat','background-attachment'];
- let body=null,saved=null,main=null,raf=0,dead=false,transitionUntil=0;
- const images={foreground:`url("${config.foreground}")`,frame:`url("${config.frame}")`,canvas:`linear-gradient(${config.canvasColor},${config.canvasColor})`};
- const state={id:config.id,revision:config.revision,mode:config.mode,geometry:null,updates:0,sync:schedule,dispose};
+ let body=null,saved=null,main=null,raf=0,dead=false,transitionUntil=0,refreshNeeded=true;
+ const leases=[];
+ const localImage=data=>{
+  if(typeof URL.createObjectURL!=='function'||typeof Blob!=='function')return data;
+  const [header,encoded]=data.split(','),raw=atob(encoded),bytes=new Uint8Array(raw.length);
+  for(let i=0;i<raw.length;i++)bytes[i]=raw.charCodeAt(i);
+  const url=URL.createObjectURL(new Blob([bytes],{type:header.slice(5,header.indexOf(';'))}));leases.push(url);return url;
+ };
+ const images={foreground:`url("${localImage(config.foreground)}")`,frame:`url("${localImage(config.frame)}")`,canvas:`linear-gradient(${config.canvasColor},${config.canvasColor})`};
+ const state={id:config.id,revision:config.revision,mode:config.mode,body:null,geometry:null,updates:0,assetUrls:leases,storageMode:leases.length?'blob':'data',sync:schedule,isHealthy,dispose};
  const normalizer=document.createElement('div').style,normalized=new Map();
  const observer=typeof ResizeObserver==='function'?new ResizeObserver(schedule):null;
+ const boundaries=new Set(),boundarySelector='[data-ds-part="main"],[data-ds-part="sidebar"],[data-app-shell-active-page],[role="tabpanel"]';
+ const boundaryObserver=new MutationObserver(schedule);
+ function refreshBoundaries(){
+  boundaryObserver.disconnect();boundaries.clear();
+  const add=node=>{for(let p=node;p;p=p.parentElement)boundaries.add(p);};
+  add(document.body);for(const node of document.querySelectorAll(boundarySelector))add(node);
+  for(const node of boundaries)boundaryObserver.observe(node,{attributes:true,attributeFilter:['class','style','hidden','data-ds-part','data-dream-skin','data-app-shell-active-page','data-state']});
+  refreshNeeded=false;
+ }
  const px=n=>Number(n.toFixed(3))+'px';
  function restore(){if(body&&saved)for(const [p,value,priority]of saved){if(value)body.style.setProperty(p,value,priority);else body.style.removeProperty(p);}saved=null;}
  function usable(node){if(!node.isConnected||!node.getClientRects().length||node.closest('[data-app-shell-active-page="false"],[role="tabpanel"][data-state="inactive"]'))return false;for(let n=node;n;n=n.parentElement){const style=getComputedStyle(n);if(n.hidden||style.display==='none'||style.visibility==='hidden')return false;}const r=node.getBoundingClientRect();return r.width>1&&r.height>1&&r.right>0&&r.bottom>0&&r.left<innerWidth&&r.top<innerHeight;}
  function findMain(){return [...document.querySelectorAll('[data-ds-part="main"]')].filter(usable).sort((a,b)=>{const x=a.getBoundingClientRect(),y=b.getBoundingClientRect();return y.width*y.height-x.width*x.height;})[0]||null;}
  function sync(){
   raf=0;if(dead)return;state.updates++;
-  if(body!==document.body){restore();body=document.body;}
+  if(body!==document.body){restore();body=document.body;state.body=body;refreshNeeded=true;}
+  if(refreshNeeded)refreshBoundaries();
   const active=document.documentElement.getAttribute('data-dream-skin')==='active';
   if(!body||!active){restore();state.geometry=null;return;}
   if(!saved)saved=props.map(p=>[p,body.style.getPropertyValue(p),body.style.getPropertyPriority(p)]);
@@ -66,10 +83,16 @@ export function installWorkspaceBackground(config){
   if(performance.now()<transitionUntil)schedule();
  }
  function schedule(){if(!dead&&!raf)raf=requestAnimationFrame(sync);}
- function transition(event){const target=event.target;if(!(target instanceof Element)||!target.closest('[data-ds-part="sidebar"],[data-ds-part="main"]'))return;let ms=0;const style=getComputedStyle(target);for(const value of (style.transitionDuration+','+style.transitionDelay).split(',')){const n=parseFloat(value);if(Number.isFinite(n))ms=Math.max(ms,n*(value.trim().endsWith('ms')?1:1000));}if(event.type==='transitionrun')transitionUntil=Math.max(transitionUntil,performance.now()+Math.min(5000,ms*2+32));else transitionUntil=0;schedule();}
- const mutations=new MutationObserver(schedule);mutations.observe(document.documentElement,{subtree:true,childList:true,attributes:true,attributeFilter:['class','style','hidden','data-ds-part','data-dream-skin','data-app-shell-active-page','data-state']});
- window.addEventListener('resize',schedule);window.addEventListener('scroll',schedule,true);document.addEventListener('transitionrun',transition,true);document.addEventListener('transitionend',transition,true);document.addEventListener('transitioncancel',transition,true);
- function dispose(){if(dead)return;dead=true;if(raf)cancelAnimationFrame(raf);mutations.disconnect();observer?.disconnect();window.removeEventListener('resize',schedule);window.removeEventListener('scroll',schedule,true);document.removeEventListener('transitionrun',transition,true);document.removeEventListener('transitionend',transition,true);document.removeEventListener('transitioncancel',transition,true);restore();state.geometry=null;if(window[KEY]===state)delete window[KEY];}
+ function transition(event){const target=event.target;if(!(target instanceof Element)||!boundaries.has(target))return;let ms=0;const style=getComputedStyle(target);for(const value of (style.transitionDuration+','+style.transitionDelay).split(',')){const n=parseFloat(value);if(Number.isFinite(n))ms=Math.max(ms,n*(value.trim().endsWith('ms')?1:1000));}if(event.type==='transitionrun')transitionUntil=Math.max(transitionUntil,performance.now()+Math.min(5000,ms*2+32));else transitionUntil=0;schedule();}
+ const contentSelector='[data-ds-part="message"],[data-ds-part="composer"],[contenteditable="true"],textarea,pre,code,[data-markdown],.markdown,[class*="markdown"]';
+ const mutations=new MutationObserver(records=>{
+  if(records.some(r=>!r.target.closest?.(contentSelector)&&(r.type==='attributes'||[...r.addedNodes,...r.removedNodes].some(n=>n.nodeType===1&&!n.matches?.(contentSelector)&&(boundaries.has(n)||n.matches?.(boundarySelector+',body')||n.querySelector?.(boundarySelector)))))){refreshNeeded=true;schedule();}
+ });
+ mutations.observe(document.documentElement,{subtree:true,childList:true,attributes:true,attributeFilter:['data-ds-part','data-app-shell-active-page']});
+ function scroll(event){const target=event.target;if(target===document||target===window||target instanceof Element&&main&&target!==main&&target.contains(main))schedule();}
+ function isHealthy(){return !dead&&body===document.body&&!!saved&&body.style.getPropertyValue('background-image')===normalized.get('background-image')?.value;}
+ window.addEventListener('resize',schedule);window.addEventListener('scroll',scroll,true);document.addEventListener('transitionrun',transition,true);document.addEventListener('transitionend',transition,true);document.addEventListener('transitioncancel',transition,true);
+ function dispose(){if(dead)return;dead=true;if(raf)cancelAnimationFrame(raf);mutations.disconnect();boundaryObserver.disconnect();observer?.disconnect();window.removeEventListener('resize',schedule);window.removeEventListener('scroll',scroll,true);document.removeEventListener('transitionrun',transition,true);document.removeEventListener('transitionend',transition,true);document.removeEventListener('transitioncancel',transition,true);restore();for(const url of leases)URL.revokeObjectURL(url);state.geometry=null;state.body=null;if(window[KEY]===state)delete window[KEY];}
  window[KEY]=state;sync();return true;
 }
 

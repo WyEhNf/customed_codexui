@@ -7,6 +7,7 @@ import {recoverPending,loadCatalog,atomicJson} from './selection.mjs';
 import {switchCharacter} from './coordinator.mjs';
 import {appPages,Session} from '../engine/cdp.mjs';
 import {windowsPowerShellEnv} from './control-env.mjs';
+import {pruneCompletedTransactions} from './transaction-gc.mjs';
 const root=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'..');
 const args=process.argv.slice(2),operation=args[0],id=args[1],offline=args.includes('--no-launch');
 const requestId=args.includes('--request-id')?args[args.indexOf('--request-id')+1]:null;
@@ -59,6 +60,8 @@ try{
  if(operation==='--status'){
   const catalog=await loadCatalog(root);let selected;try{selected=JSON.parse(await fs.readFile(path.join(state,'selection.json'),'utf8'));}catch{}
   report({status:'ready',selectedId:selected?.id||catalog.defaultId,characters:catalog.characters.map(({id,name,themeName})=>({id,name,themeName}))});
+ }else if(operation==='--cleanup'){
+  report({status:'ready',cleanup:await pruneCompletedTransactions(root),message:'已清理过期的成功切换备份；保留待处理与失败事务。'});
  }else if(operation==='--launch'){
   const r=await control('launch');report(r);if(!['ready','waiting'].includes(r.status))process.exitCode=2;
  }else if(operation==='--restore'){

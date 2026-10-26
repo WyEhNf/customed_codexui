@@ -1,0 +1,14 @@
+{
+  "schemaVersion": 1,
+  "characters": {
+    "columbina": { "projectPrefix": "月庭 · ", "projectLabel": "选择项目" },
+    "ayaka": { "projectPrefix": "霜庭 · ", "projectLabel": "选择项目" },
+    "hutao": { "projectPrefix": "往生堂 · ", "projectLabel": "选择项目" },
+    "nahida": { "projectPrefix": "净善宫 · ", "projectLabel": "选择项目" },
+    "furina": { "projectPrefix": "剧场 · ", "projectLabel": "选择项目" },
+    "citlali": { "projectPrefix": "星帐 · ", "projectLabel": "选择项目" },
+    "mitya": { "projectPrefix": "书房 · ", "projectLabel": "选择项目" },
+    "istaroth": { "projectPrefix": "时庭 · ", "projectLabel": "选择项目" },
+    "sandrone": { "projectPrefix": "工坊 · ", "projectLabel": "选择项目" }
+  }
+}

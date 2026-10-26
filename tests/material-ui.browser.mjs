@@ -6,14 +6,14 @@ import assert from 'node:assert/strict';
 import {installMaterialUi,removeMaterialUi,getMaterialUiConfig} from '../integration/material-ui.mjs';
 import {installCharacterIcons,removeCharacterIcons} from '../integration/character-icons.mjs';
 const require=createRequire(import.meta.url);
-const {chromium}=require(process.env.PLAYWRIGHT_MODULE||'C:/Users/admin/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright');
-const sharp=require('C:/Users/admin/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/sharp');
+const {chromium}=require(process.env.PLAYWRIGHT_MODULE||'playwright');
+const sharp=require(process.env.SHARP_MODULE||'sharp');
 const root=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'..'),evidence=path.join(root,'evidence/material-ui');
 await fs.mkdir(evidence,{recursive:true});
 const ids=['columbina','sandrone','hutao','ayaka','nahida','furina','citlali','mitya','istaroth'];
 const native=JSON.parse(await fs.readFile(path.join(root,'tests/fixtures/native-ui-icons.json'),'utf8')).icons;
 const contract=JSON.parse(await fs.readFile(path.join(root,'integration/icon-contract.json'),'utf8'));
-const browser=await chromium.launch({headless:true,channel:process.env.PLAYWRIGHT_CHANNEL||'msedge'}),results=[];
+const browser=await chromium.launch({headless:true,channel:process.env.PLAYWRIGHT_CHANNEL||'chromium'}),results=[];
 const marker='data-codex-material-role';
 try{
  const page=await browser.newPage({viewport:{width:1200,height:830}}),errors=[];page.on('pageerror',e=>errors.push(e.message));
@@ -26,7 +26,7 @@ try{
  await page.locator('#menu').evaluate(node=>node.style.top='150px');
  await page.evaluate(()=>{window.clicks=0;document.getElementById('project').onclick=()=>window.clicks++;});
  for(const id of ids){
-  const config=await getMaterialUiConfig(root,id),icons=JSON.parse(await fs.readFile(path.join(root,`integration/materials/output/${id}/material-icon-set.json`),'utf8'));
+  const config=await getMaterialUiConfig(root,id),icons=JSON.parse(await fs.readFile(path.join(root,`characters/${id}/assets/icons/ui/icon-set.json`),'utf8'));
   await page.locator('#roles').evaluate((node,roles)=>node.innerHTML=roles.map(role=>`<button aria-label="${role}"><svg data-character-ui-icon="${role}" width="24" height="24" viewBox="0 0 24 24"><path d="M2 2h20v20H2Z" fill="none" stroke="currentColor"/></svg>${role}</button>`).join(''),['folder','projects','chat','file','terminal','search','settings','artifacts']);
   await page.evaluate(()=>window.nativeNodes=[...document.querySelectorAll('body *')].map(node=>({node,children:[...node.childNodes],rect:node.getBoundingClientRect().toJSON(),aria:node.getAttribute('aria-label')})));
   // The fixture roles are deliberately added outside the preserved-native sample.
@@ -60,7 +60,7 @@ try{
  await page.waitForFunction(()=>document.getElementById('file').getAttribute('data-codex-material-role')==='menu-button'&&document.getElementById('codex-character-materials').shadowRoot.querySelectorAll('.avatar').length===9);
  assert.equal(await page.locator('#project').getAttribute(marker),'tag','existing mutation observer restores app decoration after opening removal');
  // Transparent center of each SVG frame keeps all face pixels unobscured; only the outer rim and lower outside clasp are painted.
- for(const id of ids){const frame=await fs.readFile(path.join(root,`integration/materials/output/${id}/avatar-frame.svg`));const {data,info}=await sharp(frame).resize(200,200).ensureAlpha().raw().toBuffer({resolveWithObject:true});let centerAlpha=0,painted=0;for(let y=0;y<200;y++)for(let x=0;x<200;x++){const alpha=data[(y*200+x)*info.channels+3];if(alpha)painted++;if(x>=60&&x<140&&y>=60&&y<140)centerAlpha+=alpha;}assert.equal(centerAlpha,0,id+' rendered face center remains completely transparent');assert.ok(painted>300,id+' rendered frame and material ornament are present');}
+ for(const id of ids){const frameUri=(await getMaterialUiConfig(root,id)).avatarFrame;assert.ok(frameUri.startsWith('data:image/svg+xml;base64,'));const frame=Buffer.from(frameUri.split(',')[1],'base64');const {data,info}=await sharp(frame).resize(200,200).ensureAlpha().raw().toBuffer({resolveWithObject:true});let centerAlpha=0,painted=0;for(let y=0;y<200;y++)for(let x=0;x<200;x++){const alpha=data[(y*200+x)*info.channels+3];if(alpha)painted++;if(x>=60&&x<140&&y>=60&&y<140)centerAlpha+=alpha;}assert.equal(centerAlpha,0,id+' rendered face center remains completely transparent');assert.ok(painted>300,id+' rendered frame and material ornament are present');}
  await page.evaluate(()=>document.documentElement.removeAttribute('data-dream-skin'));await page.waitForFunction(()=>document.getElementById('codex-character-materials').hidden);
  await page.evaluate(code=>eval('('+code+')')(),removeMaterialUi.toString());await page.evaluate(code=>eval('('+code+')')(),removeCharacterIcons.toString());assert.equal(await page.locator('#codex-character-materials').count(),0);assert.equal(await page.locator('['+marker+']').count(),0);assert.equal(await page.locator('#project svg path').evaluate(p=>getComputedStyle(p).visibility),'visible');
  assert.deepEqual(errors,[]);const result={pass:true,scope:'offline real-structure DOM fixture, not live-process UI interaction',characters:results,openingOccludesAppDecorations:true,openingBrandFramePreserved:true,appDecorationsRestoreAfterOpening:true,unloadClean:true,nativeAvatar:'No fake account avatar added',nativeOsMenus:'Chromium menu panels only; system-owned menus are outside the DOM',browserErrors:errors};await fs.writeFile(path.join(evidence,'browser-results.json'),JSON.stringify(result,null,2)+'\n');console.log(JSON.stringify({pass:true,characters:ids.length,layout:true,events:true,children:true,transparentAvatarCenters:true,openingOcclusion:true,restore:true,browserErrors:0}));

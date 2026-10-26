@@ -7,7 +7,7 @@ import {createHash} from 'node:crypto';
 import {buildWorkspaceFrame} from './build-workspace-frame.mjs';
 const root=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'..');
 const design=process.env.CHARACTER_DESIGN_ROOT||'G:/sandrone/design-review/2026-10-25/full-scene-v7';
-const sharp=createRequire(import.meta.url)(process.env.SHARP_MODULE||'C:/Users/admin/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/sharp');
+const sharp=createRequire(import.meta.url)(process.env.SHARP_MODULE||'sharp');
 const spec=JSON.parse(await fs.readFile(path.join(design,'design-spec.json'),'utf8'));
 const sha=b=>createHash('sha256').update(b).digest('hex');
 const template=await fs.readFile(path.join(root,'integration/templates/renderer.mjs'),'utf8');

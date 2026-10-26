@@ -24,6 +24,9 @@ try{
  const result=await switchCharacter({root,id:'beta',managedAlive:async()=>true,control:async(action,replay)=>{events.push([action,replay]);return {status:'ready'};}});
  assert.equal(result.status,'ready');assert.deepEqual(events,[['prepare-switch',false],['launch',true]],'retain old skin and request one opening, without upstream pause/remove');
  assert.equal(await fs.readFile(path.join(root,'assets/avatar.png'),'utf8'),'beta-avatar');
+ const transactionsBefore=(await fs.readdir(path.join(root,'state/transactions'))).length,replays=[];
+ const replay=await switchCharacter({root,id:'beta',managedAlive:async()=>true,control:async(action,opening)=>{replays.push([action,opening]);return {status:'ready'};}});
+ assert.equal(replay.replayed,true);assert.deepEqual(replays,[['launch',true]],'same character uses verified replay without stopping watcher');assert.equal((await fs.readdir(path.join(root,'state/transactions'))).length,transactionsBefore,'same-character replay never creates a backup');
  const oldIntegrity=await fs.readFile(path.join(root,'integrity.json'),'utf8');let tx=await stageCharacter(root,'alpha');
  await assert.rejects(commitCharacter(root,tx,{afterStep:n=>{if(n==='themes')throw new Error('simulated disk failure');}}),/disk failure/);
  assert.equal(await fs.readFile(path.join(root,'assets/avatar.png'),'utf8'),'beta-avatar');assert.equal(await fs.readFile(path.join(root,'integrity.json'),'utf8'),oldIntegrity);

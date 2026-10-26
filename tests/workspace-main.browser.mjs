@@ -7,8 +7,8 @@ import {fileURLToPath} from 'node:url';
 import {createRequire} from 'node:module';
 import {getWorkspaceBackgroundConfig,installWorkspaceBackground,removeWorkspaceBackground} from '../integration/workspace-background.mjs';
 const root=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'..'),require=createRequire(import.meta.url);
-const {chromium}=require(process.env.PLAYWRIGHT_MODULE||'C:/Users/admin/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright');
-const sharp=require('C:/Users/admin/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/sharp');
+const {chromium}=require(process.env.PLAYWRIGHT_MODULE||'playwright');
+const sharp=require(process.env.SHARP_MODULE||'sharp');
 const evidence=path.join(root,'evidence/workspace-main');await fs.mkdir(evidence,{recursive:true});
 const ids=['columbina','sandrone','hutao','ayaka','nahida','furina','citlali','mitya','istaroth'];
 const configs=await Promise.all(ids.map(id=>getWorkspaceBackgroundConfig(root,id)));
@@ -33,7 +33,7 @@ const fixture=`<!doctype html><html data-dream-skin="active"><head><style>
 <div class="menubar"><button id="file">文件</button><button>编辑</button><button>视图</button></div><aside class="sidebar" data-ds-part="sidebar"><nav data-app-navigation-rail><button id="toggle" class="rail" aria-label="折叠侧栏">☰</button></nav></aside>
 <div data-app-shell-active-page="true" id="active-page"><main data-ds-part="main" class="main" id="main"><header class="header" data-ds-part="header">主工作区 · frame follows this area</header><article><div class="message" data-ds-part="message">边框与底纹仅在主工作区内，侧边栏保持独立。<br>人物图层保持比例和原有留白。</div></article><div class="composer" data-ds-part="composer"><textarea id="draft" aria-label="输入框">保留的草稿</textarea><button id="send">发送</button></div></main></div>
 </body></html>`;
-const browser=await chromium.launch({headless:true,channel:process.env.PLAYWRIGHT_CHANNEL||'msedge'}),report={pass:false,scope:'isolated native-structure browser fixture with actual nine production assets',characters:[],browserErrors:[]};
+const browser=await chromium.launch({headless:true,channel:process.env.PLAYWRIGHT_CHANNEL||'chromium'}),report={pass:false,scope:'isolated native-structure browser fixture with actual nine production assets',characters:[],browserErrors:[]};
 try{
  const page=await browser.newPage({viewport:{width:1440,height:900}});page.on('pageerror',e=>report.browserErrors.push(e.message));await page.setContent(fixture);
  await page.evaluate(()=>{window.clicks=0;document.getElementById('send').onclick=()=>window.clicks++;document.getElementById('toggle').onclick=()=>document.documentElement.classList.toggle('collapsed');window.savedNodes=[...document.querySelectorAll('body *')].map(node=>({node,children:[...node.childNodes],rect:node.getBoundingClientRect().toJSON(),aria:node.getAttribute('aria-label')}));window.savedStyles=['background-image','background-size','background-position','background-repeat','background-attachment'].map(p=>[p,document.body.style.getPropertyValue(p),document.body.style.getPropertyPriority(p)]);});

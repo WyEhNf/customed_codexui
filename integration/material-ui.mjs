@@ -4,7 +4,7 @@ import {createHash} from 'node:crypto';
 
 export async function getMaterialUiConfig(root,id){
  if(!/^(columbina|sandrone|hutao|ayaka|nahida|furina|citlali|mitya|istaroth)$/.test(id))throw new Error('Unknown material character');
- let raw;try{raw=await fs.readFile(path.join(root,`characters/${id}/assets/ui/personality.json`),'utf8');}catch(error){if(error.code!=='ENOENT')throw error;raw=await fs.readFile(path.join(root,`integration/materials/output/${id}/personality.json`),'utf8');}
+ const raw=await fs.readFile(path.join(root,`characters/${id}/assets/ui/personality.json`),'utf8');
  const config=JSON.parse(raw);if(config.schemaVersion!==1||config.id!==id)throw new Error('Material config identity mismatch');const iconContract=JSON.parse(await fs.readFile(path.join(root,'integration/icon-contract.json'),'utf8'));config.contract={...config.contract,settingsNavigation:iconContract.settingsNavigation};config.rendererRevision=createHash('sha256').update(await fs.readFile(path.join(root,'integration/material-ui.mjs'))).digest('hex');return config;
 }
 
@@ -13,7 +13,7 @@ export function installMaterialUi(config){
  const KEY='__CODEX_CHARACTER_MATERIALS__',ATTR='data-codex-material-role';
  if(!config||config.schemaVersion!==1||!config.id||!config.ornament||!config.avatarFrame)return false;
  const fingerprint=`material-ui-v1:${config.id}:${config.revision}:${config.rendererRevision||''}`;
- if(window[KEY]?.fingerprint===fingerprint){window[KEY].sync();return true;}
+ if(window[KEY]?.fingerprint===fingerprint&&window[KEY].host?.isConnected&&window[KEY].host.shadowRoot?.adoptedStyleSheets.includes(window[KEY].sheet)){window[KEY].sync();return true;}
  window[KEY]?.dispose();
  const host=document.createElement('div');host.id='codex-character-materials';host.setAttribute('aria-hidden','true');host.setAttribute('data-character',config.id);
  host.style.cssText='position:fixed;inset:0;pointer-events:none;z-index:2147483100;overflow:hidden;contain:strict;';
@@ -22,7 +22,7 @@ export function installMaterialUi(config){
  shadow.adoptedStyleSheets=[sheet];document.documentElement.append(host);
  const settingsImageSheet=new CSSStyleSheet();settingsImageSheet.replaceSync('.settings-icon .rim{display:none}.settings-icon .clasp{width:8px;height:9px;right:-2px;bottom:-2px;filter:drop-shadow(0 1px 1px #0008)}');shadow.adoptedStyleSheets=[...shadow.adoptedStyleSheets,settingsImageSheet];
  const palette=config.palette||{};host.style.setProperty('--light',palette.light||'#f3f0e6');host.style.setProperty('--metal',palette.metal||'#cbb78b');host.style.setProperty('--shadow',palette.shadow||'#6e6380');
- const anchors=new Map(),roots=new Map();let raf=0,dead=false;
+ const anchors=new Map(),roots=new Map(),anchorBoundaries=new Set();let raf=0,dead=false;
  const blocked='[data-ds-part="message"],[data-ds-part="composer"],[contenteditable="true"],textarea,pre,code,[data-markdown],.markdown,[class*="markdown"],[role="progressbar"],[data-character-material-exclude]';
  const safe=(node)=>node instanceof Element&&!node.closest(blocked)&&!node.closest('[data-danger="true"],[data-variant="danger"],[data-variant="destructive"]');
  function paintOpacity(node){let opacity=1;for(let p=node;p;p=p.parentElement||p.getRootNode()?.host)opacity*=Number(getComputedStyle(p).opacity);return opacity;}
@@ -32,8 +32,12 @@ export function installMaterialUi(config){
  function add(node,kind,character=config.id){if(!safe(node)||!visible(node))return;const avatar=kind==='avatar'||kind==='user-avatar';let record=anchors.get(node);if(record&&record.kind!==kind){forget(node,record);record=null;}if(!record){const el=document.createElement('div');el.className='ornament '+kind+(kind==='user-avatar'?' avatar':'');el.setAttribute('data-kind',kind);el.setAttribute('data-character',character);if(avatar){const img=document.createElement('img');img.className='frame';img.alt='';img.src=config.galleryFrames?.[character]||config.avatarFrame;el.append(img);}else{const rim=document.createElement('div');rim.className='rim';const img=document.createElement('img');img.className='clasp';img.alt='';img.src=config.ornament;el.append(rim,img);}shadow.append(el);record={el,kind,previous:node.getAttribute(ATTR)};anchors.set(node,record);node.setAttribute(ATTR,kind);resizeObserver?.observe(node);}record.seen=true;const r=avatar?imageRect(node):node.getBoundingClientRect();const pad=avatar?Math.max(4,r.width*.15):0;record.el.style.left=(r.left-pad)+'px';record.el.style.top=(r.top-pad)+'px';record.el.style.width=(r.width+2*pad)+'px';record.el.style.height=(r.height+2*pad)+'px';record.el.style.borderRadius=getComputedStyle(node).borderRadius;record.el.style.opacity=String(paintOpacity(node));record.el.classList.toggle('is-focused',node.matches(':focus-visible,:hover')||node.getAttribute('aria-expanded')==='true'||node.getAttribute('aria-current')==='true');}
  // Verified Codex 26.1021 navigation rail footer. Never inspect user text or image URLs.
  function userAvatars(){const result=[];for(const rail of document.querySelectorAll('nav[data-app-navigation-rail]')){const footer=rail.lastElementChild;if(!footer||footer.matches('[class~="group/nav-list"]'))continue;for(const button of footer.querySelectorAll('button[aria-haspopup="menu"]')){if(button.closest('[data-settings-panel-slug]'))continue;const candidates=[...button.querySelectorAll('img.rounded-full,.rounded-full,[class*="_ButtonInner_"] > span.relative.isolate.inline-flex.shrink-0')];const node=candidates.find(n=>{const r=n.getBoundingClientRect();return r.width>=20&&r.width<=48&&r.height>=20&&r.height<=48&&Math.abs(r.width-r.height)<3;});if(node){const r=node.getBoundingClientRect(),hit=document.elementFromPoint(r.left+r.width/2,r.top+r.height/2);if(hit&&(hit===node||node.contains(hit)||button.contains(hit)))result.push(node);}}}return result;}
- function observeRoot(root){if(!root||roots.has(root))return;const ob=new MutationObserver(schedule);ob.observe(root,{subtree:true,childList:true,attributes:true,attributeFilter:['class','role','aria-expanded','aria-current','hidden','src','data-state','data-dream-skin']});roots.set(root,ob);root.addEventListener('scroll',schedule,true);root.addEventListener('load',schedule,true);}
- function sync(){raf=0;if(dead)return;const active=document.documentElement.getAttribute('data-dream-skin')==='active';host.hidden=!active;if(!active)return;for(const r of anchors.values())r.seen=false;
+ const structuralSelector=[config.contract?.menuBar||'[class*="ApplicationMenuTopBar_"]',config.contract?.projectSelector||'[class~="group/project-selector"]','nav[data-app-navigation-rail]','nav [data-settings-panel-slug]','[role="menu"]','#sandrone-opening','#codex-character-switcher','#codex-character-materials'].join(',');
+ const relevant=node=>node instanceof Element&&!node.closest(blocked)&&(node===document.documentElement||node===document.body||anchorBoundaries.has(node)||node.matches(structuralSelector)||!!node.closest(structuralSelector)||node.hasAttribute(ATTR));
+ function observeRoot(root){if(!root||roots.has(root))return;const ob=new MutationObserver(records=>{
+  if(root instanceof ShadowRoot||records.some(r=>!r.target.closest?.(blocked)&&(relevant(r.target)||r.type==='childList'&&[...r.addedNodes,...r.removedNodes].some(n=>n instanceof Element&&!n.closest(blocked)&&(n.matches(structuralSelector)||n.querySelector(structuralSelector))))))schedule();
+ });ob.observe(root,{subtree:true,childList:true,attributes:true,attributeFilter:['class','style','role','aria-expanded','aria-current','hidden','src','data-state','data-dream-skin']});roots.set(root,ob);root.addEventListener('scroll',schedule,true);root.addEventListener('load',schedule,true);}
+ function sync(){raf=0;if(dead)return;if(!host.isConnected)document.documentElement.append(host);for(const ownSheet of [sheet,settingsImageSheet])if(!shadow.adoptedStyleSheets.includes(ownSheet))shadow.adoptedStyleSheets=[...shadow.adoptedStyleSheets,ownSheet];const active=document.documentElement.getAttribute('data-dream-skin')==='active';host.hidden=!active;if(!active)return;for(const r of anchors.values())r.seen=false;
   const openingHost=document.getElementById('sandrone-opening'),opening=openingHost?.shadowRoot,switcher=document.getElementById('codex-character-switcher')?.shadowRoot;observeRoot(opening);observeRoot(switcher);
   // The material layer sits above the modal opening to frame its brand avatar.
   // Layout visibility alone cannot detect that the opening occludes the app below it.
@@ -50,16 +54,17 @@ export function installMaterialUi(config){
    for(const row of document.querySelectorAll('nav [data-settings-panel-slug]')){const slug=row.getAttribute('data-settings-panel-slug');if(!slugs.includes(slug)||['teams','account','profile'].includes(slug)||!safe(row))continue;const icon=[...row.querySelectorAll('img')].find(img=>{const r=img.getBoundingClientRect();return r.width>=12&&r.width<=32&&r.height>=12&&r.height<=32;});if(icon)add(icon,'settings-icon');}
    for(const avatar of switcher?.querySelectorAll('button.character[data-character] > img')||[])add(avatar,'avatar',avatar.parentElement.dataset.character);
   }
-  for(const [node,record]of anchors)if(!record.seen)forget(node,record);
+  anchorBoundaries.clear();for(const [node,record]of anchors){if(!record.seen)forget(node,record);else for(let parent=node;parent;parent=parent.parentElement||parent.getRootNode()?.host)anchorBoundaries.add(parent);}
   for(const [root,ob]of roots)if(root instanceof ShadowRoot&&!root.host.isConnected){ob.disconnect();root.removeEventListener('scroll',schedule,true);root.removeEventListener('load',schedule,true);roots.delete(root);}
   // Follow only finite brand/panel entrance and exit motion. Particle/video loops never keep this layer polling.
   const moving=(openingHost?[opening?.querySelector('.brand'),opening?.querySelector('.scene')]:[switcher?.querySelector('.panel')]).some(node=>node?.getAnimations?.().some(animation=>animation.playState==='running'||animation.playState==='pending'));if(moving)schedule();
  }
  function schedule(){if(!dead&&!raf)raf=requestAnimationFrame(sync);}
  const resizeObserver=typeof ResizeObserver==='function'?new ResizeObserver(schedule):null;
- observeRoot(document.documentElement);window.addEventListener('resize',schedule);window.addEventListener('scroll',schedule,true);window.addEventListener('focusin',schedule,true);window.addEventListener('pointerover',schedule,true);
- function dispose(){if(dead)return;dead=true;if(raf)cancelAnimationFrame(raf);resizeObserver?.disconnect();for(const [node,r]of [...anchors])forget(node,r);for(const [root,ob]of roots){ob.disconnect();root.removeEventListener('scroll',schedule,true);root.removeEventListener('load',schedule,true);}roots.clear();window.removeEventListener('resize',schedule);window.removeEventListener('scroll',schedule,true);window.removeEventListener('focusin',schedule,true);window.removeEventListener('pointerover',schedule,true);host.remove();if(window[KEY]?.fingerprint===fingerprint)delete window[KEY];}
- window[KEY]={fingerprint,id:config.id,sync:schedule,dispose};sync();return true;
+ const pointer=event=>{if(relevant(event.target)||event.composedPath().some(n=>n===host||n instanceof Element&&['sandrone-opening','codex-character-switcher'].includes(n.id)))schedule();};
+ observeRoot(document.documentElement);window.addEventListener('resize',schedule);window.addEventListener('scroll',schedule,true);window.addEventListener('focusin',pointer,true);window.addEventListener('pointerover',pointer,true);
+ function dispose(){if(dead)return;dead=true;if(raf)cancelAnimationFrame(raf);resizeObserver?.disconnect();for(const [node,r]of [...anchors])forget(node,r);for(const [root,ob]of roots){ob.disconnect();root.removeEventListener('scroll',schedule,true);root.removeEventListener('load',schedule,true);}roots.clear();window.removeEventListener('resize',schedule);window.removeEventListener('scroll',schedule,true);window.removeEventListener('focusin',pointer,true);window.removeEventListener('pointerover',pointer,true);host.remove();if(window[KEY]?.fingerprint===fingerprint)delete window[KEY];}
+ window[KEY]={fingerprint,id:config.id,host,sheet,sync:schedule,dispose};sync();return true;
 }
 
 export function removeMaterialUi(){window.__CODEX_CHARACTER_MATERIALS__?.dispose();}

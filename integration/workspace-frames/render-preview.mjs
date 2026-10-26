@@ -6,7 +6,7 @@ import {fileURLToPath} from 'node:url';
 import {buildWorkspaceFrame} from '../build-workspace-frame.mjs';
 const root=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'../..');
 const baseline='G:/sandrone/CodexUI-Integrated/Windows-Portable';
-const sharp=createRequire(import.meta.url)(process.env.SHARP_MODULE||'C:/Users/admin/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/sharp');
+const sharp=createRequire(import.meta.url)(process.env.SHARP_MODULE||'sharp');
 const catalog=JSON.parse(await fs.readFile(path.join(root,'catalog.json'),'utf8'));
 const out=path.join(root,'evidence/workspace-frame');await fs.mkdir(out,{recursive:true});const layers=[];
 for(let i=0;i<catalog.characters.length;i++){

@@ -6,11 +6,11 @@ import {createRequire} from 'node:module';
 import {createHash} from 'node:crypto';
 import {validateLettering} from '../engine/assets.mjs';
 const root=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'..');
-const {chromium}=createRequire(import.meta.url)(process.env.PLAYWRIGHT_MODULE||'C:/Users/admin/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright');
+const {chromium}=createRequire(import.meta.url)(process.env.PLAYWRIGHT_MODULE||'playwright');
 const ids=['columbina','ayaka','hutao','nahida','furina','citlali','mitya','istaroth','sandrone'];
 const templateMode=process.argv.includes('--template');
 const evidence=path.join(root,'evidence/opening-lettering');await fs.mkdir(evidence,{recursive:true});
-const browser=await chromium.launch({headless:true,channel:'msedge'}),results=[],errors=[];
+const browser=await chromium.launch({headless:true,channel:process.env.PLAYWRIGHT_CHANNEL||'chromium'}),results=[],errors=[];
 const invoke=(page,code,assets)=>page.evaluate(({code,assets})=>eval('('+code+')')(assets),{code,assets});
 const inspect=()=>{const s=document.getElementById('sandrone-opening').shadowRoot;return {rects:Object.fromEntries(['.brand','.brand span','.copy','.label','.title','.sub','.rule','.cn','.bottom','.status','.track','.hint','.footer'].map(k=>[k,s.querySelector(k).getBoundingClientRect().toJSON()])),marks:Object.fromEntries(['.brand span','.label','.sub','.cn','.status','.hint'].map(k=>{const e=s.querySelector(k);return [k,{text:e.textContent,art:e.classList.contains('art-lettering'),viewBox:e.querySelector('svg')?.getAttribute('viewBox'),paths:e.querySelectorAll('svg path').length}];})),signature:s.querySelectorAll('.signature-title path').length};};
 try{

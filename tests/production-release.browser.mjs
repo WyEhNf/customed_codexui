@@ -16,7 +16,7 @@ import {getWorkspaceBackgroundConfig,installWorkspaceBackground,removeWorkspaceB
 const root=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'..');
 const evidence=path.join(root,'evidence/release-qa');await fs.mkdir(evidence,{recursive:true});
 const require=createRequire(import.meta.url);
-const {chromium}=require(process.env.PLAYWRIGHT_MODULE||'C:/Users/admin/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright');
+const {chromium}=require(process.env.PLAYWRIGHT_MODULE||'playwright');
 const read=async file=>JSON.parse((await fs.readFile(file,'utf8')).replace(/^\uFEFF/,''));
 const catalog=await loadCatalog(root),contract=await read(path.join(root,'integration/icon-contract.json'));
 const native=(await read(path.join(root,'tests/fixtures/native-ui-icons.json'))).icons;
@@ -29,7 +29,7 @@ const fixture=`<!doctype html><html><head><style>
 <div class="layout"><aside id="native-sidebar" class="app-shell-left-panel" data-ds-part="sidebar"><div class="group/project-selector"><button id="project" aria-label="Project example">${glyph('folder')}<span>Example project</span></button></div><button id="search" aria-label="搜索">${glyph('search')}搜索</button><div id="menu" class="menu" role="menu"><button role="menuitem">新建聊天</button><button role="menuitem">打开文件夹</button><button role="menuitem">设置</button></div></aside>
 <main id="native-main" class="main-surface" role="main"><h1>Production release verification</h1><section id="message" class="message" data-message-author-role="assistant" data-ds-part="message"><p>聊天内容、草稿和原生控件保持原样。</p><pre id="code"><code>const message = 'retained';</code></pre><button id="message-guard" aria-label="打开文件夹">${glyph('folder')}</button></section><section id="composer" class="composer composer-surface-chrome" data-ds-part="composer"><textarea id="draft" aria-label="测试输入框">保留的草稿 · retained draft</textarea><button id="composer-guard" aria-label="搜索">${glyph('search')}</button></section><div class="guard"><button id="colored" aria-label="文件夹"><svg width="16" height="16" viewBox="0 0 16 16"><path d="M2 2h12v12H2Z" fill="#ff4850"/></svg></button><button id="stop" aria-label="停止">${glyph('folder')}</button></div></main></div>
 </body></html>`;
-const browser=await chromium.launch({headless:true,channel:process.env.PLAYWRIGHT_CHANNEL||'msedge'});
+const browser=await chromium.launch({headless:true,channel:process.env.PLAYWRIGHT_CHANNEL||'chromium'});
 const report={pass:false,scope:'isolated browser fixture with actual production code and assets; no live-process interaction',characters:[],browserErrors:[]};
 report.componentSha256=Object.fromEntries(await Promise.all(['integration/character-icons.mjs','integration/material-ui.mjs','integration/embedded-ui.mjs',...catalog.characters.flatMap(c=>[`characters/${c.id}/engine/renderer.mjs`,`characters/${c.id}/engine/native-ui.css`])].map(async file=>[file,createHash('sha256').update(await fs.readFile(path.join(root,file))).digest('hex')])));
 const publicCharacters=await Promise.all(catalog.characters.map(async({id,name,themeName})=>({id,name,themeName,avatar:'data:image/png;base64,'+(await fs.readFile(path.join(root,`characters/${id}/assets/characters/sandrone/round-icon.png`))).toString('base64')})));

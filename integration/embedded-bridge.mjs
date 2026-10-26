@@ -20,7 +20,8 @@ export async function embeddedConfig(root){
  const rendererRevision=createHash('sha256').update(await fs.readFile(path.join(root,'integration/character-icons.mjs'))).digest('hex');
  const materialUi=await getMaterialUiConfig(root,selectedId);
  const workspaceBackground=await getWorkspaceBackgroundConfig(root,selectedId);
- return {selectedId,palette,characters,materialUi,workspaceBackground,iconSet:{...iconSet,contract,rendererRevision},...(notice?{notice}:{})};
+ const switcherRevision=createHash('sha256').update(await fs.readFile(path.join(root,'integration/embedded-ui.mjs'))).digest('hex');
+ return {selectedId,palette,characters,switcherRevision,materialUi,workspaceBackground,iconSet:{...iconSet,contract,rendererRevision},...(notice?{notice}:{})};
 }
 export function parseSwitchRequest(payload,ids){
  if(typeof payload!=='string'||payload.length>200)throw new Error('Invalid character request');

@@ -83,7 +83,7 @@ export function installCharacterIcons(config){
  const scan=node=>{if(node?.nodeType!==1)return;if(node.tagName?.toLowerCase()==='svg')queue.add(node);else if(node.ownerSVGElement)queue.add(node.ownerSVGElement);for(const svg of node.querySelectorAll?.('svg')||[])queue.add(svg);};
  const flush=()=>{raf=0;if(disposed)return;for(const svg of queue)update(svg);queue.clear();for(const svg of owned)if(!svg.isConnected)forget(svg);if(nativeDirty){sheet.replaceSync(css+[...nativeRules.values()].join(''));nativeDirty=false;}};
  const schedule=()=>{if(!raf&&!disposed)raf=requestAnimationFrame(flush);};
- const observer=new MutationObserver(records=>{for(const r of records){if(r.type==='childList'){for(const n of r.addedNodes)scan(n);if(r.target.ownerSVGElement||r.target.tagName?.toLowerCase()==='svg')scan(r.target);}else scan(r.target);}schedule();});
+ const observer=new MutationObserver(records=>{let changed=false;for(const r of records){if(r.target.closest?.(excluded)){for(const svg of owned)if(r.target===svg||r.target.contains(svg))forget(svg);continue;}if(r.type==='childList'){for(const n of r.addedNodes)scan(n);if(r.target.ownerSVGElement||r.target.tagName?.toLowerCase()==='svg')scan(r.target);}else scan(r.target);changed=true;}if(changed)schedule();});
  const root='html[data-dream-skin="active"]';let css=`${root} svg[${roleAttr}]{background-repeat:no-repeat!important;background-position:center!important;background-size:100% 100%!important}${root} svg[${roleAttr}]>:not(title):not(desc){visibility:hidden!important}`;
  for(const role of config.roles){
   const data=config.icons[role],selector=`${root} svg[${roleAttr}="${role}"]`;

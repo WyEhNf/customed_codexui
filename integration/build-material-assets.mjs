@@ -5,7 +5,7 @@ import {fileURLToPath} from 'node:url';
 import {createHash} from 'node:crypto';
 import {createRequire} from 'node:module';
 const require=createRequire(import.meta.url);
-const sharp=require('C:/Users/admin/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/sharp');
+const sharp=require(process.env.SHARP_MODULE||'sharp');
 const ids=['columbina','sandrone','hutao','ayaka','nahida','furina','citlali','mitya','istaroth'];
 const sha=b=>createHash('sha256').update(b).digest('hex');
 const uri=(mime,b)=>`data:${mime};base64,${Buffer.from(b).toString('base64')}`;

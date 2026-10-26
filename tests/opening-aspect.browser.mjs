@@ -4,8 +4,8 @@ import assert from 'node:assert/strict';
 import {fileURLToPath,pathToFileURL} from 'node:url';
 import {createRequire} from 'node:module';
 const root=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'..');
-const {chromium}=createRequire(import.meta.url)(process.env.PLAYWRIGHT_MODULE||'C:/Users/admin/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright');
-const browser=await chromium.launch({channel:'msedge',headless:true}),results=[];
+const {chromium}=createRequire(import.meta.url)(process.env.PLAYWRIGHT_MODULE||'playwright');
+const browser=await chromium.launch({channel:process.env.PLAYWRIGHT_CHANNEL||'chromium',headless:true}),results=[];
 try{
  for(const id of ['mitya','citlali']){
   const pack=path.join(root,'characters',id),{openingAssets}=await import(pathToFileURL(path.join(pack,'engine/assets.mjs'))),{showOpening}=await import(pathToFileURL(path.join(pack,'engine/renderer.mjs')));const assets=await openingAssets();

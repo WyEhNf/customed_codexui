@@ -9,7 +9,7 @@ const root=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'..');
 const catalogue=JSON.parse(await fs.readFile(path.join(root,'catalog.json'),'utf8'));
 const contract=JSON.parse(await fs.readFile(path.join(root,'integration/icon-contract.json'),'utf8'));
 const native=JSON.parse(await fs.readFile(path.join(root,'tests/fixtures/native-ui-icons.json'),'utf8')).icons;
-const browser=await chromium.launch({headless:true,channel:process.env.PLAYWRIGHT_CHANNEL||'msedge'}),results=[];
+const browser=await chromium.launch({headless:true,channel:process.env.PLAYWRIGHT_CHANNEL||'chromium'}),results=[];
 const svg=(role,size=20,extra='')=>`<svg data-character-ui-icon="${role}" width="${size}" height="${size}" viewBox="0 0 24 24" aria-hidden="true" ${extra}><title>Original accessible SVG title</title><path d="M3 3h18v18H3Z" fill="none" stroke="currentColor"/></svg>`;
 try{
  const page=await browser.newPage({viewport:{width:1440,height:1000}}),errors=[];page.on('pageerror',e=>errors.push(e.message));

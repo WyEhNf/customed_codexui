@@ -1,38 +1,58 @@
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import {fileURLToPath} from 'node:url';
+import {createHash} from 'node:crypto';
 import {loadPayload,verifySession} from '../vendor/dream-skin/windows/scripts/injector.mjs';
+import {themePreferencesPath} from '../vendor/dream-skin/windows/assets/theme-preferences.mjs';
 import {appPages,identity,Session} from './cdp.mjs';
 import {removeNativeUi,showOpening,installNativeUi} from './renderer.mjs';
 import {openingAssets} from './assets.mjs';
 import {applyTargets,call,transient,healthyHiddenTheme} from './target-runner.mjs';
 import {watchSignal} from './watch-signal.mjs';
-import {installCharacterSwitcher,removeCharacterSwitcher} from '../integration/embedded-ui.mjs';
+import {createRuntimeCache,sourceStamp} from './runtime-cache.mjs';
+import {createTargetLifecycle,earlyScriptJournal,clearEarlyScripts,enableTargetBindings,closeTargetConnections} from './watcher-targets.mjs';
+import {createDecoratorBundle,decorateSession} from '../integration/decorators.mjs';
+import {removeCharacterSwitcher} from '../integration/embedded-ui.mjs';
 import {embeddedConfig,parseSwitchRequest,spawnSwitchWorker} from '../integration/embedded-bridge.mjs';
-import {installCharacterIcons,removeCharacterIcons} from '../integration/character-icons.mjs';
-import {installMaterialUi,removeMaterialUi} from '../integration/material-ui.mjs';
-import {installWorkspaceBackground,removeWorkspaceBackground} from '../integration/workspace-background.mjs';
+import {removeCharacterIcons} from '../integration/character-icons.mjs';
+import {removeMaterialUi} from '../integration/material-ui.mjs';
+import {removeWorkspaceBackground} from '../integration/workspace-background.mjs';
 const root=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'..');
 const args=process.argv.slice(2),mode=args[0],browserId=args[args.indexOf('--browser-id')+1];
 const sleep=ms=>new Promise(resolve=>setTimeout(resolve,ms));
-let resourcesPromise,assetsPromise,configPromise,openingShown=false;
-const config=()=>configPromise??=embeddedConfig(root);
-const decorate=async session=>{
- const settings=await config();await session.evaluate(call(installWorkspaceBackground,settings.workspaceBackground));
- await session.evaluate(call(installCharacterIcons,settings.iconSet));
- const {iconSet,materialUi,workspaceBackground,...menu}=settings;await session.evaluate(call(installCharacterSwitcher,menu));
- await session.evaluate(call(installMaterialUi,materialUi));
-};
-const resources=()=>resourcesPromise??=Promise.all([loadPayload(path.join(root,'themes/sandrone')),fs.readFile(path.join(root,'engine/native-ui.css'),'utf8')]).then(([loaded,css])=>({loaded,css}));
+let openingShown=false,assetsEntry=null,lastRefreshLog=-Infinity;
+const ids=['columbina','ayaka','hutao','nahida','furina','citlali','mitya','istaroth','sandrone'];
+const openingPaths=['assets/characters/sandrone/portrait.png','assets/characters/sandrone/round-icon.png','assets/backgrounds/dark-mechanical.jpg','assets/ornaments/01_ornate_gear.png','assets/ornaments/02_mechanical_iris.png','assets/ornaments/04_marionette_strings.png','assets/ornaments/cryo.png','assets/ornaments/skill.png','assets/ornaments/burst.png','assets/branding/signature-reference.jpg','assets/branding/sandrone-signature.json','assets/branding/opening-lettering.json','assets/motion/derived.json','assets/motion/sandrone-loop-1080p.mp4','assets/motion/sandrone-loop-720p.mp4','assets/motion/sandrone-trace-1080p.mp4','assets/motion/sandrone-first-frame.jpg','assets/motion/sandrone-outline.json','assets/motion/scene-intro.json'].map(name=>path.join(root,name));
+// Stat a fixed list, never arbitrary paths from JSON. Idle passes do not read
+// image/movie bytes; a strong validated audit runs at most every 30 seconds.
+const sourcePaths=[...openingPaths,themePreferencesPath('win32'),...['catalog.json','state/selection.json','state/last-switch-result.json','themes/sandrone/theme.json','themes/sandrone/theme.css','themes/sandrone/background.png','engine/native-ui.css','engine/renderer.mjs','integration/icon-contract.json','integration/character-icons.mjs','integration/embedded-ui.mjs','integration/material-ui.mjs','integration/workspace-background.mjs'].map(name=>path.join(root,name)),...ids.flatMap(id=>['presentation.json','assets/characters/sandrone/round-icon.png','assets/icons/ui/icon-set.json','assets/ui/personality.json','assets/ui/workspace-background.json','assets/ui/workspace-foreground.png','assets/ui/workspace-frame.svg'].map(name=>path.join(root,'characters',id,name)))];
+const runtime=createRuntimeCache({sources:()=>sourcePaths,onReject(){if(Date.now()-lastRefreshLog>=30000){lastRefreshLog=Date.now();console.error(JSON.stringify({code:'RUNTIME_REFRESH_REJECTED'}));}},load:async()=>{
+ const [loaded,css,settings]=await Promise.all([loadPayload(path.join(root,'themes/sandrone')),fs.readFile(path.join(root,'engine/native-ui.css'),'utf8'),embeddedConfig(root)]);
+ if(loaded.theme.id!==settings.selectedId+'-codex-ui')throw Error('Active character sources do not match');
+ const nativeRevision=createHash('sha256').update(installNativeUi.toString()).update(css).digest('hex');
+ return {loaded,css,nativeRevision,settings,bundle:createDecoratorBundle(settings),openingRevision:await sourceStamp(openingPaths)};
+}});
+const resources=()=>runtime.get();
+const config=async()=>(await resources()).settings;
+const decorate=async(session,options)=>decorateSession(session,(await resources()).bundle,options);
+async function currentOpening(){
+ const snapshot=await resources();
+ if(assetsEntry?.revision!==snapshot.openingRevision){
+  const value=await openingAssets();
+  if(value.lettering&&value.lettering.id!==snapshot.settings.selectedId||await sourceStamp(openingPaths)!==snapshot.openingRevision)throw Error('Opening sources changed while loading');
+  assetsEntry={revision:snapshot.openingRevision,value};
+ }
+ return assetsEntry.value;
+}
 const connect=page=>new Session(page.webSocketDebuggerUrl).open();
 async function opening(session){
  if(openingShown)return;
  // Reserve the single opening before awaiting assets so two targets cannot race.
  openingShown=true;
- try{await session.evaluate(call(showOpening,await (assetsPromise??=openingAssets())));}catch(error){openingShown=false;throw error;}
+ try{await session.evaluate(call(showOpening,await currentOpening()));}catch(error){openingShown=false;throw error;}
 }
-async function apply({start=false,force=false,verify=false,connector=connect}={}){
- return applyTargets({pages:await appPages(browserId),connect:connector,resources,verify:verify?verifySession:null,opening:start?opening:null,decorate,force});
+async function apply({start=false,force=false,verify=false,connector=connect,pages,eligible,onOutcome,tolerateTargetErrors=false}={}){
+ return applyTargets({pages:pages??await appPages(browserId),connect:connector,resources,verify:verify?verifySession:null,opening:start?opening:null,decorate,force,eligible,onOutcome,tolerateTargetErrors});
 }
 async function waitReady(start,timeoutMs=25000){
  const began=Date.now(),deadline=began+timeoutMs;
@@ -60,20 +80,21 @@ async function resume(){
 }
 async function watch(){
  const anchor=await new Session(await identity(browserId)).open();
- const signal=watchSignal(),pool=new Map();let switching=false;
- anchor.onEvent(method=>{if(method==='Target.targetCreated'||method==='Target.targetInfoChanged'||method==='Target.targetDestroyed')signal.wake();});
- await anchor.send('Target.setDiscoverTargets',{discover:true});
+ const signal=watchSignal(),pool=new Map();let switching=false,journal;
+ const lifecycle=createTargetLifecycle({log:entry=>console.error(JSON.stringify(entry)),onScript:async(id,script)=>{if(journal)await (script?journal.set(id,script):journal.delete(id));}});
+ const wake=()=>{runtime.invalidate();signal.wake();};
+ anchor.onEvent(method=>{if(method==='Target.targetCreated'||method==='Target.targetInfoChanged'||method==='Target.targetDestroyed')wake();});
  const pooled=async page=>{
   let session=pool.get(page.id);
   if(!session||session.closed){
    session=await connect(page);pool.set(page.id,session);
    let replaying=false;
-   session.onEvent((method,params)=>{
-    if(method==='Runtime.executionContextsCleared'||method==='Runtime.executionContextDestroyed')signal.wake();
+   try{await enableTargetBindings(session,(method,params)=>{
+    if(method==='Runtime.executionContextsCleared'||method==='Runtime.executionContextDestroyed'||method==='Page.loadEventFired')wake();
     if(method==='Runtime.bindingCalled'&&params.name==='sandroneReplayOpening'&&params.payload==='replay'&&!replaying){
      replaying=true;
      (async()=>{
-      if(await session.evaluate(`document.visibilityState==='visible'&&document.documentElement.getAttribute('data-dream-skin')==='active'`))await session.evaluate(call(showOpening,await (assetsPromise??=openingAssets()),{replay:true}));
+      if(await session.evaluate(`document.visibilityState==='visible'&&document.documentElement.getAttribute('data-dream-skin')==='active'`))await session.evaluate(call(showOpening,await currentOpening(),{replay:true}));
      })().catch(()=>signal.wake()).finally(()=>{replaying=false;});
     }
     if(method==='Runtime.bindingCalled'&&params.name==='codexSwitchCharacter'){
@@ -86,26 +107,37 @@ async function watch(){
       try{const worker=await spawnSwitchWorker(root,request);worker.once('exit',()=>{switching=false;signal.wake();});}catch(error){switching=false;await session.evaluate(`window.__CODEX_CHARACTER_SWITCHER__?.settle(${JSON.stringify(request.requestId)},${JSON.stringify({status:'error',message:'无法启动切换：'+error.message})})`);}
      })().catch(()=>signal.wake());
     }
-   });
-   await session.send('Runtime.enable');
-   await session.send('Runtime.addBinding',{name:'sandroneReplayOpening'});
-   await session.send('Runtime.addBinding',{name:'codexSwitchCharacter'});
+   });}catch(error){await session.close();pool.delete(page.id);throw error;}
   }
+  const {loaded}=await resources();
+  await lifecycle.ensure(page.id,session,loaded.payload,loaded.revision);
   return {evaluate:expression=>session.evaluate(expression),send:(...args)=>session.send(...args),close(){}};
  };
  try{
+  journal=await earlyScriptJournal(path.join(root,'state/early-scripts.json'),browserId);
+  await clearEarlyScripts(journal,await appPages(browserId),connect);
+  await anchor.send('Target.setDiscoverTargets',{discover:true});
   while(!anchor.closed){
    try{await fs.access(path.join(root,'state/paused'));break;}catch{}
    let ready=false;
-   try{const result=await apply({connector:pooled});ready=result.ready||result.idle;}catch(error){if(anchor.closed)break;if(!transient(error))throw error;}
-   for(const [id,s]of pool)if(s.closed){s.close();pool.delete(id);}
-   await signal.wait(ready?15000:1500);
+   try{
+    const pages=await appPages(browserId),live=new Set(pages.map(page=>page.id));
+    // Shared validation errors remain fatal. Only renderer/connection work is
+    // eligible for per-target backoff below.
+    await resources();
+    for(const [id,s]of pool)if(!live.has(id)){await lifecycle.forget(id);await s.close();pool.delete(id);}
+    const result=await apply({pages,connector:pooled,tolerateTargetErrors:true,eligible:id=>lifecycle.allowed(id),onOutcome(page,result){if(result.status==='rejected')lifecycle.failure(page.id,result.reason);else if(!result.value.backoff)lifecycle.success(page.id);}});ready=result.ready||result.idle;
+   }catch(error){if(anchor.closed)break;if(!transient(error))throw error;}
+   for(const [id,s]of pool)if(s.closed){await s.close();pool.delete(id);}
+   await signal.wait(lifecycle.waitMs(ready?15000:1500));
   }
- }finally{signal.dispose();for(const s of pool.values()){for(const name of ['sandroneReplayOpening','codexSwitchCharacter'])try{await s.send('Runtime.removeBinding',{name});}catch{}s.close();}anchor.close();}
+ }finally{signal.dispose();try{await closeTargetConnections(pool,lifecycle,entry=>console.error(JSON.stringify(entry)));}finally{await anchor.close();}}
 }
 async function diagnostic(){
  let count=0;
- for(const page of await appPages(browserId)){
+ const pages=await appPages(browserId);
+ if(mode==='--remove')await clearEarlyScripts(await earlyScriptJournal(path.join(root,'state/early-scripts.json'),browserId),pages,connect);
+ for(const page of pages){
   const session=await connect(page);
   try{
    if(mode==='--remove'){await session.evaluate(call(removeWorkspaceBackground));await session.evaluate(call(removeMaterialUi));await session.evaluate(call(removeCharacterIcons));await session.evaluate(call(removeCharacterSwitcher));await session.evaluate(call(removeNativeUi));}
@@ -138,5 +170,5 @@ try{
 }catch(error){
  // Watchers redirect stderr to watcher-error.log. Keep failures on that stream
  // so an early exit retains its actual cause instead of leaving an empty log.
- console.error(JSON.stringify({pass:false,code:error.code||'ENGINE_UNAVAILABLE',message:error.message}));process.exitCode=1;
+ console.error(JSON.stringify({pass:false,code:error.code||'ENGINE_UNAVAILABLE',...(mode==='--watch'&&error.message!=='Invalid browser ID'?{}:{message:error.message})}));process.exitCode=1;
 }
