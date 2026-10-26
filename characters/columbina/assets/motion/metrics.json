@@ -1,7 +1,9 @@
 {
   "id": "columbina",
   "rawFaceMAD": 0.0,
-  "rawProtectedMapMaxPx": 2.0564755232044263e-06,
+  "rawProtectedMapMaxPx": 0.0,
+  "rawFaceWithFxMAD": 0.0,
+  "rawProtectedWithFxMAD": 0.0,
   "localWarpPixelMAD": 9.198367134749247,
   "localWarpChangedPixels": 342596,
   "maximumMeshDisplacementPx": 6.687289714813232,
@@ -11,10 +13,12 @@
   "height": 1080,
   "fps": 30,
   "seconds": 9,
-  "method": "Parametric local mesh animation of the approved illustration, face/hand/joint protected, plus separately animated environment FX. Not generated video.",
-  "decodedFrameMAD": 3.2327522183641975,
-  "encodedFaceMAD": 1.8991769547325104,
-  "loopEndpointMAD": 1.7951003086419752,
-  "bytes": 4506146,
-  "renderSeconds": 52.86
+  "motionRevision": "scene-motion-v2",
+  "closedOrbitEffect": false,
+  "method": "Parametric local mesh animation of the approved illustration, face/hand/joint protected, plus character-specific environment FX. Not generated video.",
+  "decodedFrameMAD": 3.220624839248971,
+  "encodedFaceMAD": 1.9043368154479265,
+  "loopEndpointMAD": 1.8343627829218108,
+  "bytes": 4464718,
+  "renderSeconds": 47.84
 }

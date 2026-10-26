@@ -2,16 +2,19 @@
   "file": "sandrone-loop-1080p.mp4",
   "source": "G:\\sandrone\\design-review\\2026-10-25\\full-scene-v7\\characters\\columbina-opening-veil-v3.png",
   "sourceSha256": "1855ac47611655aac6572098bd838e4e1c65bce45aa7f4c2d2c6aed3876422c7",
-  "sha256": "2c15417f2f6cac9184e46a4d274806e6b69321ef2a0c5c9120edfb95d338c9e6",
-  "bytes": 4506146,
+  "sha256": "cac97723c92a492d8dd8b814ce5967a80c392cc32f5d57b8345af0ec8eb842c5",
+  "bytes": 4464718,
   "seconds": 9,
   "width": 1920,
   "height": 1080,
   "fps": 30,
   "frames": 270,
   "posterFile": "sandrone-first-frame.jpg",
-  "posterSha256": "f9b92a45d1bca36f0e185bda7803d1fe0685ca9da909a2629b8348cbb0667716",
+  "posterSha256": "5cc0a9b43b6bd75986290ce8a7b56326f0683683ddc9f49bfdb5cd086877c15d",
   "animationKind": "illustrated-local-motion",
+  "motionRevision": "scene-motion-v2",
+  "builderSha256": "3b2ec77266ea153232260947b219e1d8cce948402d858cc926cd016266e896d4",
+  "closedOrbitEffect": false,
   "globalCameraMotion": false,
   "faceProtected": true,
   "handJointProtected": true,
@@ -124,11 +127,11 @@
     }
   ],
   "environmentEffects": [
-    "moonlit-feathers",
-    "water-glints",
-    "silver-motes"
+    "falling-moonlit-feathers",
+    "horizontal-water-glints",
+    "sparse-silver-motes"
   ],
   "metricsFile": "metrics.json",
   "fullScene": true,
-  "note": "New parameterized illustration animation: local breathing, cloth/hair displacement and environment effects; faces, hands and joints protected. Not a static repeated carrier, camera-only animation or model-generated motion video."
+  "note": "Parameterized illustration animation: original painted RGB and anatomy retained, local breathing/cloth/hair movement, distinct scene effects and protected faces/hands/joints. Static curved bands already present in the illustration are retained; only Istaroth uses a revolving environment effect. Not model-generated video."
 }

@@ -2,16 +2,19 @@
   "file": "sandrone-loop-1080p.mp4",
   "source": "G:\\sandrone\\design-review\\2026-10-25\\full-scene-v7\\references\\nahida-current.png",
   "sourceSha256": "161f54626a927198fab570c769e23aa0f43e31d8f2de6cb239e48972a7699246",
-  "sha256": "4f51b0a9e9e9970588955293c42eb94c1cf45b8152c2d8c4bd59be4618e8859c",
-  "bytes": 3461771,
+  "sha256": "37467091b41cda8588f8da862b5f1db4a717a621066f0de30780a3cbc7acc30c",
+  "bytes": 3359179,
   "seconds": 9,
   "width": 1920,
   "height": 1080,
   "fps": 30,
   "frames": 270,
   "posterFile": "sandrone-first-frame.jpg",
-  "posterSha256": "caa0c6a502e18970d8c0f267e19232bddabad0724c037cf9602584ea983cc5fd",
+  "posterSha256": "2c9c53beb23ad4dc17d4ff894c6039162b031bcf162113f8ec36674e7fd6c125",
   "animationKind": "illustrated-local-motion",
+  "motionRevision": "scene-motion-v2",
+  "builderSha256": "3b2ec77266ea153232260947b219e1d8cce948402d858cc926cd016266e896d4",
+  "closedOrbitEffect": false,
   "globalCameraMotion": false,
   "faceProtected": true,
   "handJointProtected": true,
@@ -148,10 +151,11 @@
     }
   ],
   "environmentEffects": [
-    "jade-leaves",
+    "anchored-leaf-sway",
+    "growing-leaf-veins",
     "forest-fireflies"
   ],
   "metricsFile": "metrics.json",
   "fullScene": true,
-  "note": "New parameterized illustration animation: local breathing, cloth/hair displacement and environment effects; faces, hands and joints protected. Not a static repeated carrier, camera-only animation or model-generated motion video."
+  "note": "Parameterized illustration animation: original painted RGB and anatomy retained, local breathing/cloth/hair movement, distinct scene effects and protected faces/hands/joints. Static curved bands already present in the illustration are retained; only Istaroth uses a revolving environment effect. Not model-generated video."
 }

@@ -63,7 +63,7 @@ metadata = {
     'openingArtLettering': True, 'completeSubtleWorkspaceFrame': True,
     'frameScope': 'native-main-excluding-sidebar',
     'adaptiveManagedPort': True,
-    'characterEntrance': 'material-turn-then-scene-reveal',
+    'characterEntrance': 'source-scene-contours-to-color',
     'mityaOpening': 'independent-quiet-winter-study'
 }
 (root.parent / 'RELEASE.json').write_text(json.dumps(metadata, ensure_ascii=False, indent=2) + '\n', encoding='utf-8')

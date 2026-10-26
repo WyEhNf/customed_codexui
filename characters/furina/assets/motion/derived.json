@@ -2,16 +2,19 @@
   "file": "sandrone-loop-1080p.mp4",
   "source": "G:\\sandrone\\design-review\\2026-10-25\\full-scene-v7\\references\\furina-current.png",
   "sourceSha256": "d2c595dca1fee20961917c76b5326f40db046341d44e00ba31c2364c7a40644e",
-  "sha256": "3a9fb2bf7d7f03b7e7f7787782cd9c63814ed156f6e3c316543645b892caf6dd",
-  "bytes": 3881496,
+  "sha256": "3ecd0bcc601b053a30e6140847659166b36ba9adb0b06c57fc0043eef079c15e",
+  "bytes": 3830303,
   "seconds": 9,
   "width": 1920,
   "height": 1080,
   "fps": 30,
   "frames": 270,
   "posterFile": "sandrone-first-frame.jpg",
-  "posterSha256": "2ecde9be9f5918ce04aa5805615e8ea5f3b30ec7dbeb72c85f6e8ae0eceec0c8",
+  "posterSha256": "e455e059713b058f66f0ac61dd1e550d3cb9fe30ae1ec6082aeda3085055d3f1",
   "animationKind": "illustrated-local-motion",
+  "motionRevision": "scene-motion-v2",
+  "builderSha256": "3b2ec77266ea153232260947b219e1d8cce948402d858cc926cd016266e896d4",
+  "closedOrbitEffect": false,
   "globalCameraMotion": false,
   "faceProtected": true,
   "handJointProtected": true,
@@ -124,11 +127,12 @@
     }
   ],
   "environmentEffects": [
-    "water-orbit-glints",
-    "bubbles",
-    "water-reflections"
+    "short-open-water-filaments",
+    "falling-water-droplets",
+    "rising-bubbles",
+    "ground-water-reflections"
   ],
   "metricsFile": "metrics.json",
   "fullScene": true,
-  "note": "New parameterized illustration animation: local breathing, cloth/hair displacement and environment effects; faces, hands and joints protected. Not a static repeated carrier, camera-only animation or model-generated motion video."
+  "note": "Parameterized illustration animation: original painted RGB and anatomy retained, local breathing/cloth/hair movement, distinct scene effects and protected faces/hands/joints. Static curved bands already present in the illustration are retained; only Istaroth uses a revolving environment effect. Not model-generated video."
 }

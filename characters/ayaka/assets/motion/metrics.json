@@ -1,7 +1,9 @@
 {
   "id": "ayaka",
   "rawFaceMAD": 0.0,
-  "rawProtectedMapMaxPx": 8.006528332771268e-06,
+  "rawProtectedMapMaxPx": 0.0,
+  "rawFaceWithFxMAD": 0.0,
+  "rawProtectedWithFxMAD": 0.0,
   "localWarpPixelMAD": 10.160687084454004,
   "localWarpChangedPixels": 302999,
   "maximumMeshDisplacementPx": 5.334209442138672,
@@ -11,10 +13,12 @@
   "height": 1080,
   "fps": 30,
   "seconds": 9,
-  "method": "Parametric local mesh animation of the approved illustration, face/hand/joint protected, plus separately animated environment FX. Not generated video.",
-  "decodedFrameMAD": 2.599099151234568,
-  "encodedFaceMAD": 1.8983771221798502,
-  "loopEndpointMAD": 1.4969413901748971,
-  "bytes": 4726714,
-  "renderSeconds": 52.9
+  "motionRevision": "scene-motion-v2",
+  "closedOrbitEffect": false,
+  "method": "Parametric local mesh animation of the approved illustration, face/hand/joint protected, plus character-specific environment FX. Not generated video.",
+  "decodedFrameMAD": 2.5895365547839506,
+  "encodedFaceMAD": 1.919378611702501,
+  "loopEndpointMAD": 1.585995691872428,
+  "bytes": 4664612,
+  "renderSeconds": 47.87
 }

@@ -2,16 +2,19 @@
   "file": "sandrone-loop-1080p.mp4",
   "source": "G:\\sandrone\\design-review\\2026-10-25\\full-scene-v7\\openings\\citlali-full-scene.png",
   "sourceSha256": "432779cd35583ad3682d6707ef0d9d2cca7b64060fdc41e18b41e4d10135c1e5",
-  "sha256": "c320f49166a3f2875e66a9ff13960558c7463b25e5dac9f27b4b7575ffae17d7",
-  "bytes": 4148391,
+  "sha256": "6477cb2926c79c938130e6c0299abe3630bf485cd38c363794a5b550583be585",
+  "bytes": 4217989,
   "seconds": 9,
   "width": 1920,
   "height": 1080,
   "fps": 30,
   "frames": 270,
   "posterFile": "sandrone-first-frame.jpg",
-  "posterSha256": "4f4a84019c69d384043b1c1b2deaf7c835f6f7d256c12a542776ff3b284050d7",
+  "posterSha256": "e298483070fe826c986f6dfcf388593b5aa7f485709b8c3c180e62d860b38cdb",
   "animationKind": "illustrated-local-motion",
+  "motionRevision": "scene-motion-v2",
+  "builderSha256": "3b2ec77266ea153232260947b219e1d8cce948402d858cc926cd016266e896d4",
+  "closedOrbitEffect": false,
   "globalCameraMotion": false,
   "faceProtected": true,
   "handJointProtected": true,
@@ -71,6 +74,20 @@
       ],
       "requestedDisplacementPx": 3.6,
       "cyclesPerClip": 2
+    },
+    {
+      "name": "hanging-crystal",
+      "kind": "pendant-sway",
+      "centerNorm": [
+        0.56,
+        0.105
+      ],
+      "radiusNorm": [
+        0.035,
+        0.075
+      ],
+      "requestedDisplacementPx": 2.1,
+      "cyclesPerClip": 1
     }
   ],
   "protectionRegions": [
@@ -148,10 +165,10 @@
     }
   ],
   "environmentEffects": [
-    "amethyst-stars",
-    "crystal-glints"
+    "sparse-amethyst-starlight",
+    "pendant-crystal-glints"
   ],
   "metricsFile": "metrics.json",
   "fullScene": true,
-  "note": "New parameterized illustration animation: local breathing, cloth/hair displacement and environment effects; faces, hands and joints protected. Not a static repeated carrier, camera-only animation or model-generated motion video."
+  "note": "Parameterized illustration animation: original painted RGB and anatomy retained, local breathing/cloth/hair movement, distinct scene effects and protected faces/hands/joints. Static curved bands already present in the illustration are retained; only Istaroth uses a revolving environment effect. Not model-generated video."
 }

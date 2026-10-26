@@ -98,25 +98,55 @@ export function showOpening(assets,options={}) {
  .source-trace-ready .mechanism-frame,.source-trace-ready .water-lines{display:none}
  .source-trace-ready.color-reveal .source-motion-frame{opacity:0}
  @keyframes trace-draw{0%{stroke-dashoffset:1;opacity:0}8%{opacity:.95}100%{stroke-dashoffset:0;opacity:.9}}
- /* The character material turns first, then the complete scene is revealed. */
- .entrance-seal{position:absolute;left:69%;top:50%;width:min(54vh,48vw);aspect-ratio:1;transform:translate(-50%,-50%);pointer-events:none;opacity:1;transition:opacity .8s ease;filter:drop-shadow(0 0 12px color-mix(in srgb,var(--ice) 18%,transparent))}
- .entrance-seal svg{width:100%;height:100%;overflow:visible}
- .entrance-seal .seal-rotor{transform-origin:192px 192px;animation:seal-turn 1.3s cubic-bezier(.12,.62,.18,1) both}
- .entrance-seal .seal-counter{transform-origin:192px 192px;animation:seal-counter 1.3s cubic-bezier(.12,.62,.18,1) both}
- .entrance-seal .seal-material{animation:seal-material 1.3s ease both}
- .character-entrance .back,.character-entrance .character{animation:none}
- .character-entrance:not(.entrance-revealed) .back,.character-entrance:not(.entrance-revealed) .character,.character-entrance:not(.entrance-revealed) .motion,.character-entrance:not(.entrance-revealed) .motion-poster{opacity:0!important}
- .character-entrance.full-scene:not(.entrance-revealed)::before{opacity:0!important}
- .character-entrance.full-scene::before{transition:opacity 1.1s ease}
- .character-entrance .motion,.character-entrance .motion-poster{transition:opacity 1.1s ease}
- .character-entrance.media-fallback .motion-poster{transition:opacity .25s ease}
- .character-entrance.entrance-revealed .entrance-seal{opacity:0}
- .character-entrance .brand{animation-delay:1.1s}.character-entrance .copy{animation-delay:1.2s}
- .character-entrance .signature-title path{animation-delay:calc(var(--delay) + 1100ms)}
- .character-entrance .gear,.character-entrance .iris,.character-entrance .strings,.character-entrance .orbit,.character-entrance .particle,.character-entrance .sweep{display:none}
- @keyframes seal-turn{0%{transform:rotate(-145deg) scale(.86);opacity:0}16%{opacity:1}78%{transform:rotate(4deg) scale(1)}100%{transform:rotate(0deg) scale(1);opacity:.95}}
- @keyframes seal-counter{from{transform:rotate(65deg);opacity:0}20%{opacity:.7}to{transform:rotate(0deg);opacity:.55}}
- @keyframes seal-material{0%,8%{opacity:0}40%,100%{opacity:1}}
+ /* Scene contours and local motions share the exact full-scene image plane. */
+ .scene-intro-frame{position:absolute;inset:0;pointer-events:none;opacity:1;transition:opacity 1.15s ease}
+ .scene-intro-frame>svg{display:block;width:100%;height:100%;overflow:hidden}
+ .scene-contour{fill:none;stroke:var(--ice);stroke-width:1.35;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:1;stroke-dashoffset:1;animation:scene-draw var(--path-duration) var(--path-delay) cubic-bezier(.24,.5,.4,1) both}
+ .scene-environment .scene-contour{stroke-width:1.05;opacity:.3}
+ .scene-character .scene-contour{stroke:var(--gold);opacity:.82}
+ .scene-details .scene-contour{stroke-width:1.5;opacity:.95}
+ .scene-entrance .back,.scene-entrance .character{animation:none}
+ .scene-entrance:not(.scene-color) .back,.scene-entrance:not(.scene-color) .character,.scene-entrance:not(.scene-color) .motion,.scene-entrance:not(.scene-color) .motion-poster{opacity:0!important}
+ .scene-entrance.full-scene:not(.scene-color)::before{opacity:0!important}
+ .scene-entrance.full-scene::before,.scene-entrance .motion,.scene-entrance .motion-poster{transition:opacity 1.15s ease}
+ .scene-entrance.media-fallback .motion-poster{transition:opacity .25s ease}
+ .scene-entrance.scene-color .scene-intro-frame{opacity:0}
+ .scene-entrance .grain,.scene-entrance .gear,.scene-entrance .iris,.scene-entrance .strings,.scene-entrance .orbit,.scene-entrance .particle,.scene-entrance .sweep{display:none}
+ .scene-motions{color:var(--ice)}.scene-motions .warm{color:var(--gold)}
+ .scene-soft-glow{opacity:.065;animation:scene-light 4.8s ease-in-out infinite}
+ .scene-water-glint{fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;animation:scene-water 3.8s ease-in-out infinite}
+ .scene-feather{fill:currentColor;fill-opacity:.1;stroke:currentColor;stroke-width:1;opacity:.6;animation:scene-feather 5.8s ease-in-out infinite}
+ .scene-butterfly-flight{animation:scene-butterfly-flight 5.4s cubic-bezier(.3,.4,.5,.7) both}
+ .scene-butterfly-wing{fill:currentColor;fill-opacity:.3;stroke:currentColor;stroke-width:1.1;animation:scene-butterfly-wing .62s ease-in-out infinite;transform-origin:0 0}
+ .scene-butterfly-core{fill:currentColor;opacity:.9}
+ .scene-snow{fill:currentColor;opacity:.32;animation:scene-snow 5.7s linear infinite}
+ .scene-petal{fill:currentColor;fill-opacity:.3;stroke:currentColor;stroke-width:.7;animation:scene-petal 5.2s ease-in-out infinite}
+ .scene-frost{fill:none;stroke:currentColor;stroke-width:1.15;stroke-linecap:round;animation:scene-frost 3.8s ease-in-out infinite}
+ .scene-leaf-growth{fill:none;stroke:currentColor;stroke-width:1.2;stroke-linecap:round;stroke-dasharray:1;stroke-dashoffset:1;animation:scene-draw 1.7s .08s ease both}
+ .scene-firefly{fill:currentColor;animation:scene-firefly 4.6s ease-in-out infinite}
+ .scene-droplet{fill:currentColor;fill-opacity:.18;stroke:currentColor;stroke-width:1;animation:scene-droplet 4.2s ease-in infinite}
+ .scene-bubble{fill:none;stroke:currentColor;stroke-width:1.1;animation:scene-bubble 5.6s ease-out infinite}
+ .scene-crystal-glint{fill:none;stroke:currentColor;stroke-width:1.4;animation:scene-crystal 4.6s ease-in-out infinite}
+ .scene-tassel-glint{fill:none;stroke:currentColor;stroke-width:1;animation:scene-tassel 4.9s ease-in-out infinite}
+ .scene-time-rotor{transform-origin:0 0;animation:scene-time-turn 9s ease-out both}
+ .scene-time-ring{fill:none;stroke:currentColor;stroke-width:1.1;opacity:.42}
+ .scene-sand{stroke:currentColor;stroke-width:1.2;stroke-linecap:round;animation:scene-sand 4.6s linear infinite}
+ @keyframes scene-draw{0%{stroke-dashoffset:1;opacity:0}9%{opacity:.8}100%{stroke-dashoffset:0}}
+ @keyframes scene-light{0%,100%{opacity:.045}50%{opacity:.085}}
+ @keyframes scene-water{0%,100%{opacity:.15;transform:translateX(-4px)}48%{opacity:.65;transform:translateX(4px)}}
+ @keyframes scene-feather{0%,100%{transform:translate(-7px,-7px);opacity:.2}50%{transform:translate(12px,30px);opacity:.65}}
+ @keyframes scene-butterfly-flight{0%{transform:translate(0,14px);opacity:0}12%{opacity:.8}38%{transform:translate(-23px,-28px)}70%{transform:translate(37px,-49px);opacity:.75}100%{transform:translate(73px,-77px);opacity:.25}}
+ @keyframes scene-butterfly-wing{0%,100%{transform:scaleX(.38)}50%{transform:scaleX(1)}}
+ @keyframes scene-snow{0%{transform:translate(-4px,-18px);opacity:0}18%,70%{opacity:.35}100%{transform:translate(7px,38px);opacity:0}}
+ @keyframes scene-petal{0%{transform:translate(0,-15px);opacity:0}15%{opacity:.7}70%{transform:translate(-26px,38px);opacity:.45}100%{transform:translate(-51px,79px);opacity:0}}
+ @keyframes scene-frost{0%,100%{opacity:.15}50%{opacity:.65}}
+ @keyframes scene-firefly{0%,100%{transform:translate(-3px,3px);opacity:.15}45%{transform:translate(6px,-8px);opacity:.75}}
+ @keyframes scene-droplet{0%,8%{transform:translateY(-5px);opacity:0}20%{opacity:.6}86%,100%{transform:translateY(72px);opacity:0}}
+ @keyframes scene-bubble{0%{transform:translate(0,8px);opacity:0}18%{opacity:.5}100%{transform:translate(5px,-54px);opacity:0}}
+ @keyframes scene-crystal{0%,100%{opacity:.15}42%{opacity:.85}56%{opacity:.28}}
+ @keyframes scene-tassel{0%,100%{transform:translateX(-2px);opacity:.35}50%{transform:translateX(3px);opacity:.6}}
+ @keyframes scene-time-turn{from{transform:rotate(-13deg)}to{transform:rotate(10deg)}}
+ @keyframes scene-sand{0%{transform:translateY(-10px);opacity:0}18%,68%{opacity:.55}100%{transform:translateY(36px);opacity:0}}
  .grain{position:absolute;inset:0;opacity:.12;background-image:linear-gradient(90deg,transparent 99%,#a8ddea 100%),linear-gradient(0deg,transparent 99%,#a8ddea 100%);background-size:64px 64px;animation:drift 18s linear infinite}
  .orbit{position:absolute;width:64vh;height:64vh;left:57%;top:15%;border:1px solid #c8a16a55;border-radius:50%;animation:orbit 22s linear infinite}
  .orbit:before,.orbit:after{content:"";position:absolute;border:1px dashed #d3b77e66;inset:-7%;border-radius:50%}.orbit:after{inset:10%;border-style:solid;border-color:#a8ddea44}
@@ -195,33 +225,78 @@ export function showOpening(assets,options={}) {
  scene.addEventListener('keydown',e=>{if(e.key==='Escape')finish('escape');if((e.key===' '||e.key==='Enter')&&!e.repeat){e.preventDefault();const now=performance.now();if(now-lastKey<500)finish('double-key');lastKey=now;}});
  scene.focus({preventScroll:true});
  const reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;
- const roleNames={columbina:'银月',ayaka:'霜樱',hutao:'幽蝶',nahida:'新叶',furina:'水光',citlali:'星纹',mitya:'星轨',istaroth:'时砂'};
- const entrance=!reduced&&assets.fullScene&&assets.videoPoster&&assets.entrance?.id===assets.lettering?.id&&roleNames[assets.entrance.id]&&/^data:image\/png;base64,[A-Za-z0-9+/=]+$/.test(assets.entrance.ornament)?assets.entrance:null;
- const entranceDelay=entrance?1200:0;
- let entranceRevealed=!entrance;
- if(entrance){
-  scene.classList.add('character-entrance');
-  info.entrance={id:entrance.id,motif:roleNames[entrance.id],phase:'material',revealDelayMs:entranceDelay};
-  const seal=document.createElement('div');seal.className='entrance-seal';seal.setAttribute('aria-hidden','true');
-  const svg=node('svg',{viewBox:'0 0 384 384',focusable:'false'}),defs=node('defs');
-  const metal=node('linearGradient',{id:'entrance-metal',x1:'0',y1:'0',x2:'1',y2:'1'});
-  for(const [offset,color,opacity]of [['0','var(--ice)','1'],['.32','var(--gold)','.45'],['.55','var(--ice)','.95'],['1','var(--gold)','.35']])metal.appendChild(node('stop',{offset,'stop-color':color,'stop-opacity':opacity}));
-  defs.appendChild(metal);svg.appendChild(defs);
-  const rotor=node('g',{'class':'seal-rotor',fill:'none',stroke:'url(#entrance-metal)','stroke-width':'.9'});
-  for(const radius of [155,148])rotor.appendChild(node('circle',{cx:'192',cy:'192',r:String(radius),opacity:'.65'}));
-  for(let i=0;i<24;i++){const a=i*Math.PI/12,r=i%3===0?136:143;rotor.appendChild(node('path',{d:`M${192+Math.cos(a)*r} ${192+Math.sin(a)*r}L${192+Math.cos(a)*151} ${192+Math.sin(a)*151}`,opacity:i%3===0?'.8':'.35'}));}
-  const material=node('image',{href:entrance.ornament,x:'96',y:'96',width:'192',height:'192',preserveAspectRatio:'xMidYMid meet','class':'seal-material'});rotor.appendChild(material);svg.appendChild(rotor);
-  const counter=node('g',{'class':'seal-counter',fill:'none',stroke:'url(#entrance-metal)','stroke-width':'.8'});
-  counter.appendChild(node('path',{d:'M192 25A167 167 0 0 1 359 192M192 359A167 167 0 0 1 25 192'}));
-  for(const [x,y]of [[192,25],[359,192],[192,359],[25,192]])counter.appendChild(node('path',{d:`M${x} ${y-4}l4 4-4 4-4-4Z`}));
-  svg.appendChild(counter);seal.appendChild(svg);scene.insertBefore(seal,shadow.querySelector('.grain'));
+ const sceneIntro=!reduced&&assets.fullScene&&assets.videoPoster&&assets.sceneIntro?.id===assets.lettering?.id&&assets.sceneIntro.width===1920&&assets.sceneIntro.height===1080&&assets.sceneIntro.character?.length?assets.sceneIntro:null;
+ if(sceneIntro){
+  scene.classList.add('scene-entrance');info.reveal='outline';
+  info.sceneIntro={id:sceneIntro.id,kind:sceneIntro.scene.kind,phase:'outline',revealAtMs:null,sourceMapped:true};
+  const frame=document.createElement('div');frame.className='scene-intro-frame';frame.setAttribute('aria-hidden','true');
+  const svg=node('svg',{viewBox:'0 0 1920 1080',preserveAspectRatio:'xMidYMid meet',focusable:'false','data-scene-intro':sceneIntro.id});
+  const gradients=node('defs');
+  for(const [id,color]of [['scene-glow-cold','var(--ice)'],['scene-glow-warm','var(--gold)']]){
+   const gradient=node('radialGradient',{id});
+   for(const [offset,alpha]of [['0','1'],['.45','.42'],['1','0']])gradient.appendChild(node('stop',{offset,'stop-color':color,'stop-opacity':alpha}));
+   gradients.appendChild(gradient);
+  }
+  svg.appendChild(gradients);
+  for(const key of ['environment','character','details']){
+   const group=node('g',{'class':'scene-'+key});
+   for(const item of sceneIntro[key]||[]){const path=node('path',{d:item.d,pathLength:'1','class':'scene-contour'});path.style.cssText=`--path-delay:${item.delayMs}ms;--path-duration:${item.durationMs}ms`;group.appendChild(path);}
+   svg.appendChild(group);
+  }
+  const motions=node('g',{'class':'scene-motions','data-scene-motion':sceneIntro.scene.kind});svg.appendChild(motions);
+  const anchor=(name,fallback)=>{const a=sceneIntro.scene.anchors?.[name]||fallback;return [a[0]*1920,a[1]*1080];};
+  const place=(parent,x,y,kind)=>{const outer=node('g',{transform:`translate(${x} ${y})`}),inner=node('g',{'class':kind});outer.appendChild(inner);parent.appendChild(outer);return inner;};
+  const at=(name,fallback,kind,parent=motions)=>{const [x,y]=anchor(name,fallback);return place(parent,x,y,kind);};
+  const path=(parent,d,attributes={})=>{const p=node('path',{d,...attributes});parent.appendChild(p);return p;};
+  const dot=(parent,x,y,r,attributes={})=>{const p=node('circle',{cx:x,cy:y,r,...attributes});parent.appendChild(p);return p;};
+  const glow=(name,fallback,rx,ry,warm=false)=>{const group=at(name,fallback,warm?'warm':'');group.appendChild(node('ellipse',{cx:'0',cy:'0',rx,ry,'class':'scene-soft-glow',fill:`url(#scene-glow-${warm?'warm':'cold'})`}));};
+  const delays=(element,index)=>{element.style.animationDelay=(-index*.67)+'s';return element;};
+  switch(sceneIntro.scene.kind){
+   case 'moon-water':{
+    glow('moon',[.815,.11],175,155);const water=at('water',[.28,.82],'');
+    for(let i=0;i<4;i++)delays(path(place(water,-80+i*55,(i%2)*12,''),`M-22 0Q0 -2 22 0`,{'class':'scene-water-glint'}),i);
+    const feather=at('feather',[.5,.25],'scene-feather');path(feather,'M0 -23C-18 -11-15 13 0 24C14 6 12-15 0-23ZM0-20Q-4 0 0 21M-1-5L-10-10M-2 5L8-1');break;
+   }
+   case 'lantern-butterfly':{
+    glow('lantern',[.91,.91],140,120,true);const flight=at('butterfly',[.49,.45],'scene-butterfly-flight warm');
+    const left=node('g',{'class':'scene-butterfly-wing'});path(left,'M0 0C-15-24-30-14-18 2C-28 19-9 20 0 0Z');flight.appendChild(left);
+    const right=node('g',{'class':'scene-butterfly-wing'});path(right,'M0 0C15-24 30-14 18 2C28 19 9 20 0 0Z');flight.appendChild(right);path(flight,'M-1-5L1-5 1 9-1 9Z',{'class':'scene-butterfly-core'});break;
+   }
+   case 'quiet-lamplight':{
+    glow('lamp',[.96,.38],95,105,true);const snow=at('window',[.28,.3],'');
+    for(let i=0;i<8;i++)delays(dot(place(snow,-210+(i*67)%430,-130+(i*43)%290,''),0,0,i%3===0?1.7:1.1,{'class':'scene-snow'}),i);break;
+   }
+   case 'frost-petals':{
+    const fan=at('fan',[.82,.07],'scene-frost');path(fan,'M-48 3Q0-26 48 3M-29-9L-25-17M-3-15L-3-24M23-10L28-18');
+    const petals=at('petal',[.85,.22],'');for(let i=0;i<5;i++){const p=place(petals,-170+i*63,-150+(i%3)*92,'scene-petal');path(p,'M0-8C-13-6-12 5 0 11C10 3 10-6 0-8Z');delays(p,i);}break;
+   }
+   case 'leaf-growth':{
+    const branch=at('leaf',[.75,.59],'');path(branch,'M-65 22Q-33 5 0-20M-34 6Q-62-23-68-10Q-65 5-34 6M-16-6Q12-11 13-31Q-5-33-16-6',{'class':'scene-leaf-growth',pathLength:'1'});
+    const flies=at('firefly',[.53,.63],'');for(let i=0;i<6;i++)delays(dot(place(flies,-130+(i*57)%260,-170+(i*73)%300,''),0,0,i%2?1.6:2.2,{'class':'scene-firefly'}),i);break;
+   }
+   case 'water-stage':{
+    glow('curtain',[.5,.2],170,270);const hand=at('hand',[.86,.56],'');path(hand,'M0-13C-3-4-9 1-8 7C-6 18 7 18 9 7C10 1 4-5 0-13Z',{'class':'scene-droplet'});
+    const bubbles=at('bubble',[.72,.72],'');for(let i=0;i<4;i++)delays(dot(place(bubbles,-140+i*86,(i%2)*44,''),0,0,3+i,{'class':'scene-bubble'}),i);break;
+   }
+   case 'crystal-starlight':{
+    glow('crystal',[.61,.2],28,45);const crystal=at('crystal',[.61,.2],'');path(crystal,'M-15 0H15M0-25V25',{'class':'scene-crystal-glint'});
+    const tassel=at('tassel',[.83,.9],'');path(tassel,'M-5-20V15M0-24V21M5-19V14',{'class':'scene-tassel-glint'});
+    for(let i=0;i<5;i++){const stars=place(motions,330+i*135,80+(i*69)%250,'');delays(dot(stars,0,0,i%2?1.1:1.7,{'class':'scene-firefly'}),i);}break;
+   }
+   case 'time-sand':{
+    const rotor=at('ring',[.79,.12],'scene-time-rotor warm');rotor.appendChild(node('ellipse',{cx:'0',cy:'0',rx:'325',ry:'96','class':'scene-time-ring'}));
+    for(let i=0;i<18;i++){const a=i*Math.PI/9;path(rotor,`M${Math.cos(a)*310} ${Math.sin(a)*92}L${Math.cos(a)*326} ${Math.sin(a)*97}`,{'class':'scene-time-ring'});}
+    const sand=at('sand',[.94,.45],'warm');for(let i=0;i<7;i++)delays(path(place(sand,-35+i*14,-100+(i%3)*59,''),'M0 0V5',{'class':'scene-sand'}),i);break;
+   }
+  }
+  frame.appendChild(svg);scene.insertBefore(frame,shadow.querySelector('.grain'));
  }
  const durationMs=Number.isFinite(assets.durationMs)?Math.min(15000,Math.max(6000,assets.durationMs)):null;
  info.durationMs=durationMs;info.animationKind=assets.animationKind||'legacy';
- if(assets.fullScene){scene.classList.add('full-scene');if(assets.videoPoster)scene.style.setProperty('--opening-scene-poster','url('+JSON.stringify(assets.videoPoster)+')');const sheet=document.createElement('style');sheet.textContent='.full-scene::before{content:"";position:absolute;inset:0;background-image:var(--opening-scene-poster);background-size:cover;background-position:center;filter:blur(16px);opacity:.65}.full-scene .motion,.full-scene .motion-poster{object-fit:contain;object-position:center}.full-scene .shade{background:linear-gradient(90deg,#080c1748,transparent 60%)}.full-scene .gear,.full-scene .iris,.full-scene .strings,.full-scene .character,.full-scene .orbit,.full-scene .particle,.full-scene .sweep{display:none}.full-scene .copy,.full-scene .brand,.full-scene .bottom,.full-scene .footer{text-shadow:0 2px 8px #020617,0 0 24px #020617c9}';shadow.append(sheet);}
+ if(assets.fullScene){scene.classList.add('full-scene');if(assets.videoPoster)scene.style.setProperty('--opening-scene-poster','url('+JSON.stringify(assets.videoPoster)+')');const sheet=document.createElement('style');sheet.textContent='.full-scene::before{content:"";position:absolute;inset:0;background-image:var(--opening-scene-poster);background-size:cover;background-position:center;filter:blur(16px);opacity:.65}.full-scene .motion,.full-scene .motion-poster{object-fit:contain;object-position:center}.full-scene .shade{background:linear-gradient(90deg,#080c1748,transparent 60%)}.full-scene .grain,.full-scene .gear,.full-scene .iris,.full-scene .strings,.full-scene .character,.full-scene .orbit,.full-scene .particle,.full-scene .sweep{display:none}.full-scene .copy,.full-scene .brand,.full-scene .bottom,.full-scene .footer{text-shadow:0 2px 8px #020617,0 0 24px #020617c9}';shadow.append(sheet);}
  if(assets.videoPoster){shadow.querySelector('.motion-poster').src=assets.videoPoster;scene.classList.add('motion-pending');}
  if(reduced)info.video='reduced-poster';
- const tracing=!reduced&&assets.videoPoster&&assets.outline?.paths?.length>0;
+ const tracing=!sceneIntro&&!reduced&&assets.videoPoster&&assets.outline?.paths?.length>0;
  if(tracing){scene.classList.add('trace-intro');info.reveal='outline';}
  if(tracing&&(!assets.traceVideo||assets.environmentTrace)){
   const frame=document.createElement('div');frame.className='trace-frame';
@@ -277,14 +352,18 @@ export function showOpening(assets,options={}) {
  stopSourceTrace=()=>{if(frameCallback!=null)video.cancelVideoFrameCallback?.(frameCallback);frameCallback=null;sourceTraceActive=false;traceVideo?.pause();if(traceVideo){traceVideo.removeAttribute('src');traceVideo.load?.();}info.sourceTrace='stopped';};
  const beginColor=()=>{
   if(ended)return;
-  if(!entranceRevealed){
-   if(performance.now()-started<entranceDelay)return;
-   entranceRevealed=true;scene.classList.add('entrance-revealed');info.entrance.phase='scene';info.entrance.revealedAtMs=Math.round(performance.now()-started);
+  if(sceneIntro){
+   if(performance.now()-started<2100)return;
+   if(info.sceneIntro.phase!=='color'){scene.classList.add('scene-color');info.reveal='color';info.sceneIntro.phase='color';info.sceneIntro.revealAtMs=Math.round(performance.now()-started);}
   }
   if(tracing){scene.classList.add('color-reveal');info.reveal='color';colorStarted??=performance.now();}
   if(info.video==='playing'){scene.classList.remove('motion-pending');scene.classList.add('motion-ready');return;}
   if(!mediaLoaded||playRequested)return;playRequested=true;
   video.play().then(()=>{if(!ended){scene.classList.remove('motion-pending');scene.classList.add('motion-ready');info.video='playing';}else video.pause();}).catch(()=>{if(!ended)fallback();});
+ };
+ const startSceneSource=()=>{
+  if(ended||!mediaLoaded||playRequested)return;playRequested=true;
+  video.play().then(()=>{if(ended){video.pause();return;}info.video='playing';if(performance.now()-started>=2100)beginColor();}).catch(()=>{if(!ended)fallback();});
  };
  const fallback=()=>{info.video='fallback';scene.classList.add('media-fallback');scene.classList.remove('motion-ready');scene.classList.remove('source-trace-ready');if(assets.videoPoster)scene.classList.add('motion-pending');else if(!tracing)scene.classList.remove('motion-pending');clearMedia();};
  if(video&&assets.video?.startsWith('data:video/mp4;base64,')&&!reduced){
@@ -294,14 +373,14 @@ export function showOpening(assets,options={}) {
   video.addEventListener('error',()=>{if(!ended)fallback();},{once:true});
   video.addEventListener('loadeddata',()=>{
    if(ended)return;mediaLoaded=true;
-   if(usePrerender)startPair();else if(!tracing||performance.now()-started>=2100)beginColor();
+   if(sceneIntro)startSceneSource();else if(usePrerender)startPair();else if(!tracing||performance.now()-started>=2100)beginColor();
   },{once:true});
   video.src=assets.video;
   if(traceVideo)traceVideo.src=assets.traceVideo;
  }
  timer=setInterval(()=>{
   const t=performance.now()-started;
-  if(entrance&&!entranceRevealed&&t>=entranceDelay)beginColor();
+  if(sceneIntro&&t>=2100)beginColor();
   if(usePrerender&&!sourceStarted&&t>1300){info.video='trace-fallback';startPair();}
   if(tracing&&t>=2100)beginColor();
   if(sourceTraceActive&&colorStarted!==null&&performance.now()-colorStarted>1200)stopSourceTrace();

@@ -2,7 +2,8 @@
   "id": "nahida",
   "releaseVersion": "1.4.0",
   "frameRevision": "1.4.2",
-  "source": "Retained selected daily originals, native-main-only geometric backdrop and independent opening; see assets/ui/composition.json and assets/motion/derived.json",
+  "entranceRevision": "1.6.0",
+  "source": "Retained selected daily originals, native-main-only geometric backdrop, source-aligned scene contours and independent opening; see assets/ui/composition.json and assets/motion/derived.json",
   "animationKind": "illustrated-local-motion",
   "signature": "Font-derived true cursive outline; not an official signature",
   "files": [
@@ -428,13 +429,13 @@
     },
     {
       "file": "assets/motion/derived.json",
-      "bytes": 3169,
-      "sha256": "6f3a1a9c92382be2936d4aa6601e73389c21e8d8bb361d41126c7d85f9469e74"
+      "bytes": 3452,
+      "sha256": "c6f225a46d727d501dd095126103dec8a06bd6ac575086e2e0c19f9687b08c2b"
     },
     {
       "file": "assets/motion/metrics.json",
-      "bytes": 686,
-      "sha256": "4d0b6eb8df54f116b4fbe6e5bd3855326db0b6c2066c5aafb31f9a59284779f9"
+      "bytes": 801,
+      "sha256": "cd3f8a66d34e59281a2f1e42c6bdf29727cd66d2237a6bc919f7de0bfb506ba0"
     },
     {
       "file": "assets/motion/preview-metrics.json",
@@ -443,13 +444,18 @@
     },
     {
       "file": "assets/motion/sandrone-first-frame.jpg",
-      "bytes": 338579,
-      "sha256": "caa0c6a502e18970d8c0f267e19232bddabad0724c037cf9602584ea983cc5fd"
+      "bytes": 338495,
+      "sha256": "2c9c53beb23ad4dc17d4ff894c6039162b031bcf162113f8ec36674e7fd6c125"
     },
     {
       "file": "assets/motion/sandrone-loop-1080p.mp4",
-      "bytes": 3461771,
-      "sha256": "4f51b0a9e9e9970588955293c42eb94c1cf45b8152c2d8c4bd59be4618e8859c"
+      "bytes": 3359179,
+      "sha256": "37467091b41cda8588f8da862b5f1db4a717a621066f0de30780a3cbc7acc30c"
+    },
+    {
+      "file": "assets/motion/scene-intro.json",
+      "bytes": 72571,
+      "sha256": "93d8331eaa9e392395ecb0e84d23d376de42bf25e194faff4e47f69be2927c15"
     },
     {
       "file": "assets/ornaments/01_ornate_gear.png",
@@ -568,8 +574,8 @@
     },
     {
       "file": "engine/assets.mjs",
-      "bytes": 9310,
-      "sha256": "2a0c7ea008081ad9c5b1d3f0a2bc06e9487eb6ec37fe9e9dd92a4d7b52893eda"
+      "bytes": 10796,
+      "sha256": "5fbe481249be0d812df7d7e2a74e847815ff168902bb9ec7870231d5fb7471b8"
     },
     {
       "file": "engine/native-ui.css",
@@ -578,8 +584,8 @@
     },
     {
       "file": "engine/renderer.mjs",
-      "bytes": 34401,
-      "sha256": "a85716c5e2b1748aea53660211e3f30cb951a8bb214a7758dd3e20f0d6221c5a"
+      "bytes": 41272,
+      "sha256": "87621ae55f445a4bcba582df3b41797e940a0fdc0f9ba645ecbec69e456bafb5"
     }
   ]
 }

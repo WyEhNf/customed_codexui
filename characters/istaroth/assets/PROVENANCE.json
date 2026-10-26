@@ -2,7 +2,8 @@
   "id": "istaroth",
   "releaseVersion": "1.4.0",
   "frameRevision": "1.4.2",
-  "source": "Retained selected daily originals, native-main-only geometric backdrop and independent opening; see assets/ui/composition.json and assets/motion/derived.json",
+  "entranceRevision": "1.6.0",
+  "source": "Retained selected daily originals, native-main-only geometric backdrop, source-aligned scene contours and independent opening; see assets/ui/composition.json and assets/motion/derived.json",
   "animationKind": "illustrated-local-motion",
   "signature": "Font-derived true cursive outline; not an official signature",
   "files": [
@@ -452,6 +453,11 @@
       "sha256": "00e6f34c3fadb0257bde1c493be56d2819f5497666298fa580a9eab0187f6fdf"
     },
     {
+      "file": "assets/motion/scene-intro.json",
+      "bytes": 61210,
+      "sha256": "281beef4e276ad7362b649b3e7945a2f1f46207922da26b8d9410139f18bb13c"
+    },
+    {
       "file": "assets/ornaments/01_ornate_gear.png",
       "bytes": 52732,
       "sha256": "fd8155b4497c2aab985ae7382a5ca2deab043006b304a043f5decd108517a275"
@@ -568,8 +574,8 @@
     },
     {
       "file": "engine/assets.mjs",
-      "bytes": 9310,
-      "sha256": "2a0c7ea008081ad9c5b1d3f0a2bc06e9487eb6ec37fe9e9dd92a4d7b52893eda"
+      "bytes": 10796,
+      "sha256": "5fbe481249be0d812df7d7e2a74e847815ff168902bb9ec7870231d5fb7471b8"
     },
     {
       "file": "engine/native-ui.css",
@@ -578,8 +584,8 @@
     },
     {
       "file": "engine/renderer.mjs",
-      "bytes": 34382,
-      "sha256": "74afe81bfdcf2412464bdfc421a5ad28d85ad5a9ab53bb2e9723a947f1ce18ea"
+      "bytes": 41253,
+      "sha256": "ca28fa79a6b6df6053df5490357b9e40261df17b317282be04484e0e0fe236bd"
     }
   ]
 }

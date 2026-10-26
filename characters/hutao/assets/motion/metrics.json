@@ -2,6 +2,8 @@
   "id": "hutao",
   "rawFaceMAD": 0.0,
   "rawProtectedMapMaxPx": 0.0,
+  "rawFaceWithFxMAD": 0.0,
+  "rawProtectedWithFxMAD": 0.0,
   "localWarpPixelMAD": 4.826097815212011,
   "localWarpChangedPixels": 282753,
   "maximumMeshDisplacementPx": 5.334197521209717,
@@ -11,10 +13,12 @@
   "height": 1080,
   "fps": 30,
   "seconds": 9,
-  "method": "Parametric local mesh animation of the approved illustration, face/hand/joint protected, plus separately animated environment FX. Not generated video.",
-  "decodedFrameMAD": 2.312138470936214,
-  "encodedFaceMAD": 1.7749880279452375,
-  "loopEndpointMAD": 1.3829639274691359,
-  "bytes": 3841729,
-  "renderSeconds": 53.53
+  "motionRevision": "scene-motion-v2",
+  "closedOrbitEffect": false,
+  "method": "Parametric local mesh animation of the approved illustration, face/hand/joint protected, plus character-specific environment FX. Not generated video.",
+  "decodedFrameMAD": 2.1262852044753084,
+  "encodedFaceMAD": 1.7645063261680025,
+  "loopEndpointMAD": 1.4270889596193415,
+  "bytes": 3799985,
+  "renderSeconds": 81.34
 }

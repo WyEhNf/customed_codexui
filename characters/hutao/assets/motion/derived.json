@@ -2,16 +2,19 @@
   "file": "sandrone-loop-1080p.mp4",
   "source": "G:\\sandrone\\design-review\\2026-10-25\\full-scene-v7\\references\\hutao-current.png",
   "sourceSha256": "1950a371f1b847a5abd8167346d9bc19f3f969f150c751ed6ed327db56070688",
-  "sha256": "c1111bcd1919b3c4f7373d334eafc7dfd278d0b53ff8e4d18f951f96b136a23e",
-  "bytes": 3841729,
+  "sha256": "c05c5ec405bb88ef54b52994d756693cf1f0e83550f04db65945135df9c2d9ff",
+  "bytes": 3799985,
   "seconds": 9,
   "width": 1920,
   "height": 1080,
   "fps": 30,
   "frames": 270,
   "posterFile": "sandrone-first-frame.jpg",
-  "posterSha256": "26158ea99751c82ac8870d8a4766ebbff285c131187eeb0acefbcea6b880c666",
+  "posterSha256": "a2fb24d89a8aa0e17ef39a5b23c59c60c1c973cb1808bd5719664d30e2aeee66",
   "animationKind": "illustrated-local-motion",
+  "motionRevision": "scene-motion-v2",
+  "builderSha256": "3b2ec77266ea153232260947b219e1d8cce948402d858cc926cd016266e896d4",
+  "closedOrbitEffect": false,
   "globalCameraMotion": false,
   "faceProtected": true,
   "handJointProtected": true,
@@ -112,10 +115,11 @@
     }
   ],
   "environmentEffects": [
-    "amber-butterflies",
-    "lantern-embers"
+    "single-open-path-fire-butterfly",
+    "localized-lantern-warmth",
+    "rising-lantern-embers"
   ],
   "metricsFile": "metrics.json",
   "fullScene": true,
-  "note": "New parameterized illustration animation: local breathing, cloth/hair displacement and environment effects; faces, hands and joints protected. Not a static repeated carrier, camera-only animation or model-generated motion video."
+  "note": "Parameterized illustration animation: original painted RGB and anatomy retained, local breathing/cloth/hair movement, distinct scene effects and protected faces/hands/joints. Static curved bands already present in the illustration are retained; only Istaroth uses a revolving environment effect. Not model-generated video."
 }

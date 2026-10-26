@@ -2,7 +2,8 @@
   "id": "mitya",
   "releaseVersion": "1.4.0",
   "frameRevision": "1.4.2",
-  "source": "Retained selected daily originals, native-main-only geometric backdrop and independent opening; see assets/ui/composition.json and assets/motion/derived.json",
+  "entranceRevision": "1.6.0",
+  "source": "Retained selected daily originals, native-main-only geometric backdrop, source-aligned scene contours and independent opening; see assets/ui/composition.json and assets/motion/derived.json",
   "animationKind": "illustrated-local-motion",
   "signature": "Font-derived true cursive outline; not an official signature",
   "files": [
@@ -452,6 +453,11 @@
       "sha256": "706424d60b714bd218f630bd98002981b0ffe5f696ff019ae4ff2d0da7a4179a"
     },
     {
+      "file": "assets/motion/scene-intro.json",
+      "bytes": 69859,
+      "sha256": "58ba71819f8d508c51900a656a1c4826a16075290a418d7b0895c04028336ee6"
+    },
+    {
       "file": "assets/ornaments/01_ornate_gear.png",
       "bytes": 65228,
       "sha256": "314ca06e640ce1c0426f070c35ee992405a3cb47b52d8a2224c3347b4d025b12"
@@ -578,8 +584,8 @@
     },
     {
       "file": "engine/assets.mjs",
-      "bytes": 9310,
-      "sha256": "2a0c7ea008081ad9c5b1d3f0a2bc06e9487eb6ec37fe9e9dd92a4d7b52893eda"
+      "bytes": 10796,
+      "sha256": "5fbe481249be0d812df7d7e2a74e847815ff168902bb9ec7870231d5fb7471b8"
     },
     {
       "file": "engine/native-ui.css",
@@ -588,8 +594,8 @@
     },
     {
       "file": "engine/renderer.mjs",
-      "bytes": 34370,
-      "sha256": "aa967b30e37f3ec2216e086884b401fd231aaa848e4f3f6177d71863ef31a9c7"
+      "bytes": 41241,
+      "sha256": "e92ae5e3324cba1c476b6aecc1fab14a8257ef3b2266619a77aab9e3b3498306"
     }
   ]
 }

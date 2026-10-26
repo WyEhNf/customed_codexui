@@ -2,7 +2,8 @@
   "id": "sandrone",
   "releaseVersion": "1.4.0",
   "frameRevision": "1.4.2",
-  "source": "Retained selected daily originals, native-main-only geometric backdrop and independent opening; see assets/ui/composition.json and assets/motion/derived.json",
+  "entranceRevision": "1.6.0",
+  "source": "Retained selected daily originals, native-main-only geometric backdrop, source-aligned scene contours and independent opening; see assets/ui/composition.json and assets/motion/derived.json",
   "animationKind": "source-video",
   "signature": "Font-derived true cursive outline; not an official signature",
   "files": [
@@ -553,8 +554,8 @@
     },
     {
       "file": "engine/assets.mjs",
-      "bytes": 9310,
-      "sha256": "2a0c7ea008081ad9c5b1d3f0a2bc06e9487eb6ec37fe9e9dd92a4d7b52893eda"
+      "bytes": 10796,
+      "sha256": "5fbe481249be0d812df7d7e2a74e847815ff168902bb9ec7870231d5fb7471b8"
     },
     {
       "file": "engine/native-ui.css",
@@ -563,8 +564,8 @@
     },
     {
       "file": "engine/renderer.mjs",
-      "bytes": 34340,
-      "sha256": "9ad27ecc343fd87054db806349cfef18684359f404929ff8f51e36bb8ee76644"
+      "bytes": 41211,
+      "sha256": "0acbd677c4ba8fde89f7b7ca93439f8c15ffbbd853b2717b1a10415a075ca099"
     }
   ]
 }

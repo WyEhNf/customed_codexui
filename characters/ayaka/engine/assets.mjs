@@ -3,6 +3,25 @@ import path from 'node:path';
 import {fileURLToPath} from 'node:url';
 import {createHash} from 'node:crypto';
 const root=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'..');
+const sceneKinds={columbina:'moon-water',ayaka:'frost-petals',hutao:'lantern-butterfly',nahida:'leaf-growth',furina:'water-stage',citlali:'crystal-starlight',mitya:'quiet-lamplight',istaroth:'time-sand'};
+export function validateSceneIntro(value,id,posterSha256){
+ if(!sceneKinds[id]||value?.schemaVersion!==1||value.id!==id||value.width!==1920||value.height!==1080||value.posterSha256!==posterSha256||value.origin!=='source-pixel-contours'||value.scene?.kind!==sceneKinds[id])throw Error('Invalid source-aligned scene intro');
+ let total=0;const groups={};
+ for(const key of ['environment','character','details']){
+  const entries=value[key];if(!Array.isArray(entries)||entries.length>128||(key==='character'&&entries.length<8))throw Error('Invalid scene contour group');
+  total+=entries.length;groups[key]=entries.map(p=>{
+   if(!p||typeof p.d!=='string'||p.d.length>6000||!/^M\d+(?:\.\d+)?[ ,]\d+(?:\.\d+)?(?:\s*L\d+(?:\.\d+)?[ ,]\d+(?:\.\d+)?)+$/.test(p.d)||!Number.isFinite(p.delayMs)||p.delayMs<0||p.delayMs>2100||!Number.isFinite(p.durationMs)||p.durationMs<100||p.durationMs>2400)throw Error('Invalid scene contour path');
+   for(const pair of p.d.matchAll(/[ML](\d+(?:\.\d+)?)[ ,](\d+(?:\.\d+)?)/g))if(Number(pair[1])>1920||Number(pair[2])>1080)throw Error('Scene contour outside source canvas');
+   return {d:p.d,delayMs:p.delayMs,durationMs:p.durationMs};
+  });
+ }
+ if(total>240)throw Error('Scene contour budget exceeded');
+ const anchors={};if(!value.scene.anchors||typeof value.scene.anchors!=='object'||Array.isArray(value.scene.anchors)||Object.keys(value.scene.anchors).length>20)throw Error('Invalid scene anchors');
+ for(const [key,point]of Object.entries(value.scene.anchors)){
+  if(!/^[a-z][A-Za-z0-9-]{0,31}$/.test(key)||!Array.isArray(point)||point.length!==2||point.some(n=>!Number.isFinite(n)||n<0||n>1))throw Error('Invalid scene anchor');anchors[key]=point.slice();
+ }
+ return {schemaVersion:1,id,width:1920,height:1080,posterSha256,origin:value.origin,...groups,scene:{kind:sceneKinds[id],anchors}};
+}
 // Geometry only: no SVG markup, URLs, style or executable content from assets.
 export function validateOutline(value,sourceSha256){
  if(value?.version!==3||value.style!=='character-features-water'||value.width!==1280||value.height!==720||value.sourceSha256!==sourceSha256||!Array.isArray(value.paths)||value.paths.length<1||value.paths.length>96||!Array.isArray(value.facePaths)||value.facePaths.length<1||value.facePaths.length>32||!Array.isArray(value.waterPaths)||value.waterPaths.length!==1)throw new Error('Invalid outline geometry');
@@ -51,17 +70,6 @@ export async function openingAssets(){
   if(!stat.isFile()||stat.size>512*1024)throw new Error('Opening lettering too large');
   result.lettering=validateLettering(JSON.parse(await fs.readFile(file,'utf8')));
  }catch{result.letteringFallback=true;}
- // Reuse the approved, character-specific material ornament for the entrance.
- // A missing ornament keeps the existing opening; it never blocks playback.
- try{
-  const file=path.join(root,'assets/ui/personality.json'),stat=await fs.stat(file);
-  if(!stat.isFile()||stat.size>2*1024*1024)throw new Error('Entrance material exceeds budget');
-  const material=JSON.parse(await fs.readFile(file,'utf8'));
-  if(material.id!==result.lettering?.id||!/^data:image\/png;base64,[A-Za-z0-9+/=]+$/.test(material.ornament))throw new Error('Invalid entrance material');
-  const bytes=Buffer.from(material.ornament.split(',')[1],'base64');
-  if(bytes.length>512*1024||!bytes.subarray(0,8).equals(Buffer.from([137,80,78,71,13,10,26,10]))||bytes.toString('ascii',12,16)!=='IHDR'||bytes.readUInt32BE(16)>512||bytes.readUInt32BE(20)>512)throw new Error('Invalid entrance ornament PNG');
-  result.entrance={id:material.id,ornament:material.ornament};
- }catch{result.entranceFallback=true;}
  // Optional, fixed local MP4. A missing/broken video never blocks the static opening.
  try{
   const ledger=JSON.parse(await fs.readFile(path.join(root,'assets/motion/derived.json'),'utf8'));
@@ -84,12 +92,17 @@ export async function openingAssets(){
    const poster=await fs.readFile(path.join(root,'assets/motion/sandrone-first-frame.jpg'));
    if(poster.length<1024*1024&&poster[0]===255&&poster[1]===216&&createHash('sha256').update(poster).digest('hex')===ledger.posterSha256){
     result.videoPoster=`data:image/jpeg;base64,${poster.toString('base64')}`;
+    if(sceneKinds[result.lettering?.id])try{
+     const file=path.join(root,'assets/motion/scene-intro.json'),stat=await fs.stat(file);
+     if(!stat.isFile()||stat.size>512*1024)throw Error('Scene intro exceeds budget');
+     result.sceneIntro=validateSceneIntro(JSON.parse(await fs.readFile(file,'utf8')),result.lettering.id,ledger.posterSha256);
+    }catch{result.sceneIntroFallback=true;}
     try{const outline=await fs.readFile(path.join(root,'assets/motion/sandrone-outline.json'),'utf8');if(outline.length<256*1024)result.outline=validateOutline(JSON.parse(outline),ledger.posterSha256);}catch{result.outlineFallback=true;}
    }
   }catch{}
  }catch{result.videoFallback=true;}
  // Video/poster is the static fallback; omit unused full-size WPF art from
  // the renderer transfer when the validated HD pair is available.
- if(result.traceVideo&&result.videoPoster&&result.outline){for(const key of ['portrait','background','gear','iris','strings'])delete result[key];result.background=result.videoPoster;}
+ if(result.videoPoster&&(result.sceneIntro||result.traceVideo&&result.outline)){for(const key of ['portrait','background','gear','iris','strings'])delete result[key];result.background=result.videoPoster;}
  return result;
 }

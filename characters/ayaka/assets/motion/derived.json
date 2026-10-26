@@ -2,16 +2,19 @@
   "file": "sandrone-loop-1080p.mp4",
   "source": "G:\\sandrone\\design-review\\2026-10-25\\full-scene-v7\\references\\ayaka-current.png",
   "sourceSha256": "f683fad46a89c02622c0ee7ff5ce0d0b7aada9ccfca9314ae45381bb5933fe6d",
-  "sha256": "e4e5e48924e914b397ba169e95d7a0d8bc2cd7f5edbdbf0ab5c50f1f9409d592",
-  "bytes": 4726714,
+  "sha256": "ee4505f5c31bb9b9809fc747e8a35c3eb206bbb1c54c0d2db49feec2a126319d",
+  "bytes": 4664612,
   "seconds": 9,
   "width": 1920,
   "height": 1080,
   "fps": 30,
   "frames": 270,
   "posterFile": "sandrone-first-frame.jpg",
-  "posterSha256": "6e7366034fe6ca4c26d5bd1484d480ffc5a39dfc9f24f3695274eadb4f52a294",
+  "posterSha256": "7c34133eea4a4e7405cb0fc3dbf52ba029f79e83be01fc585b098f71ee65b216",
   "animationKind": "illustrated-local-motion",
+  "motionRevision": "scene-motion-v2",
+  "builderSha256": "3b2ec77266ea153232260947b219e1d8cce948402d858cc926cd016266e896d4",
+  "closedOrbitEffect": false,
   "globalCameraMotion": false,
   "faceProtected": true,
   "handJointProtected": true,
@@ -136,10 +139,11 @@
     }
   ],
   "environmentEffects": [
-    "sakura-petals",
-    "frost-motes"
+    "falling-sakura-petals",
+    "fan-rim-frost",
+    "sparse-frost-motes"
   ],
   "metricsFile": "metrics.json",
   "fullScene": true,
-  "note": "New parameterized illustration animation: local breathing, cloth/hair displacement and environment effects; faces, hands and joints protected. Not a static repeated carrier, camera-only animation or model-generated motion video."
+  "note": "Parameterized illustration animation: original painted RGB and anatomy retained, local breathing/cloth/hair movement, distinct scene effects and protected faces/hands/joints. Static curved bands already present in the illustration are retained; only Istaroth uses a revolving environment effect. Not model-generated video."
 }

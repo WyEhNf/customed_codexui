@@ -36,7 +36,7 @@ for(const c of build.characters){
  await fs.writeFile(path.join(pack,'active-files.json'),manifest);entries.push({...c,manifestSha256:sha(manifest)});
  console.log('Verified signature and preview: '+c.id);
 }
-await fs.writeFile(path.join(root,'catalog.json'),JSON.stringify({schemaVersion:1,version:'1.5.0',defaultId:'columbina',characters:entries},null,2)+'\n');
+await fs.writeFile(path.join(root,'catalog.json'),JSON.stringify({schemaVersion:1,version:'1.6.0',defaultId:'columbina',characters:entries},null,2)+'\n');
 const base={};
 async function immutable(directory){for(const e of await fs.readdir(directory,{withFileTypes:true})){
  const f=path.join(directory,e.name),rel=path.relative(root,f).split(path.sep).join('/');

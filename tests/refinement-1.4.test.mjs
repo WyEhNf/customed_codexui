@@ -19,7 +19,7 @@ const meanAbs=(a,b)=>{assert.equal(a.length,b.length);let total=0;for(let i=0;i<
 const raster=async file=>sharp(file).resize(160,90,{fit:'fill'}).removeAlpha().raw().toBuffer();
 let failure;
 try{
- assert.match(catalog.version,/^1\.(?:4|5)\.\d+$/);assert.deepEqual(catalog.characters.map(c=>c.id).sort(),[...expected].sort());
+ assert.match(catalog.version,/^1\.[456]\.\d+$/);assert.deepEqual(catalog.characters.map(c=>c.id).sort(),[...expected].sort());
  for(const c of catalog.characters){
   const {pack}=await verifyPack(root,c.id),meta=await json(path.join(pack,'presentation.json'));
   assert.equal(meta.releaseVersion,'1.4.0',c.id+' production version');
