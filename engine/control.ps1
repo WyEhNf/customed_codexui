@@ -2,8 +2,10 @@
 $ErrorActionPreference='Stop'
 $launchClock=[Diagnostics.Stopwatch]::StartNew()
 $projectRoot=Split-Path $PSScriptRoot -Parent
+. (Join-Path $PSScriptRoot 'runtime-policy.ps1')
+AssertSafeInstallPath $projectRoot
 $stateRoot=Join-Path $projectRoot 'state'
-$null=New-Item -ItemType Directory -Path $stateRoot -Force
+ProtectPrivateDirectory $stateRoot $projectRoot
 $resultPath=Join-Path $stateRoot ('result-'+$Token+'.json')
 $utf8=New-Object System.Text.UTF8Encoding($false)
 function Result($status,$message,$detail){
@@ -34,16 +36,13 @@ function NodeExe {
 function TestDebugPort($port){
  return (($port -is [int] -or $port -is [long]) -and $port -ge 1024 -and $port -le 65535)
 }
-function SelectDebugPort($preferred=19337){
- if(!(TestDebugPort $preferred)){throw '调试端口配置无效。'}
- foreach($candidate in @($preferred,0)){
-  $listener=New-Object Net.Sockets.TcpListener([Net.IPAddress]::Loopback,[int]$candidate)
-  $listener.ExclusiveAddressUse=$true
-  try{$listener.Start();return [int]$listener.LocalEndpoint.Port}
-  catch [Net.Sockets.SocketException]{if($candidate -eq 0){throw '无法分配本机调试端口。'}}
-  finally{$listener.Stop()}
- }
- throw '无法分配本机调试端口。'
+function SelectDebugPort {
+ [CmdletBinding()]param()
+ $listener=New-Object Net.Sockets.TcpListener([Net.IPAddress]::Loopback,0)
+ $listener.ExclusiveAddressUse=$true
+ try{$listener.Start();return [int]$listener.LocalEndpoint.Port}
+ catch [Net.Sockets.SocketException]{throw '无法分配本机随机调试端口。'}
+ finally{$listener.Stop()}
 }
 function GetProcessProfile([string]$commandLine){
  $pattern='(?i)(?:^|\s)(?:"--user-data-dir=(?<whole>[^"]+)"|--user-data-dir(?:=|\s+)(?:"(?<quoted>[^"]+)"|(?<bare>[^\s"]+)))'
@@ -195,6 +194,30 @@ function PrepareCharacterSwitch($node,$state,$exe){
  # Stop only the verified background watcher. Leave the live renderer, styles,
  # menu and media intact; never invoke upstream --remove for a character switch.
 }
+function StopManagedWatcher($node,$state){
+ if(!$state.watcherPid){return}
+ $watcher=Get-CimInstance Win32_Process -Filter ('ProcessId='+$state.watcherPid) -ErrorAction SilentlyContinue
+ if(!$watcher){return}
+ $process=Get-Process -Id $state.watcherPid -ErrorAction Stop
+ $known=$watcher.CommandLine -and ($watcher.CommandLine.Contains((Join-Path $projectRoot 'engine\session.mjs')) -or $watcher.CommandLine.Contains((Join-Path $projectRoot 'vendor\dream-skin\windows\scripts\injector.mjs')))
+ if(!$known -or $watcher.ExecutablePath -cne $node -or $process.StartTime.ToUniversalTime().Ticks.ToString() -cne $state.watcherStarted){throw '主题监视进程身份不匹配，未结束进程。'}
+ Stop-Process -Id $process.Id -ErrorAction Stop
+}
+function CloseManagedClient($node,$state,$exe){
+ if(!(VerifyManaged $state $exe)){throw '退出前会话身份发生变化，未连接其他客户端。'}
+ $ErrorActionPreference='Continue'
+ $output=& $node (Join-Path $projectRoot 'engine\close-managed.mjs') --browser-id $state.browserId 2>&1
+ if($LASTEXITCODE -ne 0){throw '主题客户端未接受正常退出请求；请手动退出主题窗口以关闭调试端口。'}
+ $deadline=[DateTime]::UtcNow.AddSeconds(10)
+ do{
+  $owner=Get-Process -Id $state.ownerPid -ErrorAction SilentlyContinue
+  $alive=$owner -and $owner.StartTime.ToUniversalTime().Ticks.ToString() -ceq $state.ownerStarted
+  $listeners=@(Get-NetTCPConnection -State Listen -LocalPort $state.port -ErrorAction SilentlyContinue|Where-Object {$_.OwningProcess -eq $state.ownerPid})
+  if(!$alive -and !$listeners.Count){return}
+  Start-Sleep -Milliseconds 200
+ }while([DateTime]::UtcNow -lt $deadline)
+ throw '主题客户端尚未正常退出，调试端口可能仍在使用。请手动退出；未强制结束进程。'
+}
 $mutex=New-Object Threading.Mutex($false,'Local\SandroneCodex.Control')
 $locked=$false
 try {
@@ -203,28 +226,36 @@ try {
  $exe=OfficialExe
  $state=GetManaged
  if($Action -eq 'official'){
-  Start-Process -FilePath $exe -WindowStyle Normal | Out-Null
+  StartCodexClient -Exe $exe -Root $projectRoot | Out-Null
   Result 'ready' '已请求打开官方原版' '使用原有登录与配置；未开启新的调试端口。';exit 0
  }
- if($Action -eq 'prepare-switch'){
-  PrepareCharacterSwitch (NodeExe) $state $exe
-  Result 'ready' '角色切换已准备' '旧主题保持显示，等待在开屏内接入新主题。';exit 0
- }
  if($Action -eq 'restore'){
-  if($null -eq $state){Result 'ready' '当前没有此启动器管理的主题会话' '官方配置、登录、MCP 和聊天记录均未修改。';exit 0}
+  if($null -eq $state){StartCodexClient -Exe $exe -Root $projectRoot|Out-Null;Result 'ready' '已请求打开官方原版' '当前没有受管主题会话；未打开调试端口。';exit 0}
+  # Stale state must never reconnect to a different process at a recycled port.
+  $owner=Get-Process -Id $state.ownerPid -ErrorAction SilentlyContinue
+  if(!$owner){Remove-Item -LiteralPath (Join-Path $stateRoot 'managed.json') -ErrorAction Stop;StartCodexClient -Exe $exe -Root $projectRoot|Out-Null;Result 'ready' '已请求打开官方原版' '旧主题进程已退出；清理了过期会话记录。';exit 0}
   if(!(VerifyManaged $state $exe)){Result 'blocked' '无法确认主题会话身份' '未操作任何进程。请关闭主题窗口后，从官方快捷方式重开。';exit 3}
   [IO.File]::WriteAllText((Join-Path $stateRoot 'paused'),'paused',$utf8)
-  if(!(NativeUi (NodeExe) '--remove' $state)){throw '同窗动画或界面组件移除失败，已保留会话。请手动关闭主题客户端。'}
-  if(!(Inject (NodeExe) '--remove' $state)){throw '主题移除未获验证；请关闭主题窗口后重新打开官方版。'}
-  if($state.watcherPid){
-   $watcher=Get-CimInstance Win32_Process -Filter ('ProcessId='+$state.watcherPid) -ErrorAction SilentlyContinue
-   $knownWatcher=$watcher -and ($watcher.CommandLine.Contains((Join-Path $projectRoot 'engine\session.mjs')) -or $watcher.CommandLine.Contains((Join-Path $projectRoot 'vendor\dream-skin\windows\scripts\injector.mjs')))
-   if($knownWatcher -and $watcher.ExecutablePath -ceq (NodeExe) -and (Get-Process -Id $state.watcherPid).StartTime.ToUniversalTime().Ticks.ToString() -ceq $state.watcherStarted){Stop-Process -Id $state.watcherPid}
-  }
-  Result 'ready' '已恢复官方外观' '主题已移除。调试端口将在你关闭该主题窗口后释放；恢复过程不会关闭聊天。';exit 0
+  $node=NodeExe
+  StopManagedWatcher $node $state
+  # Closing the exact owned browser also removes the injected UI. A changed
+  # upstream DOM must not prevent recovery from shutting its debugger down.
+  CloseManagedClient $node $state $exe
+  Remove-Item -LiteralPath (Join-Path $stateRoot 'managed.json') -ErrorAction Stop
+  Remove-Item -LiteralPath (Join-Path $stateRoot 'early-scripts.json') -ErrorAction SilentlyContinue
+  StartCodexClient -Exe $exe -Root $projectRoot|Out-Null
+  Result 'ready' '已退出主题会话并打开官方原版' '已验证主题进程退出及其调试端口释放；主题登录和 agent 数据仍保留在独立目录。';exit 0
  }
+ $clientInfo=GetCodexClientInfo $exe
+ $policy=AssertClientCompatibility $clientInfo $projectRoot
  $node=NodeExe
+ if($Action -eq 'prepare-switch'){
+  if($state.storageVersion -ne 2 -or $state.agentHome -ine (Join-Path $projectRoot 'codex-home')){Result 'blocked' '旧版主题会话需要退出一次' '请先使用恢复入口退出旧主题会话，再重新启动；当前外观保持不变。';exit 4}
+  PrepareCharacterSwitch $node $state $exe
+  Result 'ready' '角色切换已准备' '旧主题保持显示，等待在开屏内接入新主题。';exit 0
+ }
  if(WaitManaged $state $exe 2500){
+  if($state.storageVersion -ne 2 -or $state.agentHome -ine (Join-Path $projectRoot 'codex-home')){Result 'blocked' '旧版主题会话需要退出一次' '请先使用恢复入口正常退出旧主题会话，再重新启动。新版将使用独立 CODEX_HOME，不复制旧登录或聊天数据。';exit 4}
   if($ActivateWindow){ActivateManaged $state $exe}
   Remove-Item -LiteralPath (Join-Path $stateRoot 'paused') -ErrorAction SilentlyContinue
   $resumeVerb=if($PlayOpening){'--start'}else{'--resume'}
@@ -233,6 +264,7 @@ try {
   throw ('现有主题窗口未通过 renderer 验证。详情已保存到 state\native-error.log。'+[Environment]::NewLine+$script:NativeFailure)
  }
  $themeProfile=Join-Path $projectRoot 'profile'
+ ProtectPrivateDirectory $themeProfile $projectRoot
  $existing=@(FindThemeOwner $exe $themeProfile)
  if($existing.Count){
   $detail=if(@($existing|Where-Object {$_.Kind -eq 'unknown'}).Count){'无法确认现有客户端使用的配置目录；已保留现有会话。请退出该实例后重试。'}else{'主题配置目录已有客户端，但管理信息不匹配。请退出该主题窗口后重试；其他普通 Codex 无需退出。'}
@@ -243,12 +275,11 @@ try {
  $theme=Join-Path $projectRoot 'themes\sandrone'
  & $node (Join-Path $projectRoot 'verify-integrity.mjs')
  if($LASTEXITCODE -ne 0){throw '运行文件完整性校验失败。'}
- $stage=Join-Path $stateRoot ('validate-'+$Token)
- $null=New-Item -ItemType Directory -Path $stage
- & $node (Join-Path $projectRoot 'vendor\dream-skin\runtime\theme-package-validator.mjs') --source $theme --stage $stage --platform windows --client-version 1.5.21 | Out-Null
- if($LASTEXITCODE -ne 0){throw '主题包未通过上游安全校验。'}
+ foreach($old in @(Get-ChildItem -LiteralPath $stateRoot -Directory -Force|Where-Object {$_.Name -cmatch '^validate-[a-f0-9]{32}$'})){RemoveValidationStage $old.FullName $stateRoot}
+ $framework=Get-Content -LiteralPath (Join-Path $projectRoot 'vendor\dream-skin\SOURCE.json') -Raw -Encoding UTF8|ConvertFrom-Json
+ InvokeThemeValidation $node $theme $projectRoot $stateRoot $Token $framework.version
  Result 'loading' '正在启动隔离主题会话…' '首次可能需要你登录；不会读取或复制原有凭据。'
- $owner=Start-Process -FilePath $exe -ArgumentList @('--remote-debugging-address=127.0.0.1',('--remote-debugging-port='+$debugPort),('--user-data-dir="'+$themeProfile+'"')) -WindowStyle Normal -PassThru
+ $owner=StartCodexClient -Exe $exe -Arguments @('--remote-debugging-address=127.0.0.1',('--remote-debugging-port='+$debugPort),('--user-data-dir="'+$themeProfile+'"')) -Root $projectRoot -Isolated
  $deadline=(Get-Date).AddSeconds(25);$version=$null
  do {
   try{$version=Invoke-RestMethod ('http://127.0.0.1:{0}/json/version' -f $debugPort) -TimeoutSec 1}catch{}
@@ -257,7 +288,7 @@ try {
  if(!$version){if($owner.HasExited){throw '主题启动进程已退出，未连接其他客户端。请关闭占用同一主题配置的实例后重试。'};throw '主题客户端未提供本次启动的本机接口。请稍后重试；不会连接占用旧端口的其他进程。'}
  $u=[uri]$version.webSocketDebuggerUrl
  if($u.Scheme -ne 'ws' -or $u.Host -ne '127.0.0.1' -or $u.Port -ne $debugPort -or $u.UserInfo -or $u.Query -or $u.Fragment -or $u.AbsolutePath -notmatch '^/devtools/browser/([A-Za-z0-9._-]{1,200})$'){throw '调试接口身份无效。'}
- $state=[pscustomobject]@{port=$debugPort;browserId=$Matches[1];ownerPid=$owner.Id;ownerStarted=$owner.StartTime.ToUniversalTime().Ticks.ToString();exe=$exe}
+ $state=[pscustomobject]@{port=$debugPort;browserId=$Matches[1];ownerPid=$owner.Id;ownerStarted=$owner.StartTime.ToUniversalTime().Ticks.ToString();exe=$exe;storageVersion=2;agentHome=(Join-Path $projectRoot 'codex-home');appVersion=$clientInfo.appVersion;electronVersion=$clientInfo.electronVersion}
  $state|ConvertTo-Json|Set-Content (Join-Path $stateRoot 'managed.json') -Encoding UTF8
  if(!(WaitManaged $state $exe 6000)){throw '调试端口未通过进程及回环绑定校验。请关闭本次主题窗口。'}
  Remove-Item -LiteralPath (Join-Path $stateRoot 'paused') -ErrorAction SilentlyContinue

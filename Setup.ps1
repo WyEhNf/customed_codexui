@@ -2,10 +2,10 @@
 param([switch]$ValidateOnly,[switch]$NoShortcuts)
 $ErrorActionPreference='Stop'
 $root=[IO.Path]::GetFullPath($PSScriptRoot).TrimEnd('\')
-if($root.StartsWith('\\')){throw '请解压到本机可写目录后运行。'}
+. (Join-Path $root 'engine\runtime-policy.ps1')
+AssertSafeInstallPath $root
 if($WhatIfPreference){Write-Output 'Dry run: no shortcuts, configuration or clients changed.';return}
 if(!(Test-Path -LiteralPath (Join-Path $root 'SandroneCodex.exe'))){throw '源码版请先运行 Build-From-Source.ps1；试用版请完整解压 ZIP。'}
-for($p=$root;$p;$p=Split-Path $p -Parent){if((Get-Item -LiteralPath $p -Force).Attributes -band [IO.FileAttributes]::ReparsePoint){throw '项目路径含链接/目录重定向，请改用普通本机文件夹。'}}
 $node=Join-Path $root 'runtime\node.exe'
 $manifestPath=Join-Path $root 'integrity.json'
 if(!(Test-Path -LiteralPath $manifestPath)){throw '缺少完整性清单。源码版请先完成构建。'}
@@ -27,6 +27,7 @@ if(!$official){throw '请先安装官方 Windows Codex，并从官方入口正�
 if($ValidateOnly){Write-Output '{"pass":true,"portableRoot":true,"runtimeSignature":true,"officialDetected":true,"clientStarted":false,"filesWritten":false}';return}
 $config=@{officialExe=$official}|ConvertTo-Json
 if($PSCmdlet.ShouldProcess($root,'保存本机安装信息并创建本项目快捷方式')){
+ foreach($name in @('state','profile','codex-home')){ProtectPrivateDirectory (Join-Path $root $name) $root}
  [IO.File]::WriteAllText((Join-Path $root 'machine.json'),$config,(New-Object Text.UTF8Encoding($false)))
  if(!$NoShortcuts){
   $catalog=Get-Content -LiteralPath (Join-Path $root 'catalog.json') -Raw -Encoding UTF8|ConvertFrom-Json

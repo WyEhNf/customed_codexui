@@ -21,14 +21,12 @@ function Start-Process { $script:unsafeCalls++;throw 'Process launch is forbidde
 foreach($good in @([int]1024,[int]19337,[long]54821,[int]65535)){Check (TestDebugPort $good) ('Valid integer port rejected: '+$good)}
 foreach($bad in @($null,[int]0,[int]80,[int]1023,[int]-1,[int]65536,'19337',[double]19337,[decimal]19337,[bool]$true,[uint32]19337)){
  Check (!(TestDebugPort $bad)) 'Noninteger/missing/out-of-range port accepted'
- ExpectThrow {SelectDebugPort $bad} 'SelectDebugPort accepted an invalid preferred value'
+
 }
 Check (!(TestDebugPort)) 'Missing port accepted by validation'
 Record 'strict-int-or-long-1024-to-65535-port-validation'
 
-# Controlled socket boundary: the SelectDebugPort PowerShell implementation is
-# unmodified; only its TcpListener dependency is replaced to exercise 19337
-# deterministically without binding, probing or disturbing a real application.
+# Every launch requests an OS-selected ephemeral loopback port.
 Add-Type -TypeDefinition @'
 using System;
 using System.Collections.Generic;
@@ -36,65 +34,41 @@ using System.Net;
 using System.Net.Sockets;
 namespace StartupRecoveryFixture {
  public sealed class Listener {
-  public static readonly List<Listener> Created = new List<Listener>();
-  public static bool PreferredBusy, EphemeralBusy;
-  public IPAddress Address; public int RequestedPort, StopCalls; public bool ExclusiveAddressUse;
-  public IPEndPoint LocalEndpoint { get; private set; }
-  public Listener(IPAddress address,int port){Address=address;RequestedPort=port;LocalEndpoint=new IPEndPoint(address,port==0?54821:port);Created.Add(this);}
-  public void Start(){if(!ExclusiveAddressUse)throw new InvalidOperationException("Exclusive socket binding required");if((RequestedPort!=0&&PreferredBusy)||(RequestedPort==0&&EphemeralBusy))throw new SocketException(10048);}
+  public static readonly List<Listener> Created=new List<Listener>();
+  public static bool Busy;
+  public IPAddress Address; public int RequestedPort,StopCalls; public bool ExclusiveAddressUse;
+  public IPEndPoint LocalEndpoint {get;private set;}
+  public Listener(IPAddress address,int port){Address=address;RequestedPort=port;LocalEndpoint=new IPEndPoint(address,54821);Created.Add(this);}
+  public void Start(){if(!ExclusiveAddressUse)throw new InvalidOperationException();if(Busy)throw new SocketException(10048);}
   public void Stop(){StopCalls++;}
-  public static void Reset(){Created.Clear();PreferredBusy=false;EphemeralBusy=false;}
  }
 }
 '@
 function New-Object {
  param([string]$TypeName,[object[]]$ArgumentList)
- if($TypeName -notin @('Net.Sockets.TcpListener','System.Net.Sockets.TcpListener')){throw ('Unexpected object construction in real SelectDebugPort: '+$TypeName)}
- Check ($ArgumentList.Count -eq 2) 'TcpListener argument shape changed; fixture must be reviewed'
+ Check ($TypeName -eq 'Net.Sockets.TcpListener') 'Unexpected object construction'
  return [StartupRecoveryFixture.Listener]::new([Net.IPAddress]$ArgumentList[0],[int]$ArgumentList[1])
 }
-[StartupRecoveryFixture.Listener]::Reset()
-Check ((SelectDebugPort) -eq 19337) 'Free default 19337 must remain preferred'
-$created=@([StartupRecoveryFixture.Listener]::Created)
-Check ($created.Count -eq 1 -and $created[0].RequestedPort -eq 19337) 'Free preferred port should not probe other ports'
-Check ($created[0].Address.Equals([Net.IPAddress]::Loopback) -and $created[0].StopCalls -eq 1) 'Preferred reservation must be loopback-only and released'
-Record 'free-default-19337-retained-and-reservation-released'
-
-[StartupRecoveryFixture.Listener]::Reset();[StartupRecoveryFixture.Listener]::PreferredBusy=$true
-Check ((SelectDebugPort) -eq 54821) 'Occupied default must select an ephemeral port'
-$created=@([StartupRecoveryFixture.Listener]::Created)
-Check ($created.Count -eq 2 -and $created[0].RequestedPort -eq 19337 -and $created[1].RequestedPort -eq 0) 'Fallback must request loopback port zero instead of trying unknown fixed endpoints'
-Check (@($created|Where-Object {!$_.Address.Equals([Net.IPAddress]::Loopback) -or !$_.ExclusiveAddressUse -or $_.StopCalls -ne 1}).Count -eq 0) 'All attempted reservations must remain exclusive loopback and be released'
-# The allocator must depend on present socket occupancy, never on a stale
-# owner's persisted PID or on whether an old debugger endpoint answers.
+Check ((SelectDebugPort) -eq 54821) 'Ephemeral allocator returned wrong port'
 $state=[pscustomobject]@{ownerPid=987654;port=19337}
-[StartupRecoveryFixture.Listener]::Reset();[StartupRecoveryFixture.Listener]::PreferredBusy=$true
-Check ((SelectDebugPort) -eq 54821) 'Dead-owner residue must not force reconnecting to an occupied old port'
-Record 'occupied-or-dead-owner-default-falls-back-to-loopback-ephemeral'
-
-[StartupRecoveryFixture.Listener]::Reset();[StartupRecoveryFixture.Listener]::PreferredBusy=$true;[StartupRecoveryFixture.Listener]::EphemeralBusy=$true
-ExpectThrow {SelectDebugPort} 'Failure to reserve any safe port must fail closed'
-Check (@([StartupRecoveryFixture.Listener]::Created|Where-Object {$_.StopCalls -ne 1}).Count -eq 0) 'Socket allocation failure leaked a reservation'
-Record 'allocation-failure-releases-both-reservations-and-fails-closed'
+Check ((SelectDebugPort) -eq 54821) 'Stale state changed allocator'
+$created=@([StartupRecoveryFixture.Listener]::Created)
+Check ($created.Count -eq 2) 'Unexpected extra port probes'
+Check (@($created|Where-Object {$_.RequestedPort -ne 0 -or !$_.Address.Equals([Net.IPAddress]::Loopback) -or !$_.ExclusiveAddressUse -or $_.StopCalls -ne 1}).Count -eq 0) 'Allocator must request port zero, bind exclusively to loopback and release the reservation'
+[StartupRecoveryFixture.Listener]::Busy=$true
+ExpectThrow {SelectDebugPort} 'Allocation failure did not fail closed'
+Check ([StartupRecoveryFixture.Listener]::Created[2].StopCalls -eq 1) 'Failed allocation leaked a reservation'
 Remove-Item -LiteralPath Function:\New-Object
-
-# A real local socket smoke test validates the system TcpListener integration.
-# It uses only fresh ephemeral fixture ports, never the actual 19337 listener.
+Record 'ephemeral-only-exclusive-loopback-and-failed-reservation-cleanup'
 $held=[Net.Sockets.TcpListener]::new([Net.IPAddress]::Loopback,0);$probe=$null
 try{
  $held.ExclusiveAddressUse=$true;$held.Start();$busyPort=[int]$held.LocalEndpoint.Port
- $selected=SelectDebugPort $busyPort
- Check ((TestDebugPort $selected) -and $selected -ne $busyPort) 'Real occupied fixture port did not fall back'
- # TcpListener.Server can be null under newer PowerShell/.NET adapters.
- # A stopped ephemeral listener returns its requested port (zero), whereas a
- # bound listener retains the exact assigned endpoint checked here.
- Check ($held.LocalEndpoint -is [Net.IPEndPoint] -and $held.LocalEndpoint.Port -eq $busyPort) 'Allocator must not stop an existing listener'
+ $selected=SelectDebugPort
+ Check ((TestDebugPort $selected) -and $selected -ne $busyPort) 'Real allocator returned occupied fixture port'
  $probe=[Net.Sockets.TcpListener]::new([Net.IPAddress]::Loopback,$selected);$probe.ExclusiveAddressUse=$true;$probe.Start()
- Check $probe.LocalEndpoint.Address.Equals([Net.IPAddress]::Loopback) 'Real fallback is not loopback'
- $probe.Stop();$probe=$null
- Check ((SelectDebugPort $selected) -eq $selected) 'Real free preferred fixture port was not retained'
+ Check $probe.LocalEndpoint.Address.Equals([Net.IPAddress]::Loopback) 'Real reservation is not loopback'
 }finally{if($probe){$probe.Stop()};$held.Stop()}
-Record 'real-ephemeral-loopback-collision-fallback-and-no-listener-interference'
+Record 'real-ephemeral-allocation-without-disturbing-held-listener'
 
 $exe='C:\Program Files\WindowsApps\OpenAI.Codex_fixture\app\ChatGPT.exe'
 $profile='G:\Fixture Themes\CodexUI\profile'

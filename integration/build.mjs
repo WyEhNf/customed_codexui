@@ -14,6 +14,7 @@ await import('./assemble-production.mjs');
 const root=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'..');
 await ensureProjectLabels(root);
 const {version}=JSON.parse(await fs.readFile(path.join(root,'package.json'),'utf8'));
+const {version:frameworkVersion}=JSON.parse(await fs.readFile(path.join(root,'vendor/dream-skin/SOURCE.json'),'utf8'));
 const sha=b=>createHash('sha256').update(b).digest('hex');
 const build=JSON.parse(await fs.readFile(path.join(root,'integration/characters-build.json'),'utf8'));
 const entries=[];
@@ -21,7 +22,7 @@ for(const c of build.characters){
  const pack=path.join(root,c.path);
  const stage=await fs.mkdtemp(path.join(os.tmpdir(),'codexui-validate-'));
  try{
-  const result=spawnSync(process.execPath,[path.join(root,'vendor/dream-skin/runtime/theme-package-validator.mjs'),'--source',path.join(pack,'themes/sandrone'),'--stage',stage,'--platform','windows','--client-version','1.5.21'],{encoding:'utf8',windowsHide:true});
+  const result=spawnSync(process.execPath,[path.join(root,'vendor/dream-skin/runtime/theme-package-validator.mjs'),'--source',path.join(pack,'themes/sandrone'),'--stage',stage,'--platform','windows','--client-version',frameworkVersion],{encoding:'utf8',windowsHide:true});
   if(result.status!==0)throw new Error(c.id+' failed original package validation: '+(result.stderr||result.stdout));
  }finally{if(path.resolve(stage).startsWith(path.resolve(os.tmpdir())+path.sep)&&path.basename(stage).startsWith('codexui-validate-'))await fs.rm(stage,{recursive:true,force:true});}
  // This byte-identical original helper resolves resources relative to this pack for previews.
@@ -42,7 +43,7 @@ const base={};
 async function immutable(directory){for(const e of await fs.readdir(directory,{withFileTypes:true})){
  const f=path.join(directory,e.name),rel=path.relative(root,f).split(path.sep).join('/');
  if(e.isSymbolicLink())throw new Error('Links are not package inputs');
- if(['state','profile','logs','evidence','backups','.git','.codex','dist','.local-evidence','coverage'].includes(rel.split('/')[0])||['.build-deps','__pycache__','node_modules'].some(p=>rel.split('/').includes(p))||/^integration\/(motion|materials|workspace-frames)\/output(?:\/|$)/.test(rel)||['assets','themes'].includes(rel.split('/')[0])||['engine/renderer.mjs','engine/native-ui.css','integrity.json','machine.json','integration/integrity-base.json'].includes(rel)||e.name.startsWith('.env'))continue;
+ if(['state','profile','codex-home','logs','evidence','backups','.git','.codex','dist','.local-evidence','coverage'].includes(rel.split('/')[0])||['.build-deps','__pycache__','node_modules'].some(p=>rel.split('/').includes(p))||/^integration\/(motion|materials|workspace-frames)\/output(?:\/|$)/.test(rel)||['assets','themes'].includes(rel.split('/')[0])||['engine/renderer.mjs','engine/native-ui.css','integrity.json','machine.json','integration/integrity-base.json'].includes(rel)||e.name.startsWith('.env'))continue;
  if(e.isDirectory())await immutable(f);else if(e.isFile())base[rel]=sha(await fs.readFile(f));
 }}
 await immutable(root);const baseBytes=Buffer.from(JSON.stringify(base,null,2)+'\n');await fs.writeFile(path.join(root,'integration/integrity-base.json'),baseBytes);

@@ -74,7 +74,7 @@ try{
   console.log('PASS production assets '+c.id);
  }
  const source=await fs.readFile(path.join(root,'integration/package.py'),'utf8');
- for(const excluded of ['profile','state','logs','evidence','backups','machine.json'])assert.ok(source.includes(excluded),'Share packaging explicitly excludes '+excluded);
+ for(const excluded of ['profile','codex-home','state','logs','evidence','backups','machine.json'])assert.ok(source.includes(excluded),'Share packaging explicitly excludes '+excluded);
  const setup=await fs.readFile(path.join(root,'Setup.ps1'),'utf8');
  assert.match(setup,/Join-Path \$desktop 'codexui'/,'Desktop output folder');
  assert.match(setup,/CodexUI\.exe/,'Shortcuts target integrated launcher');

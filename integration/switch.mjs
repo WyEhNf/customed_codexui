@@ -5,7 +5,6 @@ import {spawnSync} from 'node:child_process';
 import {randomUUID} from 'node:crypto';
 import {recoverPending,loadCatalog,atomicJson} from './selection.mjs';
 import {switchCharacter} from './coordinator.mjs';
-import {appPages,Session} from '../engine/cdp.mjs';
 import {windowsPowerShellEnv} from './control-env.mjs';
 import {pruneCompletedTransactions} from './transaction-gc.mjs';
 const root=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'..');
@@ -48,6 +47,7 @@ async function embeddedResult(value){
  const result={...value,requestId,finishedAt:new Date().toISOString()};
  await atomicJson(path.join(state,'last-switch-result.json'),result);
  try{
+  const {appPages,Session}=await import('../engine/cdp.mjs');
   const managed=JSON.parse((await fs.readFile(path.join(state,'managed.json'),'utf8')).replace(/^\uFEFF/,''));
   for(const page of await appPages(managed.browserId)){
    const session=await new Session(page.webSocketDebuggerUrl).open();
@@ -56,7 +56,10 @@ async function embeddedResult(value){
  }catch{} // The persisted notice is also available after a window reload.
 }
 try{
- await acquire();await recoverPending(root);verifyRoot();
+ await acquire();
+ // Recovery does not depend on theme assets passing integrity or on CDP state
+ // being importable before the controller can report its identity diagnosis.
+ if(operation!=='--restore'){await recoverPending(root);verifyRoot();}
  if(operation==='--status'){
   const catalog=await loadCatalog(root);let selected;try{selected=JSON.parse(await fs.readFile(path.join(state,'selection.json'),'utf8'));}catch{}
   report({status:'ready',selectedId:selected?.id||catalog.defaultId,characters:catalog.characters.map(({id,name,themeName})=>({id,name,themeName}))});

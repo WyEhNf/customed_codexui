@@ -1,14 +1,11 @@
 import fs from 'node:fs/promises';
-export const DEFAULT_PORT=19337;
 export function managedPort(state){
- if(state===undefined)return DEFAULT_PORT;
  if(!state||typeof state!=='object'||Array.isArray(state))throw new Error('Invalid managed debugger state');
- if(state.port===undefined)return DEFAULT_PORT;
  if(!Number.isInteger(state.port)||state.port<1024||state.port>65535)throw new Error('Invalid managed debugger port');
  return state.port;
 }
 async function recordedPort(){
- let text;try{text=await fs.readFile(new URL('../state/managed.json',import.meta.url),'utf8');}catch(error){if(error.code==='ENOENT')return DEFAULT_PORT;throw error;}
+ let text;try{text=await fs.readFile(new URL('../state/managed.json',import.meta.url),'utf8');}catch(error){if(error.code==='ENOENT')return null;throw error;}
  return managedPort(JSON.parse(text.replace(/^\uFEFF/,'')));
 }
 // A session process uses one verified local endpoint for its whole lifetime.
@@ -24,6 +21,7 @@ export function debuggerUrl(value,browserId=null){
  return u.href;
 }
 async function json(resource){
+ if(!Number.isInteger(PORT))throw failure('No managed debugger session','CDP_UNAVAILABLE');
  let r;try{r=await fetch(`http://127.0.0.1:${PORT}${resource}`,{signal:AbortSignal.timeout(1500),redirect:'error'});}catch{throw failure('Local debugger unavailable','CDP_UNAVAILABLE');}
  if(!r.ok)throw failure('Local debugger unavailable','CDP_UNAVAILABLE');
  const text=await r.text();if(text.length>1024*1024)throw new Error('Debugger metadata too large');return JSON.parse(text);

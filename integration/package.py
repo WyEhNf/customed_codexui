@@ -16,7 +16,7 @@ parser = argparse.ArgumentParser()
 parser.add_argument('--output-dir', type=Path)
 args = parser.parse_args()
 root = Path(__file__).resolve().parents[1]
-output = (args.output_dir or root.parent).resolve()
+output = (args.output_dir or root / 'dist' / 'releases').resolve()
 output.mkdir(parents=True, exist_ok=True)
 read_json = lambda p: json.loads(p.read_text(encoding='utf-8-sig'))
 digest = lambda b: hashlib.sha256(b).hexdigest()
@@ -27,7 +27,7 @@ version = config['version']
 if catalog['version'] != version or catalog['defaultId'] != 'columbina':
     raise RuntimeError('Build the current version before packaging; default must be Columbina')
 archive = output / f'CodexUI-Integrated-{version}-Windows-x64.zip'
-excluded = {'profile', 'state', 'logs', 'evidence', 'backups', '.git', '.codex', '__pycache__', '.build-deps', 'node_modules', 'tests', 'dist', '.local-evidence', 'coverage'}
+excluded = {'profile', 'codex-home', 'state', 'logs', 'evidence', 'backups', '.git', '.codex', '__pycache__', '.build-deps', 'node_modules', 'tests', 'dist', '.local-evidence', 'coverage'}
 files = {}
 
 def add(name, source):
