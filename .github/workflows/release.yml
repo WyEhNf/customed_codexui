@@ -18,6 +18,7 @@ jobs:
         run: |
           $version = (Get-Content package.json -Raw | ConvertFrom-Json).version
           if ($env:GITHUB_REF -cne "refs/tags/v$version") { throw 'Release must run on the version tag declared by package.json' }
+          if (!(Test-Path -LiteralPath "docs/releases/$version.md")) { throw 'Version-specific release notes are required' }
   build:
     needs: validate
     uses: ./.github/workflows/ci.yml
@@ -49,16 +50,7 @@ jobs:
             $expected = $Matches[1]; $file = Join-Path dist $Matches[2]
             if ((Get-FileHash -Algorithm SHA256 -LiteralPath $file).Hash.ToLowerInvariant() -cne $expected) { throw "Checksum mismatch: $file" }
           }
-          $notes = @"
-          Nine character themes with their built-in switcher, source-aligned opening animations, and native Codex layout.
-
-          Download the Windows x64 portable ZIP, extract it, then run Setup.ps1. The official Codex desktop app must be installed and opened once.
-
-          This release improves framework scheduling, renderer lifecycle, runtime-only integrity and package size, and character-specific project labels. Development dependencies and historical preview bundles are excluded.
-
-          SHA256SUMS.txt verifies the ZIP and RELEASE.json. RELEASE.json identifies the tagged source and package contract.
-          "@
-          $notes | Set-Content -LiteralPath dist/release-notes.md -Encoding utf8
+          Copy-Item -LiteralPath "docs/releases/$($metadata.version).md" -Destination dist/release-notes.md
           $assets = @("dist/$($metadata.file)", 'dist/RELEASE.json', 'dist/SHA256SUMS.txt')
           gh release view $tag --repo $env:GITHUB_REPOSITORY 2>$null
           if ($LASTEXITCODE -eq 0) {

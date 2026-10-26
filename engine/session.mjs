@@ -10,6 +10,7 @@ import {openingAssets} from './assets.mjs';
 import {applyTargets,call,transient,healthyHiddenTheme} from './target-runner.mjs';
 import {watchSignal} from './watch-signal.mjs';
 import {createRuntimeCache,sourceStamp} from './runtime-cache.mjs';
+import {createNativeViewportReset} from './native-viewport.mjs';
 import {createTargetLifecycle,earlyScriptJournal,clearEarlyScripts,enableTargetBindings,closeTargetConnections} from './watcher-targets.mjs';
 import {createDecoratorBundle,decorateSession} from '../integration/decorators.mjs';
 import {removeCharacterSwitcher} from '../integration/embedded-ui.mjs';
@@ -44,7 +45,14 @@ async function currentOpening(){
  }
  return assetsEntry.value;
 }
-const connect=page=>new Session(page.webSocketDebuggerUrl).open();
+const nativeViewport=createNativeViewportReset();
+const connect=async page=>{
+ const session=await new Session(page.webSocketDebuggerUrl).open();
+ try{
+  if(['--start','--resume','--ready','--apply','--watch'].includes(mode))await nativeViewport.prepare(page.id,session);
+  return session;
+ }catch(error){await session.close();throw error;}
+};
 async function opening(session){
  if(openingShown)return;
  // Reserve the single opening before awaiting assets so two targets cannot race.
@@ -125,7 +133,7 @@ async function watch(){
     // Shared validation errors remain fatal. Only renderer/connection work is
     // eligible for per-target backoff below.
     await resources();
-    for(const [id,s]of pool)if(!live.has(id)){await lifecycle.forget(id);await s.close();pool.delete(id);}
+    for(const [id,s]of pool)if(!live.has(id)){await lifecycle.forget(id);await s.close();pool.delete(id);nativeViewport.forget(id);}
     const result=await apply({pages,connector:pooled,tolerateTargetErrors:true,eligible:id=>lifecycle.allowed(id),onOutcome(page,result){if(result.status==='rejected')lifecycle.failure(page.id,result.reason);else if(!result.value.backoff)lifecycle.success(page.id);}});ready=result.ready||result.idle;
    }catch(error){if(anchor.closed)break;if(!transient(error))throw error;}
    for(const [id,s]of pool)if(s.closed){await s.close();pool.delete(id);}

@@ -1,6 +1,6 @@
 {
   "name": "customed-codexui",
-  "version": "1.8.0",
+  "version": "1.8.1",
   "private": true,
   "description": "Nine character themes for the Windows Codex desktop client",
   "type": "module",
