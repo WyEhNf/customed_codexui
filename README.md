@@ -1,81 +1,44 @@
-# Codex UI · 角色主题集成版
+# Custom Codex UI
 
-复用本地 Sandrone Codex 0.6.1 的界面骨架，以图片、文案、配色和花体字标制作角色变体。九套主题都内置「切换角色」，在当前 Codex 窗口直接互相切换；侧栏、聊天、输入框和工具面板继续使用原来的结构。
+## Intro
 
-## 使用
+A collection of nine character themes for the official Codex desktop app on Windows. Each theme includes character artwork, matching colors and icons, avatar frames, and an animated opening. The built-in character switcher lets you change themes from any theme while preserving the original Codex layout.
 
-从 GitHub 克隆的源码需先准备官方 Node.js 24 LTS Windows x64，将 `node.exe` 放入 `runtime/`，再运行 `Build-From-Source.ps1`，随后运行 `Setup.ps1` 创建桌面入口。官方 Codex 需要预先安装。角色图片、材质、花体轮廓和视频均已包含，普通源码构建无需原始美术工作目录、Sharp 或 FFmpeg；`-RefreshArt` 属于原作者美术制作流程。
+Special thanks to [fengye337/sandrone-codex](https://github.com/fengye337/sandrone-codex) for the original Sandrone project and the UI and opening-animation foundation used in this project.
 
-1. 快捷方式安装在 **桌面 `codexui` 文件夹**，打开任意角色入口，或 `00 启动 Codex UI` 继续上次使用的角色。没有独立选择器窗口。
-2. 集成版使用自己的 profile；不同 profile 的普通 Codex 可保持运行。首次使用可能需要手动登录，各角色共用此集成版 profile，不复制旧 profile 的凭据。若同一主题 profile 的旧实例失去管理信息，启动器会明确提示，不会强行关闭它。
-3. 在任意一套主题标题栏「重播开屏」旁，点击 **「✦ 切换角色」**，再点击想使用的角色。
-4. 集成版已运行时，角色切换在同一受管客户端里完成，保留聊天和项目；每次应用调用一次原版开屏流程。重复应用同一角色也会重播。
-5. 列表标出当前角色，支持方向键、Home / End 和 Esc；切换期间禁用重复点击，失败显示提示并恢复原主题。「99 恢复原版外观」移除主题与内置入口并停止主题监视，不主动关闭客户端。
+## Installation
 
-可以双击开屏、连续两次空格 / Enter 或 Esc 跳过。开屏后的 Codex 工作界面不是截图覆盖层。角色名使用 Segoe Script 的花体轮廓，由原来的签名描边机制播放；这是字体生成的主题字标，不声称角色官方手签，包内不附带字体文件。
+You need Windows x64, Git, and the official Codex desktop app installed. Open the official app at least once before installing the themes.
 
-## 已包含角色
+1. Clone the repository:
 
-| 角色 | 主题 | 来源与素材说明 |
-| --- | --- | --- |
-| 哥伦比娅 | 银月之庭 | [说明](characters/columbina/presentation.json) · [背景提示词](characters/columbina/prompt.txt) |
-| 神里绫华 | 霜华雅庭 | [说明](characters/ayaka/presentation.json) · [背景提示词](characters/ayaka/prompt.txt) |
-| 胡桃 | 蝶火幽梅 | [说明](characters/hutao/presentation.json) · [背景提示词](characters/hutao/prompt.txt) |
-| 纳西妲 | 森梦新叶 | [说明](characters/nahida/presentation.json) · [背景提示词](characters/nahida/prompt.txt) |
-| 芙宁娜 | 水光开幕 | [说明](characters/furina/presentation.json) · [背景提示词](characters/furina/prompt.txt) |
-| 茜特菈莉 | 星眠织梦 | [说明](characters/citlali/presentation.json) · [背景提示词](characters/citlali/prompt.txt) |
-| 米提亚 | 雪夜星轨 | [说明](characters/mitya/presentation.json) · [背景提示词](characters/mitya/prompt.txt) |
-| 伊斯塔露 | 时砂回环 | [说明](characters/istaroth/presentation.json) · [背景提示词](characters/istaroth/prompt.txt) |
-| 桑多涅 | 人偶工坊 | [原主题基准选项](characters/sandrone/presentation.json) |
+   ```powershell
+   git clone https://github.com/WyEhNf/customed_codexui.git
+   cd customed_codexui
+   ```
 
-杜林未包含在集成和快捷方式中。米提亚、伊斯塔露的公开资料及头像来源限制写在各自说明与 `sources.json`；没有把社区镜像或生成式背景标成官方立绘。部分图标只作主题装饰，不代表未公开的角色技能。
+2. Download the official [Node.js 24 Windows x64 ZIP](https://nodejs.org/dist/latest-v24.x/). Extract it and copy `node.exe` into this repository's `runtime` folder. Keep the accompanying Node.js license as `runtime/LICENSE-node.txt`.
 
-1.3.0 使用用户选定的米提亚 **M1「雷光轨道」**、胡桃 **H4「红灯笼与夜色」**制作横屏背景、开屏与透明头像。原始选图完整保存在两位角色的 `assets/references/`，精确提示词保存在角色目录的 `prompt.txt`、`avatar-prompt.txt`。适配图由内置 image_gen 编辑，属于衍生图；原图与适配图分别标注。
+3. Build the launchers and theme packages:
 
-九套角色均接入已审批的图标设计 A：文件夹、展开文件夹、项目、会话、新建会话、文件、终端、搜索和设置，以及同风格的首页、资料空间、定时任务、插件、探索、审查、站点、代理、活动和侧栏入口，共19类。图标随角色切换，显示尺寸、原 SVG 节点及其子节点、事件和无障碍名称保持原状；组件用独立样式更新图形外观。文件类型颜色、正文插图、输入框操作、危险操作和运行状态标识保留原有语义。恢复原版时会移除这一层样式。
+   ```powershell
+   powershell.exe -NoProfile -ExecutionPolicy RemoteSigned -File .\Build-From-Source.ps1
+   ```
 
-## 切换与检查
+   The build uses the Windows .NET Framework C# compiler. Character artwork, videos, and lettering are already included; no image or video generation tools are needed.
 
-每次切换先检查已构建文件和所选角色包，沿用原版进程 / 浏览器身份校验停止旧监视器，保持当前主题显示；资源就绪后先播放目标角色开屏，再在开屏内直接接入新主题。角色切换不调用上游的移除 / 暂停流程，因此不再出现「皮肤已暂停」的过渡页；主动「恢复原版外观」仍执行正常移除。标题栏入口使用独立 Shadow DOM 浮层，没有改动业务组件的位置。入口通过原有受管 CDP 会话的固定 binding 请求角色 ID，只接受目录中的九个选项，不开放新的网络端口。独立后台 worker 完成事务，在刷新旧主题监视器时仍能继续运行；不需要另开选择器。
+4. Create the desktop shortcuts:
 
-切换使用独立锁、资源备份和事务日志；应用失败会恢复上一套资源与校验清单，未完成的事务在下次入口运行时回退。运行生成的 profile、machine.json、state 和切换备份不属于分享包内容。
+   ```powershell
+   powershell.exe -NoProfile -ExecutionPolicy RemoteSigned -File .\Setup.ps1
+   ```
 
-`Build-Integrated.ps1` 或 `Build-From-Source.ps1` 重新编译无选择窗口的启动入口并验证已有角色包。美术重制工具 `integration/build-packs.mjs` 是构建工具，需要原美术输入、Sharp 与 FFmpeg；日常运行和从已有素材重建不依赖它们。CDP、窗口组件和 vendor 保留原实现；assets 读取经过校验的片长、首帧与动效类别；session / target-runner 增加安装内置入口和处理固定 binding 的接点，control 负责刷新监视器与请求开屏。9 套日常 CSS 与开屏 CSS 的几何关系有自动一致性检查。
+Open the `codexui` folder on your desktop and launch a character shortcut, or run `CodexUI.exe` directly. Use the character switcher in the title bar to change themes. Each switch plays the selected character's opening animation.
 
-1.3 验证记录见 [docs/RELEASE-1.3.0-QA.md](docs/RELEASE-1.3.0-QA.md)，原始基线见 [docs/VALIDATION.md](docs/VALIDATION.md)。离线组件检查不等同于登录、真实聊天、MCP 和实机冷启动验收。1.4.1 起，不同配置目录的普通 Codex 可同时保持运行；同一主题配置的冲突实例仍需退出。集成版内置切换无需退出。
+The themed client uses a separate profile shared by all themes. You may need to sign in on first launch.
 
-代码沿用原仓库 MIT；角色、原始美术与衍生插画另见 [ASSET-LICENSE.md](ASSET-LICENSE.md)。
+To restore the original appearance, use the restore shortcut in the desktop `codexui` folder, or run:
 
-## 1.3.0 实际开发
-
-八位角色使用独立开屏原画制作9秒、30fps的分层插画动画，包含局部衣发形变和环境动效；脸、双手与关节固定保护。桑多涅使用原始视频。新增动画不是生成式人物表演或静帧循环，逐区参数与验证指标随 assets/motion/derived.json、metrics.json 保存。哥伦比娅使用覆盖双眼的菱格眼纱版；米提亚与茜特菈莉采用完整场景开屏，日常继续使用已确认的原图构图。开屏与日常背景独立，正常播放至片尾，支持跳过和系统减少动态效果设置。
-
-完整材质图案接入原功能图标、切换页头像框、项目标签和“文件”菜单。饰件使用独立且不接收鼠标事件的绘制层，保留原SVG、事件和布局。只装饰应用实际暴露的控件；系统原生菜单和不存在的账户头像不另造替代界面。日常人物组缩小靠右；输入框底色72%、聚焦80%，消息64%、代码88%、菜单94%、侧栏88%，文字保持不透明。
-
-美术构建使用 integration/build-production-art.mjs 导出批准的构图，再由 integration/build.mjs 校验已有资源与制作目录。分享包可直接基于已有角色资源重建，不需要本机动效构建依赖。integration/build-packs.mjs 是旧版初始资源工具，会覆盖已批准的素材，请勿作为1.3日常重建入口。
-## 1.4.0 细节完善
-
-左下角真实用户头像增加随角色切换的透明中心头像框；设置页面导航图标在原生图形上融入角色材质。开屏的中文标题、称号、状态、提示与 CodeX 使用本地字体转出的艺术字形，不随包分发字体文件，英文人物签名继续沿用原轮廓。日常背景在人物后方增加完整的淡框与低对比底纹，人物原像素保持不变。
-
-米提亚开屏改为独立的冬夜书房静坐构图，与日常 M1 人物图分开；移除大型星轨与手中发光符号，动效仅保留轻微呼吸、衣料运动和窗外细雪。原画由内置 imagegen 依据已确认形象参考生成，构建输入保存在 integration/art-revisions/v14/，动画制作过程与保护区域仍记录于 assets/motion/。原 Codex 结构、原控件和工作流保持不变。
-## 1.4.1 启动恢复
-
-启动不再被固定19337端口阻断：优先使用原端口，端口占用时选择空闲的本机端口，再核对官方签名、真实监听进程、配置目录和浏览器身份。不同配置目录的普通Codex可保持运行；相同主题目录或无法辨识的实例仍保守拒绝，且显示具体原因。不会结束普通客户端、重置网络或复制凭据。错误弹窗同时展示详情。
-
-## 1.4.2 主工作区背景框
-
-完整背景框只覆盖原生主工作区，不包含左侧边栏。边界根据主工作区的实际位置和大小绘制，随侧栏展开、收起和窗口缩放调整。八套角色将透明人物层与淡框、底纹分开绘制；人物保持等比例。桑多涅原画含有自身边框，原画整体等比例适配主工作区。新增层只绘制背景，保留原生控件位置、输入内容和事件。
-
-## 1.5.0 角色登场
-
-八套角色增加「材质饰件先转动、人物场景后显现」的开屏节奏：银月、霜樱、幽蝶、新叶、水光、星纹、星轨与时砂分别沿用已确认的角色材质。饰件只转动一次，约1.2秒后渐显完整场景，并播放原有9秒插画动画；英文花体签名延后书写。桑多涅保留原本的齿轮、描线和彩色显现流程。系统减少动态效果时直接显示场景首帧；跳过、解码失败和恢复外观仍会清理媒体资源。
-
-源码检查可在安装 Playwright 并准备 Edge 的环境运行 `node tests/entrance.browser.mjs`，验证登场顺序、各角色材质、单次转动、原生输入保留、跳过和静态回退。测试截图与报告输出到忽略提交的 `evidence/entrance/`。
-
-## 1.6.0 场景描线登场
-
-登场改为从最终开屏原画提取环境和人物轮廓：先启动场景中的光、水、花瓣、吊饰等元素，再逐段描绘人物，约2.1秒开始在同一位置转为彩色。彩色视频在描线期间已同步播放，转彩时继续原时间点，整体保持约9秒。花体签名在描线阶段同步书写。桑多涅原版保持不变。
-
-哥伦比娅使用月光、水波与羽毛；绫华使用霜光与落樱；胡桃使用灯火与火蝶；纳西妲使用叶脉与萤光；芙宁娜使用舞台光、水滴与气泡；茜特菈莉使用吊饰与星光；米提亚保留安静书房与细雪；伊斯塔露使用时间环与时砂。只有伊斯塔露使用旋转的环形环境，其他角色不套用旋转圆环。
-
-`scene-intro.json` 的路径来自实际首帧像素边缘，与首帧摘要绑定，只能包含经过校验的有界几何；不重画人物或改变身体结构。技术导出工具为 `integration/entrance/build_scene_intro.py`，日常源码构建直接使用已导出的资源，无需安装 OpenCV。`tests/scene-intro.test.mjs` 验证资源绑定，`tests/scene-entrance.browser.mjs` 验证描线转彩、三种窗口比例下的原位对齐及媒体生命周期。新增动画仍是受保护的插画微动，不声称是生成式人物表演。
+```powershell
+.\CodexUI.exe --restore
+```
