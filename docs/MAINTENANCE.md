@@ -16,6 +16,24 @@ scope. Run the corresponding isolated regressions before integrating each change
   account/settings surfaces, and graceful recovery against that client first.
 - A successful fixture/CI run does not demonstrate installed-client compatibility.
 
+Store upgrades can remove an old package manifest while its browser process is
+still alive. New launches prefer the current registered, signed package. A
+previously verified live session may recover its version from the signed Store
+executable's package path; that exception never permits a cold launch from a
+retired path. Restore verifies the recorded owner independently of the current
+installation, so an update cannot redirect a quit request to another instance.
+
+Desktop launch success requires the actual main app surface to be visible.
+Detached/overlay hosts and healthy hidden renderers do not establish readiness.
+The fixed native `open-current-main-window` message restores the main window
+before trying the same-profile executable entry point. A retired executable is
+never respawned. Failed graceful quit preserves state and restores the watcher.
+
+Cold launches check the volumes containing the runtime and selected agent/database
+homes for at least 64 MiB free. Saved history paths are never changed to avoid a
+full volume. Theme child processes place transient files under `state/temp/`;
+the caller's environment and official client launches keep their existing values.
+
 ## Data and generated outputs
 
 | Location | Purpose | Shared in portable release |

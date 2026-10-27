@@ -38,6 +38,53 @@ try{
  Check ([Environment]::GetEnvironmentVariable('CODEX_HOME','Process') -ceq $beforeHome -and [Environment]::GetEnvironmentVariable('CODEX_SQLITE_HOME','Process') -ceq $beforeSqlite) 'Launcher changed parent environment'
  $checks+='private-windows-acl-and-child-only-home-environment'
 
+ # An explicit, persistent storage selection must survive launches and caller
+ # environment changes. A missing selection target must fail, never look empty.
+ $selectedHome=Join-Path $fixture 'Existing history 对话'
+ $selectedSqlite=Join-Path $fixture 'Existing databases'
+ $null=[IO.Directory]::CreateDirectory($selectedHome)
+ $null=[IO.Directory]::CreateDirectory($selectedSqlite)
+ $selectionState=Join-Path $fixture 'state';$null=[IO.Directory]::CreateDirectory($selectionState)
+ $selectionFile=Join-Path $selectionState 'agent-storage.json'
+ $sentinel=Join-Path $selectedSqlite 'state_5.sqlite'
+ [IO.File]::WriteAllText($sentinel,'existing-history-must-survive')
+ $storageConfig=@{schemaVersion=1;agentHome=$selectedHome;sqliteHome=$selectedSqlite}
+ $storageConfig|ConvertTo-Json|Set-Content -LiteralPath $selectionFile -Encoding UTF8
+ try{
+  for($launch=0;$launch -lt 2;$launch++){
+   $otherHome=Join-Path $fixture ('Unrelated caller home '+$launch)
+   [Environment]::SetEnvironmentVariable('CODEX_HOME',$otherHome,'Process')
+   [Environment]::SetEnvironmentVariable('CODEX_SQLITE_HOME',$otherHome,'Process')
+   $selectedStart=NewCodexStartInfo -Exe 'fixture.exe' -Root $fixture -Isolated
+   Check ($selectedStart.EnvironmentVariables['CODEX_HOME'] -ceq $selectedHome -and $selectedStart.EnvironmentVariables['CODEX_SQLITE_HOME'] -ceq $selectedSqlite) 'Saved history selection changed between launches'
+   Check ([Environment]::GetEnvironmentVariable('CODEX_HOME','Process') -ceq $otherHome) 'Saved selection changed the caller environment'
+   Check ([IO.File]::ReadAllText($sentinel) -ceq 'existing-history-must-survive') 'Launch modified existing history'
+  }
+ }finally{
+  [Environment]::SetEnvironmentVariable('CODEX_HOME',$beforeHome,'Process')
+  [Environment]::SetEnvironmentVariable('CODEX_SQLITE_HOME',$beforeSqlite,'Process')
+ }
+ $storageConfig.agentHome=Join-Path $fixture 'Unavailable history'
+ $storageConfig|ConvertTo-Json|Set-Content -LiteralPath $selectionFile -Encoding UTF8
+ ExpectThrow {NewCodexStartInfo -Exe 'fixture.exe' -Root $fixture -Isolated} 'Missing history silently fell back to empty portable storage'
+ Check (!(Test-Path -LiteralPath $storageConfig.agentHome)) 'Missing selected history was recreated empty'
+ $storageConfig.agentHome='relative-history'
+ $storageConfig|ConvertTo-Json|Set-Content -LiteralPath $selectionFile -Encoding UTF8
+ ExpectThrow {NewCodexStartInfo -Exe 'fixture.exe' -Root $fixture -Isolated} 'Relative history selection depends on launch working directory'
+ $storageConfig.agentHome=$selectedHome;$storageConfig.schemaVersion=99
+ $storageConfig|ConvertTo-Json|Set-Content -LiteralPath $selectionFile -Encoding UTF8
+ ExpectThrow {NewCodexStartInfo -Exe 'fixture.exe' -Root $fixture -Isolated} 'Unsupported storage configuration accepted'
+ Remove-Item -LiteralPath $selectionFile
+ $checks+='saved-history-repeated-launch-and-missing-path-no-empty-fallback'
+ $script:freeBytes=1GB;$script:spaceQueries=0
+ function GetStorageAvailableBytes {param($Path) $script:spaceQueries++;return $script:freeBytes}
+ AssertRuntimeStorageSpace $fixture ([pscustomobject]@{agentHome=$fixture;sqliteHome=$fixture})
+ Check ($script:spaceQueries -eq 1) 'Storage check repeatedly queried the same volume'
+ $script:freeBytes=0
+ ExpectThrow {AssertRuntimeStorageSpace $fixture ([pscustomobject]@{agentHome=$fixture;sqliteHome=$fixture})} 'Full data volume accepted'
+ Remove-Item -LiteralPath Function:\GetStorageAvailableBytes
+ $checks+='full-storage-volume-preflight-without-moving-history'
+
  $app=Join-Path $fixture 'app';$null=[IO.Directory]::CreateDirectory($app)
  $executable=Join-Path $app 'ChatGPT.exe'
  Copy-Item -LiteralPath (Join-Path $PSHOME 'powershell.exe') -Destination $executable -ErrorAction SilentlyContinue
@@ -51,6 +98,14 @@ try{
  ExpectThrow {AssertClientCompatibility $info $sourceRoot} 'Unverified upstream update accepted'
  [IO.File]::WriteAllText($manifest,'<!DOCTYPE Package [<!ENTITY local SYSTEM "file:///not-read">]><Package><Identity Name="OpenAI.Codex" Version="26.1021.2667.0"/></Package>')
  ExpectThrow {GetCodexClientInfo $executable} 'DTD accepted in Appx metadata'
+ Remove-Item -LiteralPath $manifest
+ ExpectThrow {GetCodexClientInfo $executable} 'Missing metadata silently accepted for a cold launch'
+ $retiredApp=Join-Path $fixture 'OpenAI.Codex_26.1021.2667.0_x64__2p2nqsd0c76g0\app'
+ $null=[IO.Directory]::CreateDirectory($retiredApp)
+ $retiredExe=Join-Path $retiredApp 'ChatGPT.exe';Copy-Item -LiteralPath $executable -Destination $retiredExe
+ $retired=GetCodexClientInfo $retiredExe -RetiredSession
+ Check ($retired.appVersion -ceq '26.1021.2667.0' -and $retired.metadataSource -ceq 'verified-retired-package-path') 'Verified retired session cannot recover its package version after Store cleanup'
+ ExpectThrow {GetCodexClientInfo $retiredExe} 'Retired package accepted for a new cold launch'
  $checks+='actual-package-and-pe-version-detection-unknown-update-and-dtd-refusal'
 
  $state=Join-Path $fixture 'state';$null=[IO.Directory]::CreateDirectory($state)

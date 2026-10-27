@@ -73,6 +73,12 @@ Record 'real-ephemeral-allocation-without-disturbing-held-listener'
 $exe='C:\Program Files\WindowsApps\OpenAI.Codex_fixture\app\ChatGPT.exe'
 $profile='G:\Fixture Themes\CodexUI\profile'
 $script:processes=@();$script:cimCalls=0
+$script:vanishedProcessIds=@()
+function Get-Process {
+ param($Id,$ErrorAction)
+ if($Id -in $script:vanishedProcessIds){Write-Error 'Fixture process exited during enumeration' -Category ObjectNotFound -ErrorAction Stop}
+ return [pscustomobject]@{Id=$Id}
+}
 function Get-CimInstance {
  param($ClassName,$Filter,$ErrorAction)
  Check ($ClassName -eq 'Win32_Process' -and $Filter -eq "Name='ChatGPT.exe'") 'FindThemeOwner must inspect only the intended process class'
@@ -101,12 +107,19 @@ ExpectConflicts @((FakeProcess 202 ('"'+$exe+'" --user-data-dir="'+$profile+'"')
 ExpectConflicts @((FakeProcess 203 ('"'+$exe+'" --type=renderer --user-data-dir="'+$profile+'"')),(FakeProcess 204 ('"'+$exe+'" --type gpu-process --user-data-dir="'+$profile+'"'))) @() 'Child renderer/GPU processes are not browser owners'
 ExpectConflicts @((FakeProcess 205 ('"C:\Other\ChatGPT.exe" --user-data-dir="'+$profile+'"') 'C:\Other\ChatGPT.exe')) @() 'A known different executable is not the theme owner'
 Record 'same-profile-normalized-quotes-casing-and-child-process-boundaries'
+$oldOfficial='C:\Program Files\WindowsApps\OpenAI.Codex_26.1000.1.0_x64__2p2nqsd0c76g0\app\ChatGPT.exe'
+ExpectConflicts @((FakeProcess 206 ('"'+$oldOfficial+'" --user-data-dir="'+$profile+'"') $oldOfficial)) @('206:theme') 'Retired official version sharing the profile must block a parallel cold launch'
 
 ExpectConflicts @((FakeProcess 301 ''),(FakeProcess 302 ('"'+$exe+'"') '')) @('301:unknown','302:unknown') 'Unreadable identity must fail closed'
 foreach($malformed in @('--user-data-dir','--user-data-dir=""','--user-data-dir=relative-profile')){ExpectConflicts @((FakeProcess 303 ('"'+$exe+'" '+$malformed))) @('303:unknown') 'Malformed/relative profile must not count as a clearly ordinary client'}
 ExpectConflicts @((FakeProcess 304 ('"'+$exe+'" --user-data-dir="C:\Ordinary" --user-data-dir="'+$profile+'"'))) @('304:unknown') 'Conflicting repeated profile switches must fail closed'
 ExpectConflicts @((FakeProcess 305 ('"'+$exe+'" --user-data-dir="'+$profile+'" --user-data-dir="C:\Ordinary"'))) @('305:unknown') 'Repeated profile switches cannot be classified from just the first match'
 Record 'unreadable-malformed-relative-or-ambiguous-profile-identities-block-safely'
+
+$script:vanishedProcessIds=@(306,307)
+ExpectConflicts @((FakeProcess 306 '' ''),(FakeProcess 307 ('"'+$exe+'" --user-data-dir="'+$profile+'"')),(FakeProcess 301 '')) @('301:unknown') 'Exited CIM records must not block launch; live unreadable identities still block'
+$script:vanishedProcessIds=@()
+Record 'vanished-process-snapshot-does-not-block-live-unreadable-process-still-blocks'
 
 # Real VerifyManaged guard, with only its process/OS-table/HTTP boundaries
 # mocked. No requests go to existing or unknown debugger endpoints.

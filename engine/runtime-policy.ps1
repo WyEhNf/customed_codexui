@@ -61,21 +61,61 @@ function InvokeThemeValidation([string]$Node,[string]$Theme,[string]$Root,[strin
   if($LASTEXITCODE -ne 0){throw '主题包未通过上游安全校验。'}
  }finally{RemoveValidationStage $stage $StateRoot}
 }
-function GetCodexClientInfo([string]$Exe){
+function GetCodexClientInfo([string]$Exe,[switch]$RetiredSession){
  # Electron's PE version is diagnostic data, not the desktop application's version.
  $runtime=[Diagnostics.FileVersionInfo]::GetVersionInfo($Exe)
  $manifest=Join-Path (Split-Path (Split-Path $Exe -Parent) -Parent) 'AppxManifest.xml'
+ if(!(Test-Path -LiteralPath $manifest -PathType Leaf)){
+  # Only a caller that already verified the live PID/start time/browser may
+  # recover a retired package. Never use saved JSON as a version assertion.
+  if($RetiredSession -and $Exe -match '\\OpenAI\.Codex_(\d+\.\d+\.\d+\.\d+)_(?:x64|arm64)__2p2nqsd0c76g0\\app\\ChatGPT\.exe$'){
+   return [pscustomobject]@{appVersion=$Matches[1];electronVersion=$runtime.FileVersion;metadataSource='verified-retired-package-path'}
+  }
+  throw 'Codex 安装包元数据已被更新移除，请重新选择当前注册的 Store 安装包。'
+ }
  $settings=New-Object Xml.XmlReaderSettings;$settings.DtdProcessing=[Xml.DtdProcessing]::Prohibit;$settings.XmlResolver=$null
  $reader=[Xml.XmlReader]::Create($manifest,$settings)
  try{$document=New-Object Xml.XmlDocument;$document.XmlResolver=$null;$document.Load($reader)}finally{$reader.Dispose()}
  $identity=$document.SelectSingleNode('/*[local-name()="Package"]/*[local-name()="Identity"]')
  if(!$identity -or $identity.GetAttribute('Name') -cne 'OpenAI.Codex' -or $identity.GetAttribute('Version') -notmatch '^\d+\.\d+\.\d+\.\d+$'){throw '无法读取官方 Codex 安装包版本，已停止主题注入。'}
- return [pscustomobject]@{appVersion=$identity.GetAttribute('Version');electronVersion=$runtime.FileVersion}
+ return [pscustomobject]@{appVersion=$identity.GetAttribute('Version');electronVersion=$runtime.FileVersion;metadataSource='AppxManifest.xml'}
 }
 function AssertClientCompatibility($Info,[string]$Root){
  $policy=Get-Content -LiteralPath (Join-Path $Root 'engine\client-compatibility.json') -Raw -Encoding UTF8|ConvertFrom-Json
  if($policy.schemaVersion -ne 1 -or $Info.appVersion -cnotin $policy.testedAppxVersions){throw ('当前 Codex '+$Info.appVersion+' 尚未验证；支持版本：'+($policy.testedAppxVersions -join ', ')+'。未启动主题客户端；请等待兼容更新或打开官方版。')}
  return $policy
+}
+function GetCodexAgentStorage([string]$Root){
+ $defaultHome=Join-Path $Root 'codex-home'
+ $selection=Join-Path $Root 'state\agent-storage.json'
+ if(!(Test-Path -LiteralPath $selection)){return [pscustomobject]@{agentHome=$defaultHome;sqliteHome=$defaultHome;portable=$true}}
+ AssertNoReparsePath $selection
+ if((Get-Item -LiteralPath $selection).Length -gt 16384){throw '保存的数据目录配置过大，未切换到空白目录。'}
+ $config=Get-Content -LiteralPath $selection -Raw -Encoding UTF8|ConvertFrom-Json
+ if($config.schemaVersion -ne 1){throw '不支持保存的数据目录配置，未切换到空白目录。'}
+ $paths=@{}
+ foreach($key in @('agentHome','sqliteHome')){
+  $value=$config.$key
+  if($value -isnot [string] -or $value -notmatch '^[A-Za-z]:\\' -or !(Test-Path -LiteralPath $value -PathType Container)){throw ('保存的数据目录不可用：'+$key+'。请恢复该目录；不会另建空白历史。')}
+  AssertNoReparsePath $value
+  $full=[IO.Path]::GetFullPath($value)
+  $paths[$key]=if($full.Length -gt 3){$full.TrimEnd('\')}else{$full}
+ }
+ return [pscustomobject]@{agentHome=$paths.agentHome;sqliteHome=$paths.sqliteHome;portable=$false}
+}
+function GetStorageAvailableBytes([string]$Path){
+ $drive=New-Object IO.DriveInfo([IO.Path]::GetPathRoot([IO.Path]::GetFullPath($Path)))
+ if(!$drive.IsReady){throw ('数据盘尚未就绪：'+$drive.Name)}
+ return $drive.AvailableFreeSpace
+}
+function AssertRuntimeStorageSpace([string]$Root,$Storage){
+ $checked=@{}
+ foreach($directory in @($Root,$Storage.agentHome,$Storage.sqliteHome)){
+  $drive=[IO.Path]::GetPathRoot([IO.Path]::GetFullPath($directory))
+  if($checked.ContainsKey($drive)){continue};$checked[$drive]=$true
+  $available=GetStorageAvailableBytes $directory
+  if($available -lt 64MB){throw ('DISK_SPACE_LOW: '+$drive+' 可用空间仅 '+[math]::Round($available/1MB,1)+' MB，无法可靠写入启动数据或对话数据库。请先释放至少 64 MB，建议预留 1 GB；现有对话与配置未被移动。')}
+ }
 }
 function NewCodexStartInfo([string]$Exe,[string[]]$Arguments,[string]$Root,[switch]$Isolated){
  $start=New-Object Diagnostics.ProcessStartInfo
@@ -83,9 +123,15 @@ function NewCodexStartInfo([string]$Exe,[string[]]$Arguments,[string]$Root,[swit
  $start.Arguments=$Arguments -join ' ';$start.WindowStyle=[Diagnostics.ProcessWindowStyle]::Normal
  $agentHome=Join-Path $Root 'codex-home'
  if($Isolated){
-  ProtectPrivateDirectory $agentHome $Root
-  $start.EnvironmentVariables['CODEX_HOME']=$agentHome
-  $start.EnvironmentVariables['CODEX_SQLITE_HOME']=$agentHome
+  $storage=GetCodexAgentStorage $Root
+  if($storage.portable){ProtectPrivateDirectory $storage.agentHome $Root}
+  $start.EnvironmentVariables['CODEX_HOME']=$storage.agentHome
+  $start.EnvironmentVariables['CODEX_SQLITE_HOME']=$storage.sqliteHome
+  # Keep theme-owned transient files off the system volume. History remains
+  # at its saved location; never change CODEX_HOME to work around a full disk.
+  $temporary=Join-Path $Root 'state\temp';AssertNoReparsePath $temporary
+  $null=[IO.Directory]::CreateDirectory($temporary)
+  $start.EnvironmentVariables['TEMP']=$temporary;$start.EnvironmentVariables['TMP']=$temporary
  }else{
   # Preserve caller overrides except a home injected by this theme instance.
   foreach($name in @('CODEX_HOME','CODEX_SQLITE_HOME')){if($start.EnvironmentVariables[$name] -and (TestPathWithin $start.EnvironmentVariables[$name] $agentHome)){$start.EnvironmentVariables.Remove($name)}}

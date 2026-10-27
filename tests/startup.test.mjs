@@ -30,6 +30,13 @@ await applyTargets({pages:[{id:'active'}],connect:async()=>({close(){},evaluate:
  return true;
 }}),resources,verify:async()=>{order.push('validated');return {pass:true};}});
 assert.deepEqual(order,['applying','payload','validated','ready'],'stage feedback follows actual apply and verification');
+let sidebarInstalled=false,sidebarInstalls=0;
+for(let i=0;i<3;i++)await applyTargets({pages:[{id:'active'}],resources,connect:async()=>({close(){},evaluate:async expression=>{
+ if(expression==='Boolean(window.__CODEX_SIDEBAR_DEFAULT__)')return sidebarInstalled;
+ if(expression.startsWith('(function installDefaultSidebar')){sidebarInstalled=true;sidebarInstalls++;}
+ return true;
+}})});
+assert.equal(sidebarInstalls,1,'visible target initializes native sidebar once across idle/theme reapply');
 for(const [installedCss,expectedInstalls]of [['old-css',1],['fixed-css',0]]){
  let installs=0;const sheet={};
  const context={window:{__SANDRONE_NATIVE_UI__:{version:'0.5.3',css:installedCss,sheet}},document:{adoptedStyleSheets:[sheet]}};

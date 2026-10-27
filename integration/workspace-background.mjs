@@ -70,8 +70,8 @@ export function installWorkspaceBackground(config){
   let area=null;if(main){const r=main.getBoundingClientRect(),left=Math.max(0,r.left),top=Math.max(0,r.top),right=Math.min(innerWidth,r.right),bottom=Math.min(innerHeight,r.bottom);if(right>left&&bottom>top)area={left,top,width:right-left,height:bottom-top};}
   const vw=innerWidth,vh=innerHeight;let layers,geometry;
   if(config.mode==='layered'){
-   const scale=Math.max(vw/config.width,vh/config.height),width=config.width*scale,height=config.height*scale,foreground={left:(vw-width)*config.focusX,top:(vh-height)*config.focusY,width,height,scale};
-   layers={image:images.foreground+','+(area?images.frame:'none')+','+images.canvas,size:`${px(width)} ${px(height)},${area?px(area.width)+' '+px(area.height):'0px 0px'},100% 100%`,position:`${px(foreground.left)} ${px(foreground.top)},${area?px(area.left)+' '+px(area.top):'0px 0px'},0px 0px`,repeat:'no-repeat,no-repeat,no-repeat',attachment:'fixed,fixed,fixed'};
+   const scale=area?Math.min(area.width/config.width,area.height/config.height):0,width=config.width*scale,height=config.height*scale,foreground=area?{left:area.left+(area.width-width)*config.focusX,top:area.top+(area.height-height)*config.focusY,width,height,scale}:null;
+   layers={image:(area?images.foreground:'none')+','+(area?images.frame:'none')+','+images.canvas,size:`${px(width)} ${px(height)},${area?px(area.width)+' '+px(area.height):'0px 0px'},100% 100%`,position:`${foreground?px(foreground.left)+' '+px(foreground.top):'0px 0px'},${area?px(area.left)+' '+px(area.top):'0px 0px'},0px 0px`,repeat:'no-repeat,no-repeat,no-repeat',attachment:'fixed,fixed,fixed'};
    geometry={viewport:{width:vw,height:vh},main:area,frame:area?{...area}:null,foreground};
   }else{
    const scale=area?Math.min(area.width/config.width,area.height/config.height):0,width=config.width*scale,height=config.height*scale,foreground=area?{left:area.left+(area.width-width)/2,top:area.top+(area.height-height)/2,width,height,scale}:null;

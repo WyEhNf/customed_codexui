@@ -25,6 +25,11 @@ try{
  CloseManagedClient (Join-Path $root 'runtime\node.exe') $state 'fixture.exe'
  Check (Test-Path -LiteralPath $marker) 'Graceful close not requested'
  Check (($script:ports -join ',') -eq '54821') 'Close helper polled a hardcoded endpoint'
+ # An abnormal debugger disconnect is not a failed shutdown when the exact
+ # verified owner and its listener are both already gone.
+ [IO.File]::WriteAllText($worker,'process.exit(7);')
+ CloseManagedClient (Join-Path $root 'runtime\node.exe') $state 'fixture.exe'
+ Check ($script:ports.Count -eq 2) 'Helper failure was not followed by actual process/listener verification'
  Remove-Item -LiteralPath $marker
  $script:verified=$false;$thrown=$false
  try{CloseManagedClient (Join-Path $root 'runtime\node.exe') $state 'fixture.exe'}catch{$thrown=$true}

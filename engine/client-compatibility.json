@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "testedAppxVersions": ["26.1021.2667.0"],
+  "testedAppxVersions": ["26.1021.2667.0", "26.1021.3705.0"],
   "observedElectronVersion": "156.0.8078.48",
   "policy": "Only listed desktop package versions may receive theme injection. PE FileVersion is Electron metadata, not the app version. Restore is always available."
 }

@@ -7,10 +7,11 @@ import {themePreferencesPath} from '../vendor/dream-skin/windows/assets/theme-pr
 import {appPages,identity,Session} from './cdp.mjs';
 import {removeNativeUi,showOpening,installNativeUi} from './renderer.mjs';
 import {openingAssets} from './assets.mjs';
-import {applyTargets,call,transient,healthyHiddenTheme} from './target-runner.mjs';
+import {applyTargets,call,transient,healthyHiddenTheme,visibleMainSurface,requestMainWindow} from './target-runner.mjs';
 import {watchSignal} from './watch-signal.mjs';
 import {createRuntimeCache,sourceStamp} from './runtime-cache.mjs';
 import {createNativeViewportReset} from './native-viewport.mjs';
+import {removeDefaultSidebar} from './sidebar-default.mjs';
 import {createTargetLifecycle,earlyScriptJournal,clearEarlyScripts,enableTargetBindings,closeTargetConnections} from './watcher-targets.mjs';
 import {createDecoratorBundle,decorateSession} from '../integration/decorators.mjs';
 import {removeCharacterSwitcher} from '../integration/embedded-ui.mjs';
@@ -86,6 +87,21 @@ async function resume(){
  }
  return waitReady(false,3000);
 }
+async function mainVisible(){
+ // A retained native avatar host may reopen a main window that was destroyed.
+ // It receives only the fixed IPC request, never theme/style/asset injection.
+ for(const page of await appPages(browserId,{includeOverlays:mode==='--show-main'})){
+  // Detached and overlay pages cannot stand in for the main desktop surface.
+  if(new URL(page.url).pathname!=='/index.html')continue;
+  const session=await connect(page);
+  try{
+   if(mode==='--show-main'&&await session.evaluate(call(requestMainWindow)))return {pass:true,status:'requested'};
+   if(mode!=='--show-main'&&await session.evaluate(call(visibleMainSurface)))return {pass:true,status:'visible'};
+  }
+  catch(error){if(!transient(error))throw error;}finally{await session.close();}
+ }
+ return {pass:false,status:'waiting',code:'MAIN_WINDOW_NOT_VISIBLE'};
+}
 async function watch(){
  const anchor=await new Session(await identity(browserId)).open();
  const signal=watchSignal(),pool=new Map();let switching=false,journal;
@@ -148,7 +164,7 @@ async function diagnostic(){
  for(const page of pages){
   const session=await connect(page);
   try{
-   if(mode==='--remove'){await session.evaluate(call(removeWorkspaceBackground));await session.evaluate(call(removeMaterialUi));await session.evaluate(call(removeCharacterIcons));await session.evaluate(call(removeCharacterSwitcher));await session.evaluate(call(removeNativeUi));}
+   if(mode==='--remove'){await session.evaluate(call(removeDefaultSidebar));await session.evaluate(call(removeWorkspaceBackground));await session.evaluate(call(removeMaterialUi));await session.evaluate(call(removeCharacterIcons));await session.evaluate(call(removeCharacterSwitcher));await session.evaluate(call(removeNativeUi));}
    if(mode==='--opening'){if(await session.evaluate(`document.visibilityState==='visible'&&Boolean(document.querySelector('button,[role="main"]'))`))await opening(session);}
    if(mode==='--metrics')console.log(JSON.stringify(await session.evaluate(`(()=>({skin:document.documentElement.getAttribute('data-dream-skin'),extension:window.__SANDRONE_NATIVE_UI__?.version,opening:window.__SANDRONE_OPENING_STATE__?.stage,visible:document.visibilityState,composer:Boolean(document.querySelector('[data-ds-part="composer"]'))}))()`)));
    if(mode==='--switcher-health')console.log(JSON.stringify(await session.evaluate(`(()=>({installed:Boolean(window.__CODEX_CHARACTER_SWITCHER__?.host?.isConnected),selectedId:window.__CODEX_CHARACTER_SWITCHER__?JSON.parse(window.__CODEX_CHARACTER_SWITCHER__.fingerprint).selectedId:null,characters:document.querySelector('#codex-character-switcher')?.shadowRoot?.querySelectorAll('[data-character]').length||0,binding:typeof window.codexSwitchCharacter==='function',opening:window.__SANDRONE_OPENING_STATE__?.stage}))()`)));
@@ -168,10 +184,10 @@ async function diagnostic(){
  return {pass:true,targets:count};
 }
 try{
- if(!['--apply','--ready','--resume','--start','--watch','--opening','--remove','--snapshot','--metrics','--health','--switcher-health','--icon-health'].includes(mode)||!args.includes('--browser-id'))throw new Error('Unsupported fixed engine operation');
+ if(!['--apply','--ready','--resume','--start','--watch','--opening','--remove','--snapshot','--metrics','--health','--switcher-health','--icon-health','--main-visible','--show-main'].includes(mode)||!args.includes('--browser-id'))throw new Error('Unsupported fixed engine operation');
  if(mode==='--watch')await watch();
  else{
-  const result=mode==='--resume'?await resume():mode==='--start'||mode==='--ready'?await waitReady(mode==='--start'):mode==='--apply'?await apply({force:true,verify:true}):await diagnostic();
+  const result=['--main-visible','--show-main'].includes(mode)?await mainVisible():mode==='--resume'?await resume():mode==='--start'||mode==='--ready'?await waitReady(mode==='--start'):mode==='--apply'?await apply({force:true,verify:true}):await diagnostic();
   if(mode==='--apply'){result.pass=result.ready;result.status=result.ready?'ready':'waiting';}
   console.log(JSON.stringify(result));if(result.pass===false)process.exitCode=result.status==='waiting'?2:1;
  }

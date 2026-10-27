@@ -30,11 +30,11 @@ export async function identity(browserId){
  if(typeof browserId!=='string'||browserId!==browserId.trim()||!/^[A-Za-z0-9._-]{1,200}$/.test(browserId))throw new Error('Invalid browser ID');
  const v=await json('/json/version');return debuggerUrl(v.webSocketDebuggerUrl,browserId);
 }
-export async function appPages(browserId){
+export async function appPages(browserId,{includeOverlays=false}={}){
  await identity(browserId);const list=await json('/json/list');
  if(!Array.isArray(list))throw new Error('Invalid target list');
  return list.filter(p=>{
-  try{return p.type==='page'&&typeof p.id==='string'&&/^[A-Za-z0-9._-]{1,200}$/.test(p.id)&&p.url.startsWith('app:')&&!/avatar-overlay|pet-overlay/.test(p.url)&&new URL(debuggerUrl(p.webSocketDebuggerUrl)).pathname===`/devtools/page/${p.id}`;}catch{return false;}
+  try{return p.type==='page'&&typeof p.id==='string'&&/^[A-Za-z0-9._-]{1,200}$/.test(p.id)&&p.url.startsWith('app:')&&(includeOverlays||!/avatar-overlay|pet-overlay/.test(p.url))&&new URL(debuggerUrl(p.webSocketDebuggerUrl)).pathname===`/devtools/page/${p.id}`;}catch{return false;}
  });
 }
 export class Session{
