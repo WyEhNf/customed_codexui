@@ -6,9 +6,10 @@ foreach($name in @('TestOfficialExecutable','OfficialExe')){
  $definition=$ast.Find({param($item) $item -is [Management.Automation.Language.FunctionDefinitionAst] -and $item.Name -eq $name},$true)
  . ([scriptblock]::Create($definition.Extent.Text))
 }
-$projectRoot='G:\fixture'
-$oldRoot='C:\Program Files\WindowsApps\OpenAI.Codex_26.1021.2667.0_x64__2p2nqsd0c76g0'
-$newRoot='C:\Program Files\WindowsApps\OpenAI.Codex_26.1021.3705.0_x64__2p2nqsd0c76g0'
+$projectRoot=Join-Path ([IO.Path]::GetTempPath()) 'CodexUI-official-client-fixture'
+$fixtureDrive=[IO.Path]::GetPathRoot($sourceRoot)
+$oldRoot=Join-Path $fixtureDrive 'Program Files\WindowsApps\OpenAI.Codex_26.1021.2667.0_x64__2p2nqsd0c76g0'
+$newRoot=Join-Path $fixtureDrive 'Program Files\WindowsApps\OpenAI.Codex_26.1021.3705.0_x64__2p2nqsd0c76g0'
 $old=Join-Path $oldRoot 'app\ChatGPT.exe';$new=Join-Path $newRoot 'app\ChatGPT.exe'
 $script:packages=@([pscustomobject]@{Version='26.1021.3705.0';InstallLocation=$newRoot})
 $script:files=@($old,$new,(Join-Path $newRoot 'AppxManifest.xml'))

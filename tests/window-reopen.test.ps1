@@ -4,7 +4,7 @@ $sourceRoot=Split-Path $PSScriptRoot -Parent
 $ast=[Management.Automation.Language.Parser]::ParseFile((Join-Path $sourceRoot 'engine\control.ps1'),[ref]$null,[ref]$null)
 $definition=$ast.Find({param($item) $item -is [Management.Automation.Language.FunctionDefinitionAst] -and $item.Name -eq 'ShowManagedClient'},$true)
 . ([scriptblock]::Create($definition.Extent.Text))
-$projectRoot='G:\fixture theme'
+$projectRoot=Join-Path ([IO.Path]::GetTempPath()) 'CodexUI fixture theme'
 $state=[pscustomobject]@{ownerPid=42;port=54821;browserId='verified-browser'}
 $script:verified=$true;$script:visible=$true;$script:activations=0;$script:requests=@();$script:openAfter=3;$script:manifestPresent=$true
 function VerifyManaged {param($Record,$Exe) return $script:verified}
@@ -22,7 +22,8 @@ ShowManagedClient $state 'verified-app.exe'
 Check ($script:requests.Count -eq 1 -and $script:activations -eq 3) 'Missing native window must reopen once and await actual activation'
 $request=$script:requests[0]
 Check ($request.Exe -ceq 'verified-app.exe' -and $request.Root -ceq $projectRoot -and $request.Isolated) 'Recovery changed executable/root/storage mode'
-Check (($request.Arguments -join '|') -ceq '--remote-debugging-address=127.0.0.1|--remote-debugging-port=54821|--user-data-dir="G:\fixture theme\profile"') 'Recovery did not preserve exact loopback port and profile'
+$expectedArguments='--remote-debugging-address=127.0.0.1|--remote-debugging-port=54821|--user-data-dir="'+(Join-Path $projectRoot 'profile')+'"'
+Check (($request.Arguments -join '|') -ceq $expectedArguments) 'Recovery did not preserve exact loopback port and profile'
 $script:verified=$false;$blocked=$false
 try{ShowManagedClient $state 'verified-app.exe'}catch{$blocked=$true}
 Check ($blocked -and $script:requests.Count -eq 1) 'Changed browser ownership must block before reopen'
