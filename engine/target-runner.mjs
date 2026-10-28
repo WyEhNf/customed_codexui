@@ -1,6 +1,7 @@
 // Fixed renderer operations, testable without a browser or account.
 import {installNativeUi,setStartupPhase} from './renderer.mjs';
 import {installDefaultSidebar} from './sidebar-default.mjs';
+import {installThreadTail} from './thread-tail.mjs';
 export const transient = error => ['CDP_UNAVAILABLE','CDP_CLOSED','CDP_CONTEXT','CDP_TIMEOUT','RENDERER_NOT_READY'].includes(error?.code);
 export const call = (fn,...values)=>`(${fn.toString()})(${values.map(v=>JSON.stringify(v)).join(',')})`;
 export function visibleMainSurface(){
@@ -28,6 +29,7 @@ export async function applyTargets({pages,connect,resources,verify,opening,decor
    const visible=await session.evaluate(`Boolean(document.visibilityState==='visible'&&!document.hidden&&innerWidth>=320&&innerHeight>=180&&document.body&&document.querySelector('button,[role="main"],textarea,[contenteditable="true"]'))`);
    if(!visible){
     const idle=await session.evaluate(`document.documentElement.getAttribute('data-dream-skin')==='active'&&window.__SANDRONE_NATIVE_UI__?.version==='0.5.3'&&document.adoptedStyleSheets.includes(window.__SANDRONE_NATIVE_UI__.sheet)`);
+    if(idle&&!await session.evaluate('Boolean(window.__CODEX_THREAD_TAIL__)'))await session.evaluate(call(installThreadTail));
     return {ready:false,visible:false,idle:Boolean(idle)};
    }
    const {loaded,css,nativeRevision}=await resources();
@@ -37,6 +39,7 @@ export async function applyTargets({pages,connect,resources,verify,opening,decor
    const nativePresent=!force&&await session.evaluate(nativeRevision?`Boolean(window.__SANDRONE_NATIVE_UI__?.runtimeRevision===${JSON.stringify(nativeRevision)}&&document.adoptedStyleSheets.includes(window.__SANDRONE_NATIVE_UI__.sheet))`:`window.__SANDRONE_NATIVE_UI__?.version==='0.5.3'&&window.__SANDRONE_NATIVE_UI__.css===${JSON.stringify(css)}&&document.adoptedStyleSheets.includes(window.__SANDRONE_NATIVE_UI__.sheet)`);
    if(!nativePresent)await session.evaluate(nativeRevision?`window.__SANDRONE_NATIVE_UI__?.dispose?.();${call(installNativeUi,css)};window.__SANDRONE_NATIVE_UI__.runtimeRevision=${JSON.stringify(nativeRevision)};`:call(installNativeUi,css));
    if(!await session.evaluate('Boolean(window.__CODEX_SIDEBAR_DEFAULT__)'))await session.evaluate(call(installDefaultSidebar));
+   if(!await session.evaluate('Boolean(window.__CODEX_THREAD_TAIL__)'))await session.evaluate(call(installThreadTail));
    if(decorate)await decorate(session,{force});
    const ready=verify?Boolean((await verify(session,page.id,loaded.theme.id,loaded.revision))?.pass):true;
    if(verify||!skinPresent)await session.evaluate(call(setStartupPhase,ready?'ready':'waiting'));

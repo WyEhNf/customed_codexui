@@ -12,6 +12,7 @@ import {watchSignal} from './watch-signal.mjs';
 import {createRuntimeCache,sourceStamp} from './runtime-cache.mjs';
 import {createNativeViewportReset} from './native-viewport.mjs';
 import {removeDefaultSidebar} from './sidebar-default.mjs';
+import {removeThreadTail} from './thread-tail.mjs';
 import {createTargetLifecycle,earlyScriptJournal,clearEarlyScripts,enableTargetBindings,closeTargetConnections} from './watcher-targets.mjs';
 import {createDecoratorBundle,decorateSession} from '../integration/decorators.mjs';
 import {removeCharacterSwitcher} from '../integration/embedded-ui.mjs';
@@ -164,7 +165,7 @@ async function diagnostic(){
  for(const page of pages){
   const session=await connect(page);
   try{
-   if(mode==='--remove'){await session.evaluate(call(removeDefaultSidebar));await session.evaluate(call(removeWorkspaceBackground));await session.evaluate(call(removeMaterialUi));await session.evaluate(call(removeCharacterIcons));await session.evaluate(call(removeCharacterSwitcher));await session.evaluate(call(removeNativeUi));}
+   if(mode==='--remove'){await session.evaluate(call(removeThreadTail));await session.evaluate(call(removeDefaultSidebar));await session.evaluate(call(removeWorkspaceBackground));await session.evaluate(call(removeMaterialUi));await session.evaluate(call(removeCharacterIcons));await session.evaluate(call(removeCharacterSwitcher));await session.evaluate(call(removeNativeUi));}
    if(mode==='--opening'){if(await session.evaluate(`document.visibilityState==='visible'&&Boolean(document.querySelector('button,[role="main"]'))`))await opening(session);}
    if(mode==='--metrics')console.log(JSON.stringify(await session.evaluate(`(()=>({skin:document.documentElement.getAttribute('data-dream-skin'),extension:window.__SANDRONE_NATIVE_UI__?.version,opening:window.__SANDRONE_OPENING_STATE__?.stage,visible:document.visibilityState,composer:Boolean(document.querySelector('[data-ds-part="composer"]'))}))()`)));
    if(mode==='--switcher-health')console.log(JSON.stringify(await session.evaluate(`(()=>({installed:Boolean(window.__CODEX_CHARACTER_SWITCHER__?.host?.isConnected),selectedId:window.__CODEX_CHARACTER_SWITCHER__?JSON.parse(window.__CODEX_CHARACTER_SWITCHER__.fingerprint).selectedId:null,characters:document.querySelector('#codex-character-switcher')?.shadowRoot?.querySelectorAll('[data-character]').length||0,binding:typeof window.codexSwitchCharacter==='function',opening:window.__SANDRONE_OPENING_STATE__?.stage}))()`)));

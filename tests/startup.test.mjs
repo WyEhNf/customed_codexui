@@ -37,6 +37,21 @@ for(let i=0;i<3;i++)await applyTargets({pages:[{id:'active'}],resources,connect:
  return true;
 }})});
 assert.equal(sidebarInstalls,1,'visible target initializes native sidebar once across idle/theme reapply');
+let tailInstalled=false,tailInstalls=0;
+for(let i=0;i<3;i++)await applyTargets({pages:[{id:'active'}],resources,connect:async()=>({close(){},evaluate:async expression=>{
+ if(expression==='Boolean(window.__CODEX_THREAD_TAIL__)')return tailInstalled;
+ if(expression.startsWith('(function installThreadTail')){tailInstalled=true;tailInstalls++;}
+ return true;
+}})});
+assert.equal(tailInstalls,1,'thread navigation restoration installs once across watcher passes');
+let hiddenTailInstalls=0;
+await applyTargets({pages:[{id:'hidden'}],resources:async()=>{throw Error('hidden helpers must not load theme assets');},connect:async()=>({close(){},evaluate:async expression=>{
+ if(expression.startsWith('Boolean(document.visibility'))return false;
+ if(expression==='Boolean(window.__CODEX_THREAD_TAIL__)')return false;
+ if(expression.startsWith('(function installThreadTail'))hiddenTailInstalls++;
+ return true;
+}})});
+assert.equal(hiddenTailInstalls,1,'an existing hidden theme can bind its visibility/navigation listener before reopening');
 for(const [installedCss,expectedInstalls]of [['old-css',1],['fixed-css',0]]){
  let installs=0;const sheet={};
  const context={window:{__SANDRONE_NATIVE_UI__:{version:'0.5.3',css:installedCss,sheet}},document:{adoptedStyleSheets:[sheet]}};
